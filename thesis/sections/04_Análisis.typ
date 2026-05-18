@@ -1,10 +1,44 @@
-#import "@preview/deal-us-tfc-template:1.0.0": *
+#import "@preview/deal-us-tfc-template:1.2.1": *
 #import "../utils/requirements.typ": req, req-ids, setup-reqs
 
 #show: setup-reqs
 
 = Análisis
 <sec_análisis>
+
+== Análisis de la competencia
+<sec_análisis_competencia>
+
+En el mercado de sintetizadores digitales,
+
+En cuanto a otros proyectos de sintetizadores código libre, y particularmente sintetizadores hardware do-it-yourself, me
+parece que el estado del arte se puede resumir así:
+
+Software libre o gratuito:
+
+En cuanto a sintetizadores software libres o gratuitos, hay muchísimos. Uno particularmente dominante es Helm, una
+alternativa a Serum (un sintetizador muy completo pero de pago). En cuanto a efectos software libres o gratuitos, es lo
+mismo. Aquí destacan los reverbs de Valhalla DSP, muy usados incluso por profesionales que se pueden permitir pagar.
+
+
+Proyectos hardware libres o gratuitos
+
+En cuanto a sintetizadores hardware libres, https://github.com/Atarity/diy-synths provee una lista de muchos proyectos
+similares. La mayoría están basados en C y C++, y tienen documentación y extensión bastante pobre. Muchos de ellos se
+basan en Arduinos, lo cuál creo que puede ser interesante porque deben ser más fáciles de conseguir. Una gran excepción
+es https://zynthian.org/, que parece un proyecto enorme. Puedes comprar kits con todo lo que necesitas (por unos 360€ si
+lo montas tú o 535€ ya montado) pero tanto el software como el hardware es libre. Pueden ser una buena inspiración de
+qué hardware intentar usar para que sea lo más accesible posible.
+
+
+No creo que pueda aportar nada a los sintetizadores software - hay demasiados y no sé suficiente. Pero creo que en el
+hardware sí que puedo aportar. El Zynthian me parece demasiado completo para competir en funcionalidad, pero seguramente
+pueda competir en precio. Algo útil puede ser intentar conseguir código que compile para varios dispositivos y den un
+rendimiento aceptable (ej. que compile para varios chips STM para permitir que se compren varios), aunque claro esto se
+tendría que probar. Alternativamente quizá con que compile para un Arduino fácil de acceder es ya una victoria en
+accesibilidad. Y en cuanto al resto de proyectos libres más pequeños, me parece que les falta mucha documentación y
+pulido. Un proyecto más bonito, accesible y documentado, quizá con más explicación del hardware que se espera y cómo
+montarlo, puede llenar un nicho que noto vacío.
 
 /* TODO Análisis de la competencia */
 
