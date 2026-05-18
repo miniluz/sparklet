@@ -70,6 +70,7 @@
                 lldb
                 usbutils
                 probe-rs-tools
+                dfu-util
 
                 typst
                 drawio

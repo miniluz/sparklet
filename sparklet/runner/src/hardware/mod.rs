@@ -1,4 +1,5 @@
 use defmt::info;
+use usb::USB_MODE;
 
 #[cfg(feature = "configurable")]
 pub mod abstractions;
@@ -10,6 +11,8 @@ pub mod config;
 pub mod midi_din;
 #[cfg(feature = "midi-usb")]
 pub mod midi_usb;
+#[cfg(feature = "usb")]
+pub mod usb;
 
 pub struct Hardware {
     #[cfg(feature = "midi-din")]
@@ -17,10 +20,7 @@ pub struct Hardware {
     #[cfg(feature = "midi-usb")]
     pub midi_hardware: midi_usb::MidiUsbHardware<'static>,
     #[cfg(feature = "usb")]
-    pub usb_builder: embassy_usb::Builder<
-        'static,
-        embassy_stm32::usb::Driver<'static, embassy_stm32::peripherals::USB_OTG_HS>,
-    >,
+    pub usb_builder: embassy_usb::Builder<'static, embassy_stm32::usb::Driver<'static, USB_MODE>>,
     #[cfg(feature = "audio-usb")]
     pub audio_hardware: audio_usb::AudioUsbHardware<'static>,
     #[cfg(feature = "configurable")]
@@ -35,29 +35,7 @@ impl Hardware {
         #[cfg(feature = "usb")]
         {
             info!("USB config being added...");
-            use embassy_stm32::rcc::*;
-            // Configure clocks for STM32H7
-            config.rcc.hsi = Some(HSIPrescaler::DIV1);
-            config.rcc.csi = true;
-            config.rcc.hsi48 = Some(Hsi48Config {
-                sync_from_usb: true,
-            }); // needed for USB
-            config.rcc.pll1 = Some(Pll {
-                source: PllSource::HSI,
-                prediv: PllPreDiv::DIV4,
-                mul: PllMul::MUL50,
-                divp: Some(PllDiv::DIV2), // 400 MHz
-                divq: None,
-                divr: None,
-            });
-            config.rcc.sys = Sysclk::PLL1_P; // 400 MHz
-            config.rcc.ahb_pre = AHBPrescaler::DIV2; // 200 MHz
-            config.rcc.apb1_pre = APBPrescaler::DIV2; // 100 MHz
-            config.rcc.apb2_pre = APBPrescaler::DIV2; // 100 MHz
-            config.rcc.apb3_pre = APBPrescaler::DIV2; // 100 MHz
-            config.rcc.apb4_pre = APBPrescaler::DIV2; // 100 MHz
-            config.rcc.voltage_scale = VoltageScale::Scale1;
-            config.rcc.mux.usbsel = mux::Usbsel::HSI48;
+            crate::configure_usb!(config);
             info!("USB config added.")
         }
 

@@ -1,11 +1,14 @@
 [chip]
 model = "stm32h723zg"
+# model = "stm32f401rc"
 
 [connections]
-# valid values: "usb", "din" or "none"
 midi = "usb"
-# valid values: "usb", "none"
+# midi = "din"
+# midi = "none"
+
 audio = "usb"
+# audio = "none"
 
 [features]
 octave_filter = true

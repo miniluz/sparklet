@@ -1,8 +1,8 @@
+use crate::hardware::usb::USB_MODE;
 use cmsis_native::CmsisNativeOperations;
 use core::sync::atomic::{AtomicI16, Ordering};
 use defmt::info;
 use embassy_executor::SpawnToken;
-use embassy_stm32::peripherals;
 use embassy_stm32::usb;
 use embassy_sync::blocking_mutex::raw::NoopRawMutex;
 use embassy_sync::zerocopy_channel;
@@ -88,7 +88,7 @@ async fn stream_handler<'d, T: usb::Instance + 'd>(
 /// Sends audio samples to the host.
 #[embassy_executor::task]
 async fn usb_streaming_task(
-    mut stream: microphone::Stream<'static, usb::Driver<'static, peripherals::USB_OTG_HS>>,
+    mut stream: microphone::Stream<'static, usb::Driver<'static, USB_MODE>>,
     mut receiver: zerocopy_channel::Receiver<'static, NoopRawMutex, super::SampleBlock>,
     volume_state: &'static VolumeState,
 ) {

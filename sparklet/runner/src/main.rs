@@ -11,8 +11,6 @@ mod synth_engine_task;
 
 #[cfg(feature = "audio-usb")]
 mod audio_task;
-#[cfg(feature = "usb")]
-mod usb;
 
 use defmt::info;
 use embassy_executor::Executor;
@@ -90,7 +88,9 @@ fn main() -> ! {
         #[cfg(feature = "usb")]
         {
             info!("Spawning USB device task");
-            spawner.spawn(usb::usb_device_task(usb_device)).unwrap();
+            spawner
+                .spawn(hardware::usb::usb_device_task(usb_device))
+                .unwrap();
         }
 
         #[cfg(feature = "audio-usb")]

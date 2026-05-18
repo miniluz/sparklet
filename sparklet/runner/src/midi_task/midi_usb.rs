@@ -1,6 +1,6 @@
+use crate::hardware::usb::USB_MODE;
 use defmt::trace;
 use embassy_executor::SpawnToken;
-use embassy_stm32::peripherals;
 use embassy_stm32::usb;
 use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
 use embassy_usb::class::midi::MidiClass;
@@ -13,13 +13,13 @@ use crate::midi_task::{MIDI_CHANNEL_SIZE, MIDI_TASK_CHANNEL};
 
 pub struct MidiTaskState<'a> {
     midi_listener: MidiListener<'a, CriticalSectionRawMutex, MIDI_CHANNEL_SIZE>,
-    midi_class: MidiClass<'a, usb::Driver<'a, peripherals::USB_OTG_HS>>,
+    midi_class: MidiClass<'a, usb::Driver<'a, USB_MODE>>,
 }
 
 impl<'a> MidiTaskState<'a> {
     pub fn new(
         midi_listener: MidiListener<'a, CriticalSectionRawMutex, MIDI_CHANNEL_SIZE>,
-        midi_class: MidiClass<'a, usb::Driver<'a, peripherals::USB_OTG_HS>>,
+        midi_class: MidiClass<'a, usb::Driver<'a, USB_MODE>>,
     ) -> MidiTaskState<'a> {
         MidiTaskState {
             midi_listener,

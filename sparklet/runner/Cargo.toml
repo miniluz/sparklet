@@ -4,9 +4,10 @@ version = "0.1.0"
 edition = "2024"
 
 [features]
-default = ["stm32h723zg", "configurable", "midi-usb", "audio-usb", "octave-filter"]
+default = ["stm32f401rc", "configurable", "midi-usb", "audio-usb", "octave-filter"]
 configurable = []
-stm32h723zg = ["embassy-stm32/stm32h723zg"]
+stm32h723zg = ["embassy-stm32/stm32h723zg", "cmsis-native/stm32h723zg"]
+stm32f401rc = ["embassy-stm32/stm32f401rc", "cmsis-native/stm32f401rc"]
 usb = ["dep:embassy-usb"]
 midi-din = []
 midi-usb = ["usb"]
@@ -35,7 +36,7 @@ static_cell = "2.1.1"
 bytemuck = "1.20.0"
 midi = { path = "../midi" }
 synth_engine = { path = "../synth-engine", default-features = false }
-cmsis-native = { path = "../cmsis-native" }
+cmsis-native = { path = "../cmsis-native", default-features = false }
 config = { path = "../config" }
 
 [build-dependencies]
