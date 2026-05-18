@@ -107,9 +107,14 @@ pub async fn synth_engine_task(
     state: &'static mut SynthEngineTaskState<'static, 'static, 'static>,
     mut audio_sender: zerocopy_channel::Sender<'static, NoopRawMutex, SampleBlock>,
 ) {
+    use embassy_time::Instant;
+
     let mut counter: u32 = 0;
 
     info!("Synth Engine: Task starting, rendering at USB audio rate");
+
+    let mut render_start: Instant = Instant::now();
+    let mut render_end: Instant;
 
     loop {
         // This blocks until there's space in the channel,
@@ -117,6 +122,10 @@ pub async fn synth_engine_task(
         // so this effecively syncs audio generation to the USB polling
         // (with a buffer of 2 polls, to guarantee data is ready immediately)
         let audio_buffer = audio_sender.send().await;
+
+        if counter == 0 {
+            render_start = Instant::now();
+        }
 
         state
             .synth_engine
@@ -128,6 +137,14 @@ pub async fn synth_engine_task(
         audio_sender.send_done();
 
         if counter == 0 {
+            render_end = Instant::now();
+
+            let diff = render_end.checked_duration_since(render_start);
+
+            if let Some(diff) = diff {
+                info!("Rendering took {}", diff);
+            }
+
             info!("Voice bank state: {}", state.synth_engine.get_voice_bank());
         }
 
