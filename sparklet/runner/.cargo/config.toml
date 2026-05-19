@@ -1,6 +1,10 @@
 [build]
 target="thumbv7em-none-eabihf"
 
+[profile.release]
+debug = 2
+split = "none"
+
 [target.thumbv7em-none-eabihf]
 rustflags = [
   "-C", "link-arg=-Tlink.x",

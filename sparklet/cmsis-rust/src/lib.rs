@@ -94,6 +94,29 @@ impl CmsisOperations for CmsisRustOperations {
         }
     }
 
+    fn scale_q15(
+        src: &[cmsis_interface::Q15],
+        scale_fract: cmsis_interface::Q15,
+        shift: i8,
+        dst: &mut [cmsis_interface::Q15],
+    ) {
+        for (s, d) in src.iter().zip(dst.iter_mut()) {
+            let intermediate = (s.to_bits() as i32) * (scale_fract.to_bits() as i32);
+
+            let shifted = if shift >= 0 {
+                // Left shift
+                intermediate << shift
+            } else {
+                // Right shift
+                intermediate >> (-shift)
+            };
+
+            // Take the upper 16 bits (drop the lower 15 fractional bits)
+            let result = (shifted >> 15).clamp(i16::MIN as i32, i16::MAX as i32) as i16;
+            *d = cmsis_interface::Q15::from_bits(result);
+        }
+    }
+
     fn biquad_cascade_df1_q15<const NUM_STAGES: usize, const STATE_SIZE: usize>(
         state: &mut cmsis_interface::BiquadCascadeDf1StateQ15<NUM_STAGES, STATE_SIZE>,
         coeffs: &[[cmsis_interface::Q15; 6]; NUM_STAGES],

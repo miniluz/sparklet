@@ -1,5 +1,5 @@
 use cmsis_native::CmsisNativeOperations;
-use defmt::info;
+use defmt::{error, info};
 use embassy_executor::SpawnToken;
 use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
 use static_cell::StaticCell;
@@ -142,7 +142,7 @@ pub async fn synth_engine_task(
             let diff = render_end.checked_duration_since(render_start);
 
             if let Some(diff) = diff {
-                info!("Rendering took {}", diff);
+                error!("Rendering took {}", diff);
             }
 
             info!("Voice bank state: {}", state.synth_engine.get_voice_bank());

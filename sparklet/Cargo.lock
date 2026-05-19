@@ -291,7 +291,7 @@ dependencies = [
 [[package]]
 name = "cmsis_dsp"
 version = "0.1.0"
-source = "git+https://github.com/miniluz/cmsis_dsp.rs?branch=feature%2Fbit-shifts#0fa265fce22bc4d593fc9f04c1931e7e70e1b5fb"
+source = "git+https://github.com/miniluz/cmsis_dsp.rs?branch=feature%2Fbit-shifts#5c2e0c415f2b53200acca3a79f3dd1c54c1703cf"
 dependencies = [
  "cmsis_dsp_sys_pregenerated",
  "fixed",
@@ -302,7 +302,7 @@ dependencies = [
 [[package]]
 name = "cmsis_dsp_sys_pregenerated"
 version = "0.1.0"
-source = "git+https://github.com/miniluz/cmsis_dsp.rs?branch=feature%2Fbit-shifts#0fa265fce22bc4d593fc9f04c1931e7e70e1b5fb"
+source = "git+https://github.com/miniluz/cmsis_dsp.rs?branch=feature%2Fbit-shifts#5c2e0c415f2b53200acca3a79f3dd1c54c1703cf"
 dependencies = [
  "ureq",
  "zip",

@@ -1,7 +1,22 @@
 #import "@preview/deal-us-tfc-template:1.2.1": *
+#import "@preview/zero:0.6.1": num, set-group, set-num
 #import "../../utils/requirements.typ": req, req-ids, setup-reqs
 
 #show: setup-reqs
+
+#set-num(decimal-separator: ",")
+#set-group(
+  size: 3,
+  separator: sym.space.thin,
+  threshold: 5,
+)
+
+#show math.equation: it => {
+  show regex(`\d+(?:\.\d+)?`.text): it => {
+    num(it)
+  }
+  it
+}
 
 == Ejecutor
 
@@ -31,3 +46,8 @@ sólo se puede ejecutar en el sistema empotrado. En concreto, hace lo siguiente:
 
 Una vez acaba, las tareas toman control del chip. La configuración se ejecuta cada cierto tiempo, y la generación de
 audio se ejecuta únicamente cuando se pide una salida de audio.
+
+=== Rendimiento
+
+El ejecutor en su totalidad, siendo ejecutado en las condiciones que indica el @rf_rendimiento, es capaz de calcular
+cada muestra de audio en $857 "µs"$, dando un margen del $14.3%$, así cumpliendo con el requisito.

@@ -70,8 +70,7 @@ impl OctaveFilterBank {
         for band_index in 0..6 {
             self.process_one_band::<T, WINDOW_SIZE>(input, &mut filtered, band_index);
 
-            let gain_array = [self.band_gains[band_index]; WINDOW_SIZE];
-            T::multiply_q15(&filtered, &gain_array, &mut scaled);
+            T::scale_q15(&filtered, self.band_gains[band_index], 0, &mut scaled);
 
             // Accumulate to output using saturating addition
             if band_index.is_multiple_of(2) {

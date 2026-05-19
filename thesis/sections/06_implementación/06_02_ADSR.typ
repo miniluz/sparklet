@@ -89,7 +89,7 @@ agresiva en el ataque y pierde energía más rápidamente en el decaimiento.
 
 Un condensador sigue el decaimiento exponencial. Para poder modelar este comportamiento con números de coma fija, que no
 pueden hacer cálculos exponenciales, se transforman las ecuaciones del decaimiento a una forma recursiva. La forma
-recursiva también es eficiente, como pide el @rnf_rendimiento. La derivación en detalle se encuentra en un anexo bajo la
+recursiva también es eficiente, como pide el @rf_rendimiento. La derivación en detalle se encuentra en un anexo bajo la
 @sec_derivación_ADSR. El resumen es el siguiente: la amplitud $y_n$ de la curva ADSR en la muestra $n$ se calcula en
 base a la muestra anterior $y_(n-1)$ de forma recursiva. Este cálculo consiste en multiplicarla por un coeficiente $C$ y
 sumarle una base $B$, como se indica en la @eq_decay_b_c. La base y el coeficiente se calculan en base al valor inicial

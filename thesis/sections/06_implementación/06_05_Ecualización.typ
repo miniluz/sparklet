@@ -1,7 +1,22 @@
 #import "@preview/deal-us-tfc-template:1.2.1": *
+#import "@preview/zero:0.6.1": num, set-group, set-num
 #import "../../utils/requirements.typ": req, req-ids, setup-reqs
 
 #show: setup-reqs
+
+#set-num(decimal-separator: ",")
+#set-group(
+  size: 3,
+  separator: sym.space.thin,
+  threshold: 5,
+)
+
+#show math.equation: it => {
+  show regex(`\d+(?:\.\d+)?`.text): it => {
+    num(it)
+  }
+  it
+}
 
 == Ecualización
 
@@ -24,7 +39,7 @@ Para conseguir esto, se podría usar un árbol de filtros perfectamente reconstr
 embargo, implementarlos sin usar operaciones de coma flotante de forma eficiente no es viable, ya que requiere de
 filtros FIR de orden grande.
 
-Para conseguir el @rnf_rendimiento, Sparklet usa 6 filtros de Butterworth aplicados en paralelo para dividir la señal en
+Para conseguir el @rf_rendimiento, Sparklet usa 6 filtros de Butterworth aplicados en paralelo para dividir la señal en
 bandas con solapamiento, de forma no perfectamente reconstructiva. El primero es de paso bajo, los intermedios son de
 paso banda y el último de paso alto, para repartir entre ellos todo el rango de frecuencias, como se puede ver en la
 @fig_eq_response. Se usan filtros IIR de Butterworth en DF1 @ref_book_theory_music @ref_book_understanding_dsp,
@@ -54,3 +69,27 @@ Esta solución atenúa las frecuencias bajas y altas aproximadamente $6,5 "dB"$ 
 la @fig_eq_response. Usar estas frecuencias con filtros Butterworth fue la combinación que consiguió los mejores
 resultados por experimentación, teniendo en cuenta que almacenar los coeficientes de un filtro en un Q15 afecta
 considerablemente su respuesta.
+
+=== Rendimiento
+<sec_rendimiento_ecualizador>
+
+Se midió experimentalmente el tiempo que tarda el generador calcular un bloque de audio de un milisegundo con y sin el
+ecualizador. Se realizaron las medidas en el sintetizador siendo ejecutado en su totalidad, como se explica en la
+@sec_rendimiento_generador.
+
+Con 12 voces, el cálculo de una muestra con el ecualizador tarda $855 "µs"$, y sin él tarda $769 "µs"$. El ecualizador
+añade $86 "µs"$ al cálculo, un $8.6%$ del tiempo disponible, conllevando un coste del $11%$ en relación a no usarlo. Con
+8 voces, el cálculo de una muestra con el ecualizador tarda $557 "µs"$, y sin él tarda $515 "µs"$. El ecualizador añade
+$42 "µs"$ al cálculo, un $4.2%$ del tiempo disponible, conllevando un coste del $8%$ en relación a no usarlo.
+
+Se estima que el tiempo que usa con 8 voces es más cercano al que de verdad lleva, ya que su cálculo es independiente
+del número de voces. Esto es debido a que cuanto más toma el cálculo, más probable es que otras tareas lo interrumpan y
+alarguen artificialmente su duración. Siendo así, se puede estimar que usar el ecualizador añade unos $42 "µs"$ de
+duración al cálculo. Sabiendo que el CPU de la placa STM32H723ZG opera a $550 "MHz"$, se puede estimar que calcular 48
+muestras con el ecualizador toma $42 "µs" times 550 "MHz" = 23100 "ciclos"$, o $481 "ciclos"$ por muestra.
+
+#figure(
+  image("/figures/con_vs_sin_eq.png", width: 90%),
+  caption: "Duración del cálculo de un bloque de audio con y sin el ecualizador, con 12 y 8 voces.",
+  placement: bottom,
+)<fig_con_sin_eq>

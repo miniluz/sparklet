@@ -38,6 +38,15 @@ impl CmsisOperations for CmsisNativeOperations {
         cmsis_dsp::basic::shift_in_place_q15(values, shift_bits);
     }
 
+    fn scale_q15(
+        src: &[cmsis_interface::Q15],
+        scale_fract: cmsis_interface::Q15,
+        shift: i8,
+        dst: &mut [cmsis_interface::Q15],
+    ) {
+        cmsis_dsp::basic::scale_q15(src, scale_fract, shift, dst);
+    }
+
     fn biquad_cascade_df1_q15<const NUM_STAGES: usize, const STATE_SIZE: usize>(
         state: &mut cmsis_interface::BiquadCascadeDf1StateQ15<NUM_STAGES, STATE_SIZE>,
         coeffs: &[[Q15; 6]; NUM_STAGES],

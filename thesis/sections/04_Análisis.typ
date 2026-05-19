@@ -68,12 +68,15 @@ montarlo, puede llenar un nicho que noto vacío.
   Debe estar documentado cómo configurar el sintetizador para un nuevo dispositivo empotrado.]
 #req("rf_configuración_ejecución", "F")[Configuración en ejecución][
   El sintetizador ha de ser configurable en ejecución con elementos físicos conectados a la placa.]
+#req("rf_rendimiento", "F")[Rendimiento][
+  El sintetizador, con salida de audio por USB, entrada de MIDI por USB e incluyendo el ecualizador, ha de poder acabar
+  de producir cada bloque de audio antes de que el siguiente se solicite con un margen del 10% al ejecutarse en una
+  placa STM32H723ZG.
+]
 
 === Requisitos no funcionales
 <sec_rnf>
 
-#req("rnf_rendimiento", "NF")[Rendimiento][
-  El sintetizador ha de acabar de producir cada bloque de audio antes de que el siguiente se solicite.]
 #req("rnf_fiabilidad", "NF")[Fiabilidad][
   El sintetizador ha de operar continuamente sin necesitar un reinicio.]
 #req("rnf_calidad_de_audio", "NF")[Calidad de audio][
@@ -92,7 +95,7 @@ montarlo, puede llenar un nicho que noto vacío.
 En cuanto a la selección del lenguaje, se evaluaron C, C++, Zig, SPARK y Rust, por ser lenguajes populares para el
 desarrollo empotrado.
 
-C es una de los lenguajes más populares en el desarrollo empotrado. El @rnf_rendimiento urge la integración de
+C es una de los lenguajes más populares en el desarrollo empotrado. El @rf_rendimiento urge la integración de
 CMSIS-DSP, una biblioteca de C para realizar operaciones DSP aprovechando las operaciones del CPU operaciones. Usar C,
 C++ o Zig permitiría integrarse con la librería sin problemas. Sin embargo, aunque he usado C en el pasado, no considero
 que tenga suficiente experiencia para garantizar que no hayan problemas de memoria o un uso incorrecto accidental del

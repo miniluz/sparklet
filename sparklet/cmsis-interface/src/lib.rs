@@ -48,6 +48,7 @@ pub trait CmsisOperations {
     fn negate_q15(src: &[Q15], dst: &mut [Q15]);
     fn shift_q15(src: &[Q15], shift_bits: i8, dst: &mut [Q15]);
     fn shift_in_place_q15(values: &mut [Q15], shift_bits: i8);
+    fn scale_q15(src: &[Q15], scale_fract: Q15, shift: i8, dst: &mut [Q15]);
 
     fn biquad_cascade_df1_q15<const NUM_STAGES: usize, const STATE_SIZE: usize>(
         state: &mut BiquadCascadeDf1StateQ15<NUM_STAGES, STATE_SIZE>,
@@ -180,6 +181,22 @@ macro_rules! declare_tests {
                 let mut values = [Q15::from_num(-0.5), Q15::from_num(-0.25)];
                 <$T>::shift_in_place_q15(&mut values, 1);
                 assert_eq!(values, [Q15::from_num(-1.0), Q15::from_num(-0.5)]);
+            }
+
+            #[test]
+            pub fn test_scale_q15_basic() {
+                let src = [Q15::from_num(0.5), Q15::from_num(0.25)];
+                let mut dst = [Q15::from_num(0.0); 2];
+                <$T>::scale_q15(&src, Q15::from_num(0.5), 0, &mut dst);
+                assert_eq!(dst, [Q15::from_num(0.25), Q15::from_num(0.125)]);
+            }
+
+            #[test]
+            pub fn test_scale_q15_with_shift() {
+                let src = [Q15::from_num(0.5), Q15::from_num(0.25)];
+                let mut dst = [Q15::from_num(0.0); 2];
+                <$T>::scale_q15(&src, Q15::from_num(0.5), 1, &mut dst);
+                assert_eq!(dst, [Q15::from_num(0.5), Q15::from_num(0.25)]);
             }
 
             #[test]
