@@ -95,11 +95,11 @@ montarlo, puede llenar un nicho que noto vacío.
 En cuanto a la selección del lenguaje, se evaluaron C, C++, Zig, SPARK y Rust, por ser lenguajes populares para el
 desarrollo empotrado.
 
-C es una de los lenguajes más populares en el desarrollo empotrado. El @rf_rendimiento urge la integración de
-CMSIS-DSP, una biblioteca de C para realizar operaciones DSP aprovechando las operaciones del CPU operaciones. Usar C,
-C++ o Zig permitiría integrarse con la librería sin problemas. Sin embargo, aunque he usado C en el pasado, no considero
-que tenga suficiente experiencia para garantizar que no hayan problemas de memoria o un uso incorrecto accidental del
-hardware, para cumplir el @rnf_fiabilidad. Un argumento similar aplica a C++ y a Zig.
+C es una de los lenguajes más populares en el desarrollo empotrado. El @rf_rendimiento urge la integración de CMSIS-DSP,
+una biblioteca de C para realizar operaciones DSP aprovechando las operaciones del CPU operaciones. Usar C, C++ o Zig
+permitiría integrarse con la librería sin problemas. Sin embargo, aunque he usado C en el pasado, no considero que tenga
+suficiente experiencia para garantizar que no hayan problemas de memoria o un uso incorrecto accidental del hardware,
+para cumplir el @rnf_fiabilidad. Un argumento similar aplica a C++ y a Zig.
 
 SPARK es una opción apropiada para conseguir el @rnf_fiabilidad, ya que permite verificar formalmente los programas
 @ref_web_ada_formal_proof. Sin embargo, tiene un ecosistema pequeño, en particular en lo que respecta al audio, por lo
@@ -272,3 +272,6 @@ Para calcular los coeficientes de los filtros IIR usados en el ecualizador, se u
 Como herramientas auxiliares, se usan `cargo-nextest` como ejecutor de pruebas en el ordenador, `cargo-binutils` y
 `cargo-bloat` para medir el tamaño del binario compilado para poder optimizarlo, `probe-rs` para escribir el código a la
 placa de desarrollo y leer sus mensajes, y `lldb` como debugger.
+
+Para probar el sintetizador, se usa `vmpk` como teclado virtual y `qpwgraph` para conectar la entrada de audio del
+sintetizador a los altavoces del ordenador de desarrollo.
