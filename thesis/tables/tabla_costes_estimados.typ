@@ -37,21 +37,6 @@
   import "/utils/table_format.typ": format_tables
   show: format_tables
 
-  import "@preview/zero:0.6.1": num, set-group, set-num
-  set-num(decimal-separator: ",", digits: 0)
-  set-group(
-    size: 3,
-    separator: sym.space.thin,
-    threshold: 5,
-  )
-  show math.equation: it => {
-    show regex(`\d+(?:\.\d+)?`.text): it => {
-      num(it)
-    }
-    it
-  }
-
-
   let pie
   if (planificación) {
     pie = (
@@ -79,7 +64,7 @@
         columns: (auto, auto, auto),
         align: (center + horizon, center + horizon, right + horizon),
 
-        table.header([Partida], [Cálculo], [Coste]),
+        table.header([Partida], [Cálculo], align(center)[Coste]),
 
         [Personal],
         [$#sueldo_junior "€/h" times #(100 + seguridad_social)% times #(costes.horas) "h"$],

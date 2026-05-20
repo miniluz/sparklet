@@ -38,11 +38,10 @@
 )
 
 #include "sections/01_Introducción.typ"
-#include "sections/02_Planificación.typ"
-#include "sections/03_Metodología.typ"
-#include "sections/04_Análisis.typ"
-#include "sections/05_Diseño.typ"
-#include "sections/06_Implementación.typ"
-#include "sections/07_Manuales.typ"
-#include "sections/08_Conclusiones.typ"
-#include "sections/09_Anexos.typ"
+#include "sections/02_Metodología.typ"
+#include "sections/03_Análisis.typ"
+#include "sections/04_Diseño.typ"
+#include "sections/05_Implementación.typ"
+#include "sections/06_Manuales.typ"
+#include "sections/07_Conclusiones.typ"
+#include "sections/08_Anexos.typ"
