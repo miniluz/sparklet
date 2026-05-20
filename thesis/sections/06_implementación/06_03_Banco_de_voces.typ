@@ -31,8 +31,6 @@ resolver todas las situaciones límite que han de ser manejadas correctamente pa
 a un músico. Realizar una implementación elegante y eficiente que maneje correctamente todas estas circunstancias fue
 una de las dificultades principales del desarrollo de Sparklet. Tómense los siguientes casos:
 
-/* TODO: Quizá hacer diagramas de qué pasa en estas situaciones */
-
 + Un músico toca una pieza con un límite de polifonía bajo. Arpegia rápidamente un acorde: do, mi, sol, mi, do; de forma
   que un decaimiento alto haría que cuando toque por segunda vez una nota, la primera voz que la contiene aún no haya
   decaído a cero. Una implementación que no tiene esto en cuenta ocuparía una segunda voz para tocar la nota, y cuando
@@ -76,9 +74,18 @@ El primer problema se puede resolver tomando inspiración en el funcionamiento d
 que las cuerdas no se amortigüen, volver a pulsar una tecla no silencia la nota antes de que el martillo vuelva a
 tocarla. Para modelar este comportamiento, `Voice` proporciona el método `retrigger`, en el que la voz vuelve al estado
 `Attack` sin modificar su nivel actual `current`, volviendo a darle intensidad. Este comportamiento se ve ilustrado en
-la /* TODO */. Haciendo que tocar una nota siempre haga `retrigger` a la voz que la tiene si ya está siendo tocada, se
-contribuye a resolver también el segundo problema, pues se garantiza que sólo una voz reproduce cada nota. Si se da el
-caso, volver a tocar y soltar la tecla hará que deje de sonar, volviendo al comportamiento esperado.
+la @fig_retrigger. Haciendo que tocar una nota siempre haga `retrigger` a la voz que la tiene si ya está siendo tocada,
+se contribuye a resolver también el segundo problema, pues se garantiza que sólo una voz reproduce cada nota. Si se da
+el caso, volver a tocar y soltar la tecla hará que deje de sonar, volviendo al comportamiento esperado.
+
+#figure(
+  todo[Falta hacer],
+  caption: [Comportamiento de una nota al ser vuelta a tocar antes de que su amplitud baje a cero.],
+  placement: auto,
+)
+<fig_retrigger>
+
+#todo[Quizá debería poner ilustraciones de cómo se ven estos casos límite con esta implementación.]
 
 Para solucionar los otros tres problemas de forma eficiente, se puede usar una cola intermediaria FIFO de longitud igual
 a la cantidad de voces $|V|$. Esta cola almacena las |V| notas más recientes que el usuario ha intentado tocar. Los

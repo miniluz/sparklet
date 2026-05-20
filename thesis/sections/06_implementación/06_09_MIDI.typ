@@ -35,12 +35,9 @@ Sparklet soporta la entrada MIDI tanto por un puerto DIN, usando UART, como por 
 `Sparklet` únicamente soporta los eventos MIDI `NoteOn` y `NoteOff`. El resto de eventos son descartados por
 `MidiListener` antes de enviarlos por el canal. Ambos eventos caben en 3 bytes @ref_web_midi, pero se asigna a `midly`
 un _buffer_ de 4 bytes al no tener coste adicional por alineación de memoria. Los mensajes más largos son ignorados al
-no caber en el buffer, lo que es conveniente pues MIDI acepta mensajes de longitud arbitraria /* TODO cita */.
-
+no caber en el buffer, lo que es conveniente pues MIDI acepta mensajes de longitud arbitraria.
 
 La fiabilidad del módulo de `midly` es fundamental, pues es el único módulo expuesto a datos externos con código de
 gestión escrito a mano. Se puede encontrar con mensajes erróneos, con ruido, o en el peor caso maliciosos, y los ha de
 manejar correctamente para cumplir el @rnf_fiabilidad. Por lo tanto, este fue el módulo más probado. Su resistencia a
 errores y mensajes largos fue validada: es capaz de procesar mensajes tras haber recibido mil bytes de datos aleatorios
-
-// TODO: Hablar de MIDI con UART

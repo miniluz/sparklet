@@ -5,6 +5,8 @@
 En esta sección, se analiza el estado del arte. Primero se analizan los sintetizadores que existen actualmente, y a
 continuación se analiza el estado del ámbito académico respecto a los algoritmos que usan los sintetizadores.
 
+#todo([Aquí falta añadir referencias.])
+
 === Sintetizadores
 
 Primero, se analizan los sintetizadores de software libre o gratuitos. Aunque hay muchos, uno de los mas usados y

@@ -146,7 +146,6 @@ pub(crate) struct Voice<'a> {
 impl<'a> Voice<'a> {
     pub(crate) fn retrigger(&mut self, timestamp: u32, velocity: Velocity) {
         self.timestamp = timestamp;
-        //  TODO: Velocity change is sudden, can lead to popping
         self.velocity = velocity;
         self.adsr.retrigger(velocity.as_u8());
     }
@@ -171,7 +170,8 @@ where
     note_queue: Deque<PendingNote, N>,
 }
 
-impl<'a, 'ac, M, const N: usize, const CHANNEL_SIZE: usize> Format for VoiceBank<'a, 'ac, M, N, CHANNEL_SIZE>
+impl<'a, 'ac, M, const N: usize, const CHANNEL_SIZE: usize> Format
+    for VoiceBank<'a, 'ac, M, N, CHANNEL_SIZE>
 where
     M: RawMutex,
 {

@@ -2,9 +2,13 @@
 
 = Introducción
 
+#todo[En todos los títulos voy a añadir un resumen de la sección y quizá una cita relevante.]
+
 #pagebreak()
 
 == Motivación
+
+#todo[Aquí falta añadir referencias.]
 
 La aplicación de la ingeniería informática a la música ha abierto nuevas posibilidades creativas, mejorado la
 experiencia de los músicos y, sobre todo, democratizado el arte. El famoso Minimoog Model D (véase la @fig_minimoog),

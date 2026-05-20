@@ -37,11 +37,6 @@ prioridad. La tarea de configuración lee el hardware usando polling, por defect
 de configuración los datos. Cada cierto tiempo, por defecto cada $100 "ms"$, envía la nueva configuración por un triple
 buffer al motor de síntesis.
 
-== Rendimiento
-
-// TODO: análisis del rendimiento mejor caso
-// TODO: medir el rendimiento en otro chip
-
 === Instrucciones DSP
 <sec_inst_dsp>
 
