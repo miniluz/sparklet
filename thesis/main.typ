@@ -1,13 +1,15 @@
 #import "@preview/deal-us-tfc-template:1.2.1": *
 
 #show: TFC.with(
-  titulo: // cspell:disable-line
-  "Sparklet: Síntesis musical empotrada en Rust",
+  titulo: par(
+    justify: false,
+    "Sparklet: Síntesis musical en múltiples dispositivos empotrados",
+  ), // cspell:disable-line
   alumno: "Javier Ignacio Milá de la Roca Dos Santos",
   titulacion: // cspell:disable-line
   "Grado en Ingeniería Informática – Ingeniería del Software",
   director: [Alberto Jesús Molina Cantero],
-  departamento: "Departamento de Tecnología Electrónica",
+  departamento: "Tecnología Electrónica",
   convocatoria: "Convocatoria de junio, curso 2025/26",
   dedicatoria: "Aquí la dedicatoria del trabajo",
   agradecimientos: [

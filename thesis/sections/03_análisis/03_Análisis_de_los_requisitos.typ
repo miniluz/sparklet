@@ -176,6 +176,8 @@ Este proporciona todos los programas usadas en el desarrollo, incluyendo Rust, O
 fija sus versiones. Garantiza que el entorno de desarrollo es el mismo que el de ejecución de pruebas, para cumplir el
 @rnf_pruebas.
 
+#todo[Hablar de lo que uso para generar y hostear los manuales.]
+
 Se usa _just_ como gestor de comandos, una alternativa a usar una `Makefile` más usada por la comunidad de Rust. Este
 proporciona una interfaz fácil (`just test`) para todas las secuencias de comandos comunes usadas en el desarrollo. Para
 unificar el uso de las distintas herramientas de formato (`typstyle`, `cargo-fmt`) y _linting_ (`clippy`, `cspell`) se

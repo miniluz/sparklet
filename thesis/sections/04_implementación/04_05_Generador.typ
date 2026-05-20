@@ -4,6 +4,7 @@
 #show: setup-reqs
 
 == Generador
+<sec_generador>
 
 El generador encapsula los componentes que calculan la señal de audio, antes de su procesamiento posterior por los
 efectos como el ecualizador. Coordina los osciladores, el ADSR y el banco de voces. Su método principal es

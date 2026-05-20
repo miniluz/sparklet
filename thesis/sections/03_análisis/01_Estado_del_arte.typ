@@ -1,6 +1,7 @@
 #import "@preview/deal-us-tfc-template:1.2.1": *
 
 == Estado del arte
+<sec_estado_del_arte>
 
 En esta sección, se analiza el estado del arte. Primero se analizan los sintetizadores que existen actualmente, y a
 continuación se analiza el estado del ámbito académico respecto a los algoritmos que usan los sintetizadores.

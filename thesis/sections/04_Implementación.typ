@@ -31,3 +31,5 @@
 #include "04_implementación/04_11_USB.typ"
 
 #include "04_implementación/04_12_Operaciones_DSP.typ"
+
+#include "04_implementación/04_13_Manuales.typ"

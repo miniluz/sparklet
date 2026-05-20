@@ -4,6 +4,7 @@
 #show: setup-reqs
 
 == USB
+<sec_usb>
 
 La manera más fácil de usar Sparklet es por una conexión USB. Sparklet permite usar USB para la salida de audio, según
 el @rf_audio_usb, y la entrada de MIDI según el @rf_midi_usb, permitiendo que opere con una única conexión a cualquier

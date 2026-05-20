@@ -162,6 +162,7 @@
       - Mejoras de estilo y rendimiento generales.
       - Creación del workflow para la ejecución automática de pruebas en GitHub Actions.
       - Creación del workflow para revisar automáticamente el formato.
+      - Evaluación del rendimiento del sintetizador.
     ],
   ),
   sprint(

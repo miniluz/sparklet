@@ -19,5 +19,4 @@
     },
   ),
   caption: "Hitos del proyecto con su fecha estimada y la fecha en la que se consiguió.",
-  placement: auto,
 )<tabla_hitos>

@@ -63,6 +63,10 @@ llamados parámetros. Se configuran con un archivo `build.rs`, que se ejecuta an
 `Config.toml` y genera un archivo `build_config.rs` con un `struct` que contiene todos los parámetros. `build_config.rs`
 se incluye en el código en tiempo de compilación con la macro `include!()`.
 
+=== Soporte a otros dispositivos
+
+#todo[Por escribir.]
+
 === Durante la ejecución
 
 Sparklet se puede configurar en la ejecución con dos botones y tres codificadores rotatorios, como indica el

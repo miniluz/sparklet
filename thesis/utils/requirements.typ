@@ -1,10 +1,10 @@
 #let req-ids = state("req-ids", (:))
-#let req-counter = counter("reqs")
 
 #let req(lbl, prefix, short, body) = {
-  req-counter.step()
+  let c = counter("reqs-" + prefix)
+  c.step()
   context {
-    let id = prefix + req-counter.display()
+    let id = prefix + c.display()
     req-ids.update(d => {
       d.insert(lbl, (id, short))
       d

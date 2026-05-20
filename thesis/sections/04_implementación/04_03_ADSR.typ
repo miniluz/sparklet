@@ -6,6 +6,7 @@
 #show math.equation.where(block: true): set text(14pt)
 
 == Envolvente ADSR
+<sec_adsr>
 
 Cuando un oscilador se activa y desactiva repentinamente, no genera un sonido agradable. Cuando se toca una nota,
 empieza repentinamente al máximo volumen, y cuando se deja de tocar, para instantáneamente. Estos cambios bruscos se

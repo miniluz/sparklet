@@ -4,6 +4,7 @@
 #show: setup-reqs
 
 == MIDI
+<sec_midi>
 
 El protocolo MIDI es un estándar para transmitir información de control entre dispositivos musicales @ref_web_midi
 @ref_book_music_tutorial. En lugar de transmitir audio, transmite eventos, como tocar o soltar una nota o los mensajes

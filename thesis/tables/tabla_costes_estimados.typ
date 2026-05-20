@@ -10,6 +10,7 @@
 #let coste_internet_mensual = 40.0
 #let meses = 9.0
 #let reserva_porcentaje = 10.0
+#let beneficio_porcentaje = 10.0
 
 #let calcular_costes(horas) = {
   let personal = sueldo_junior * (100 + seguridad_social) / 100 * horas
@@ -19,7 +20,8 @@
 
   let total_parcial = personal + equipo + electricidad + internet
   let reserva = total_parcial * reserva_porcentaje / 100.0
-  let total = total_parcial + reserva
+  let beneficio = (total_parcial + reserva) * beneficio_porcentaje / 100.0
+  let total = total_parcial + reserva + beneficio
 
   (
     horas: horas,
@@ -29,6 +31,7 @@
     internet: internet,
     total_parcial: total_parcial,
     reserva: reserva,
+    beneficio: beneficio,
     total: total,
   )
 }
@@ -37,24 +40,46 @@
   import "/utils/table_format.typ": format_tables
   show: format_tables
 
-  let pie
-  if (planificación) {
-    pie = (
+  let frame(stroke) = (x, y) => (
+    left: if x > 0 { 0.6pt } else { stroke },
+    right: stroke,
+    top: if y < 2 { stroke } else if (y == 5 or y == 8) { 0.6pt } else { 0pt },
+    bottom: stroke,
+  )
+
+  set table(
+    fill: (_, y) => if calc.odd(y) { rgb("#fffbed") },
+    stroke: frame(1pt + rgb("#4f0319")),
+  )
+
+  import "@preview/zero:0.6.1": num, set-group, set-num
+  set-num(decimal-separator: ",", digits: 2)
+  set-group(
+    size: 3,
+    separator: sym.space.thin,
+    threshold: 5,
+  )
+
+  let pie = if (planificación) {
+    (
       [Total parcial],
-      [--],
-      [$#(costes.total_parcial) "€"$],
+      [$"Personal" + "Equipo" + "Electricidad" + "Internet"$],
+      [$#num(costes.total_parcial) "€"$],
       [Reserva (#reserva_porcentaje%)],
-      [--],
-      [$#(costes.reserva) "€"$],
+      [$"Total parcial" times #(100 + reserva_porcentaje)%$],
+      [$#num(costes.reserva) "€"$],
+      [Beneficio (#beneficio_porcentaje%)],
+      [$("Total parcial" + "Reserva") times #(100 + beneficio_porcentaje)%$],
+      [$#num(costes.beneficio) "€"$],
       [Total],
-      [--],
-      [$#(costes.total) "€"$],
+      [$"Total parcial" + "Reserva" + "Beneficio"$],
+      [$#num(costes.total) "€"$],
     )
   } else {
-    pie = (
+    (
       [Total],
-      [--],
-      [$#(costes.total_parcial) "€"$],
+      [$"Personal" + "Equipo" + "Electricidad" + "Internet"$],
+      [$#num(costes.total_parcial) "€"$],
     )
   }
 
@@ -67,20 +92,20 @@
         table.header([Partida], [Cálculo], align(center)[Coste]),
 
         [Personal],
-        [$#sueldo_junior "€/h" times #(100 + seguridad_social)% times #(costes.horas) "h"$],
-        [$#(costes.personal) "€"$],
+        [$#num(sueldo_junior) "€/h" times #(100 + seguridad_social)% times #num(costes.horas, digits: 1) "h"$],
+        [$#num(costes.personal) "€"$],
 
-        [Equipo (amortizado)],
-        [$#coste_equipo "€" div #(amortización_años * 12) "meses" times #meses "meses"$],
-        [$#(costes.equipo) "€"$],
+        [Equipo],
+        [$#num(coste_equipo) "€" div #(amortización_años * 12) "meses" times #meses "meses"$],
+        [$#num(costes.equipo) "€"$],
 
         [Electricidad],
-        [$#consumo_w "W" times #(costes.horas) "h" times (1 "kW") / (1000 "W") times #coste_electricidad_kwh "€/kWh"$],
-        [$#(costes.electricidad) "€"$],
+        [$#consumo_w "W" times #num(costes.horas, digits: 1) "h" times (1 "kW") / (1000 "W") times #num(coste_electricidad_kwh) "€/kWh"$],
+        [$#num(costes.electricidad) "€"$],
 
         [Internet],
-        [$#coste_internet_mensual "€/mes" times #meses "meses"$],
-        [$#(costes.internet) "€"$],
+        [$#num(coste_internet_mensual) "€/mes" times #meses "meses"$],
+        [$#num(costes.internet) "€"$],
 
         ..pie,
       ),

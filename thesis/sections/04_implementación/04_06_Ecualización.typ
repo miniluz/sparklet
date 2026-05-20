@@ -19,6 +19,7 @@
 }
 
 == Ecualización
+<sec_eq>
 
 Sparklet implementa un ecualizador multibanda para satisfacer el @rf_ecualizador. Se separa la señal en componentes que
 corresponden a ciertos rangos de frecuencia, la ganancia de estos componentes se ajusta independientemente, y se vuelven

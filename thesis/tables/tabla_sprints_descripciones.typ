@@ -3,8 +3,6 @@
 
 #import "/utils/datos_sprints.typ": sprints;
 
-#pagebreak()
-
 #table(
   columns: (auto, auto),
   align: (center + horizon, left + horizon),

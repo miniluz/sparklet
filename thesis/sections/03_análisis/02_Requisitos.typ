@@ -4,6 +4,7 @@
 #show: setup-reqs
 
 == Requisitos
+<sec_requisitos>
 
 En base al estado del arte de los sintetizadores, se proponen los siguientes requisitos, orientados a especificar un
 sistema útil que supere el estado del arte.

@@ -21,7 +21,7 @@
 
 
 == Osciladores
-<sec_osciladires>
+<sec_osciladores>
 
 Los osciladores son donde comienza la síntesis. Estos reciben una frecuencia y generan una señal de audio a dicha
 frecuencia. Hay diversos tipos de osciladores, pero uno de los más usados en entornos empotrados es el de tabla de onda

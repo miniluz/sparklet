@@ -1,6 +1,7 @@
 #import "@preview/deal-us-tfc-template:1.2.1": *
 
 == Diseño
+<sec_diseño>
 
 === Arquitectura
 
@@ -34,6 +35,11 @@ La configuración, sin embargo, no depende de información privada, por lo que s
 prioridad. La tarea de configuración lee el hardware usando polling, por defecto cada $5 "ms"$, y procesa con el gestor
 de configuración los datos. Cada cierto tiempo, por defecto cada $100 "ms"$, envía la nueva configuración por un triple
 buffer al motor de síntesis.
+
+=== Soporte de múltiples dispositivos
+<sec_multiples_dispositivo>
+
+#todo[Falta redactar esto.]
 
 === Instrucciones DSP
 <sec_inst_dsp>

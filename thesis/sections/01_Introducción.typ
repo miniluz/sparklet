@@ -70,20 +70,32 @@ remediar ambos problemas.
 )
 
 == Objetivos
+<sec_objetivos>
 
 Los objetivos del software del proyecto son los siguientes:
 
-- Crear un sintetizador musical en un sistema empotrado que resulte útil para músicos con un interés tecnológico.
-  - Configurable para soportar diversos dispositivos y componentes.
-  - Con manuales de instalación, uso, desarrollo, y soporte de nuevos dispositivo.
-- Presentar una arquitectura viable para el desarrollo de sintetizadores en microcontroladores.
-- Elaborar un algoritmo completo y eficiente para la gestión del robo de voces.
+#let objetivos_proyecto = [
+  - Crear un sintetizador musical en un sistema empotrado que resulte útil para músicos con interés en la tecnología.
+    - Configurable para soportar diversos dispositivos y componentes.
+    - Con manuales de instalación, uso, desarrollo, y soporte de nuevos dispositivo.
+  - Presentar una arquitectura viable para el desarrollo de sintetizadores similares en microcontroladores.
+  - Elaborar un algoritmo eficiente para el envolvente ADSR en aritmética de coma fija que permita interpolar su
+    configuración.
+  - Elaborar una estrategia eficiente para el robo de voces que sea intuitivo y no genere artefactos bajo condiciones
+    extremas.
+]
+
+#objetivos_proyecto
 
 Y los objetivos de aprendizaje son los siguientes:
 
-- Aprender sobre el desarrollo empotrado.
-  - Para soportar múltiples sistemas empotrados con el mismo código.
-  - Conseguir una buena experiencia de desarrollo.
-- Aprender del procesamiento de señales digitales.
-  - En sistemas con limitaciones de velocidad de cálculo (CPU).
-  - En sistemas que no tienen disponible coma flotante.
+#let objetivos_aprendizaje = [
+  - Aprender sobre el desarrollo empotrado.
+    - Para soportar múltiples sistemas empotrados con el mismo código.
+    - Conseguir una buena experiencia de desarrollo.
+  - Aprender del procesamiento de señales digitales.
+    - En sistemas con limitaciones de velocidad de cálculo (CPU).
+    - En sistemas que no tienen disponible coma flotante.
+]
+
+#objetivos_aprendizaje

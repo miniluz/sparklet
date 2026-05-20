@@ -32,8 +32,8 @@
     align: (
       center + horizon,
       center + horizon,
-      center + horizon,
-      center + horizon,
+      right + horizon,
+      right + horizon,
     ),
 
     table.header([Sprint], [Fechas], [Horas estimadas], [Horas reales]),
@@ -50,5 +50,4 @@
     [Total], [--], [#horas_estimadas], [#num(horas_reales)],
   ),
   caption: "Horas estimadas y reales dedicadas a cada sprint del proyecto.",
-  placement: auto,
 )<tabla_sprints_tiempos>
