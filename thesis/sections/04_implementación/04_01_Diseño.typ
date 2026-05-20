@@ -1,10 +1,8 @@
 #import "@preview/deal-us-tfc-template:1.2.1": *
 
-= Diseño
-<sec_diseño>
+== Diseño
 
-== Arquitectura
-<sec_arquitectura>
+=== Arquitectura
 
 #figure(
   image("/figures/Diagrama de la arquitectura.drawio.pdf", width: 70%),
