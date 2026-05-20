@@ -1,6 +1,6 @@
 #import "@preview/deal-us-tfc-template:1.2.1": *
 #import "@preview/zero:0.6.1": num, set-group, set-num
-#import "../../utils/requirements.typ": req, req-ids, setup-reqs
+#import "/utils/requirements.typ": req, req-ids, setup-reqs
 
 #show: setup-reqs
 
@@ -39,7 +39,7 @@ Para conseguir esto, se podría usar un árbol de filtros perfectamente reconstr
 embargo, implementarlos sin usar operaciones de coma flotante de forma eficiente no es viable, ya que requiere de
 filtros FIR de orden grande.
 
-Para conseguir el @rf_rendimiento, Sparklet usa 6 filtros de Butterworth aplicados en paralelo para dividir la señal en
+Para conseguir el @rnf_rendimiento, Sparklet usa 6 filtros de Butterworth aplicados en paralelo para dividir la señal en
 bandas con solapamiento, de forma no perfectamente reconstructiva. El primero es de paso bajo, los intermedios son de
 paso banda y el último de paso alto, para repartir entre ellos todo el rango de frecuencias, como se puede ver en la
 @fig_eq_response. Se usan filtros IIR de Butterworth en DF1 @ref_book_theory_music @ref_book_understanding_dsp,

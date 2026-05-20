@@ -1,6 +1,6 @@
 #import "@preview/deal-us-tfc-template:1.2.1": *
 #import "@preview/zero:0.6.1": num, set-group, set-num
-#import "../../utils/requirements.typ": req, req-ids, setup-reqs
+#import "/utils/requirements.typ": req, req-ids, setup-reqs
 
 #show: setup-reqs
 
@@ -20,7 +20,7 @@
 
 == Operaciones DSP
 
-Para realizar operaciones DSP de forma eficiente, de acuerdo al @rf_rendimiento, se usa la biblioteca CMSIS-DSP. En
+Para realizar operaciones DSP de forma eficiente, de acuerdo al @rnf_rendimiento, se usa la biblioteca CMSIS-DSP. En
 concreto, se usa la biblioteca `cmsis_dsp` de Rust, que proporciona _bindings_ para CMSIS-DSP. Por cada función de la
 biblioteca en C se proporciona una función en Rust que la llama, manteniendo las invariantes que Rust espera. Se hizo un
 _fork_ de la biblioteca para poder implementar bindings a otras funciones necesarias, como la función
@@ -39,7 +39,7 @@ que para ejecutar pruebas en un sistema empotrado @ref_web_rust_embedded_test. E
 módulo `cmsis_interface` con una macro, para garantizar que se ejecutan las mismas pruebas en ambas.
 
 La implementación usando una interfaz no tiene un coste de rendimiento el en sintetizador, por lo que esta abtrascción
-no obstaculiza el @rf_rendimiento. Rust permite, además de usar una tabla de métodos virtuales, implementar tipos
+no obstaculiza el @rnf_rendimiento. Rust permite, además de usar una tabla de métodos virtuales, implementar tipos
 genéricos con la _monomorfización_. Dada una función `f<T>(arg: T)`, con el tipo genérico `T`, si se llama con los tipos
 concretos `A` y `B`, se generan dos implementaciones de la función: `f(arg: A)` y `f(arg: B)` @ref_web_rust_generics. En
 Sparklet, si se define una función `f<CmsisOperations>()`, ya que el ejecutor de Sparklet únicamente la llama con

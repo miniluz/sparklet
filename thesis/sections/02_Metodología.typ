@@ -120,9 +120,6 @@ total.
   placement: auto,
 )
 
-
-
-
 == Estrategia de pruebas
 <sec_estrategia_de_pruebas>
 

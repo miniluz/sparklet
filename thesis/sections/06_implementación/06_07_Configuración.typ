@@ -1,5 +1,5 @@
 #import "@preview/deal-us-tfc-template:1.2.1": *
-#import "../../utils/requirements.typ": req, req-ids, setup-reqs
+#import "/utils/requirements.typ": req, req-ids, setup-reqs
 
 #show: setup-reqs
 
@@ -9,7 +9,7 @@
 === Durante la compilación
 <sec_configuración_compilación>
 
-Sparklet ha de cumplir el @rf_rendimiento y el @rf_multi_dispositivos simultáneamente. Una dificultad es que algunas
+Sparklet ha de cumplir el @rnf_rendimiento y el @rf_multi_dispositivos simultáneamente. Una dificultad es que algunas
 características, como el ecualizador o la lectura de MIDI por USB, pueden ser demasiado pesadas para el CPU o la memoria
 de dispositivo menos capaces. Desactivar estas funcionalidades en ejecución con un `if` no es suficiente, porque su
 código sigue ocupando memoria. Por ejemplo, para dar soporte a MIDI por USB, se incluye un controlador de USB completo
@@ -77,7 +77,7 @@ codificadores rotativos, usa `Qei` de Embassy, que configura los timers del hard
 para acumular la diferencia de fase a un contador, sin necesidad de tiempo del CPU. Cada muestreo, la tarea de
 configuración mide la diferencia del contador con la última muestra, y la envía a `ConfigManager`.
 
-Para transmitir la configuración de forma eficiente, según el @rf_rendimiento, los cambios en la configuración se
+Para transmitir la configuración de forma eficiente, según el @rnf_rendimiento, los cambios en la configuración se
 transmiten al resto de módulos con menos frecuencia, por defecto cada $100 "ms"$. Se conecta al resto de módulos usando
 un `TripleBuffer`, permitiendo que `ConfigManager` nunca se bloquee al escribir y que el la generación nunca se bloquee
 al leer.

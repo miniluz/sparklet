@@ -1,6 +1,6 @@
 #import "@preview/deal-us-tfc-template:1.2.1": *
 #import "@preview/zero:0.6.1": num, set-group, set-num
-#import "../../utils/requirements.typ": req, req-ids, setup-reqs
+#import "/utils/requirements.typ": req, req-ids, setup-reqs
 
 #show: setup-reqs
 
@@ -49,5 +49,5 @@ audio se ejecuta únicamente cuando se pide una salida de audio.
 
 === Rendimiento
 
-El ejecutor en su totalidad, siendo ejecutado en las condiciones que indica el @rf_rendimiento, es capaz de calcular
+El ejecutor en su totalidad, siendo ejecutado en las condiciones que indica el @rnf_rendimiento, es capaz de calcular
 cada muestra de audio en $857 "µs"$, dando un margen del $14.3%$, así cumpliendo con el requisito.
