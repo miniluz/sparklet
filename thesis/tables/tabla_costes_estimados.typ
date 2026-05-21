@@ -38,19 +38,8 @@
 
 #let tabla_coste(costes, planificación, caption, label) = {
   import "/utils/table_format.typ": format_tables
-  show: format_tables
 
-  let frame(stroke) = (x, y) => (
-    left: if x > 0 { 0.6pt } else { stroke },
-    right: stroke,
-    top: if y < 2 { stroke } else if (y == 5 or y == 8) { 0.6pt } else { 0pt },
-    bottom: stroke,
-  )
-
-  set table(
-    fill: (_, y) => if calc.odd(y) { rgb("#fffbed") },
-    stroke: frame(1pt + rgb("#4f0319")),
-  )
+  show: d => format_tables(d, extra_separators: (5, 8))
 
   import "@preview/zero:0.6.1": num, set-group, set-num
   set-num(decimal-separator: ",", digits: 2)

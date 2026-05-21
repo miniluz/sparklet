@@ -10,21 +10,9 @@
 )
 
 #import "/utils/table_format.typ": format_tables
-#show: format_tables
 
 #let table_length = sprints.len() + 2
-
-#let frame(stroke) = (x, y) => (
-  left: if x > 0 { 0.6pt } else { stroke },
-  right: stroke,
-  top: if y < 2 or y == table_length - 1 { stroke } else { 0pt },
-  bottom: stroke,
-)
-
-#set table(
-  fill: (_, y) => if calc.odd(y) { rgb("#fffbed") },
-  stroke: frame(1pt + rgb("#4f0319")),
-)
+#show: d => format_tables(d, extra_separators: (table_length - 1,))
 
 #figure(
   table(

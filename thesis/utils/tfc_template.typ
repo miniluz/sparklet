@@ -1,3 +1,5 @@
+/* cSpell:disable */
+
 #import "@preview/fancy-tiling:1.0.0": *
 
 #let to-string(it) = {

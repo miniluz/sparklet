@@ -4,12 +4,11 @@
 == Análisis de riesgos
 <sec_riesgos>
 
-#todo[Citar la técnica usada.]
-
 Se ha realizado un análisis cuantitativo de los riegos asociados al proyecto usando una matriz de probabilidad e
-impacto. Se estimó su probabilidad de ocurrir como baja (1 punto), media (2 puntos) o alta (3 puntos), y del mismo modo
-su impacto. Se puntuaron según el producto de ambos valores. A continuación se muestran las que consiguieron una
-puntuación de al menos 4, junto a las estrategias usados para mitigarlos:
+impacto, en base a la propuesta por el PMBOK @ref_book_pmbok. Se estimó su probabilidad de ocurrir como baja (1 punto),
+media (2 puntos) o alta (3 puntos), y del mismo modo su impacto. Se puntuaron según el producto de ambos valores. A
+continuación se muestran las que consiguieron una puntuación de al menos 4, junto a las estrategias usados para
+mitigarlos:
 
 #riesgo(
   [Imposibilidad práctica de utilizar Rust en el entorno embebido],
