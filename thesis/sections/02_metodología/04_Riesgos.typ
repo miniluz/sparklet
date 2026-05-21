@@ -1,7 +1,8 @@
-#import "@preview/deal-us-tfc-template:1.2.1": *
+#import "/utils/tfc_template.typ": *
 #import "/utils/riesgos.typ": riesgo
 
 == Análisis de riesgos
+<sec_riesgos>
 
 #todo[Citar la técnica usada.]
 

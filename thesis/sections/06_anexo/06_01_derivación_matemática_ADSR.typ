@@ -1,11 +1,13 @@
-#import "@preview/deal-us-tfc-template:1.2.1": *
+#import "/utils/tfc_template.typ": *
 
 #show math.equation.where(block: true): set text(14pt)
 
-== Derivación matemática de las fórmulas de ADSR
+== Derivación matemática de las ecuaciones que usa el envolvente ADSR
 <sec_derivación_ADSR>
 
-Se buscan derivar las siguientes tres ecuaciones en base al comportamiento de un condensador:
+Las fórmulas finales indicadas en la @sec_adsr_modelo se repiten a continuación por claridad: la @eq_decay_b_c, la
+@eq_base_coefficient_t_r y la @eq_b_c_range. A continuación, se detalla su derivación partiendo de la fórmula de
+decaimiento exponencial que sigue un condensador.
 
 #context query(<eq_decay_b_c>).first()
 

@@ -1,4 +1,4 @@
-#import "@preview/deal-us-tfc-template:1.2.1": *
+#import "/utils/tfc_template.typ": *
 #import "@preview/zero:0.6.1": num, set-group, set-num
 #import "/utils/requirements.typ": req, req-ids, setup-reqs
 
@@ -19,6 +19,7 @@
 }
 
 == Ejecutor
+<sec_ejecutor>
 
 El ejecutor (`runner`) es responsable de inicializar el hardware, definir los canales que usan los otros módulos para
 comunicarse, y crear las tareas que llaman el resto de componentes. Es el primer módulo mencionado hasta el momento que

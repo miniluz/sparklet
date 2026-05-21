@@ -1,4 +1,4 @@
-#import "@preview/deal-us-tfc-template:1.2.1": *
+#import "/utils/tfc_template.typ": *
 #import "@preview/zero:0.6.1": num, set-group, set-num
 #import "/utils/requirements.typ": req, req-ids, setup-reqs
 
@@ -19,6 +19,7 @@
 }
 
 == Operaciones DSP
+<sec_operaciones_dsp>
 
 Para realizar operaciones DSP de forma eficiente, de acuerdo al @rnf_rendimiento, se usa la biblioteca CMSIS-DSP. En
 concreto, se usa la biblioteca `cmsis_dsp` de Rust, que proporciona _bindings_ para CMSIS-DSP. Por cada función de la

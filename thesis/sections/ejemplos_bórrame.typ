@@ -1,4 +1,4 @@
-#import "@preview/deal-us-tfc-template:1.2.1": *
+#import "/utils/tfc_template.typ": *
 
 = Ejemplos de uso de Typst
 <sec:ejemplos>

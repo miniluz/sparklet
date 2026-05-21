@@ -1,4 +1,4 @@
-#import "@preview/deal-us-tfc-template:1.2.1": *
+#import "/utils/tfc_template.typ": *
 #import "@preview/zero:0.6.1": num, set-group, set-num
 #import "/utils/requirements.typ": req, req-ids, setup-reqs
 

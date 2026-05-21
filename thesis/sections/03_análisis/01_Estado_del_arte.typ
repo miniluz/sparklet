@@ -1,4 +1,4 @@
-#import "@preview/deal-us-tfc-template:1.2.1": *
+#import "/utils/tfc_template.typ": *
 
 == Estado del arte
 <sec_estado_del_arte>

@@ -1,4 +1,4 @@
-#import "@preview/deal-us-tfc-template:1.2.1": *
+#import "/utils/tfc_template.typ": *
 #import "@preview/zero:0.6.1": num, set-group, set-num
 #import "/utils/requirements.typ": req, req-ids, setup-reqs
 
@@ -40,7 +40,8 @@ Dese una tabla de longitud $L = 1000$ y un sistema con frecuencia de muestreo de
 $s$ se usa, $mod L$, como íncide de la tabla para obtener cada muestra, se genera una onda con la forma que indica la
 tabla a $f = f_s div L = 48 "Hz"$. Si en lugar se avanza por dos cada muestra, usando $2 times s mod 1000$ como índice,
 se envía una onda con frecuencia $f = 48000 "Hz" div 500 = 96 "Hz"$. En general, la relación entre la frecuencia $f$ y
-el incremento del índice $i$ se da con la @eq_incremento @ref_book_music_tutorial @ref_book_theory_music.
+el incremento del índice $i$ se da con la @eq_incremento @ref_book_music_tutorial @ref_book_theory_music
+@ref_book_understanding_dsp.
 
 $
   i = (L times f) / f_s

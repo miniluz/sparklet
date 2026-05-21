@@ -65,6 +65,8 @@
                 cargo-bloat
                 bacon
 
+                cowsay
+
                 (octave.withPackages (octavePackages: with octavePackages; [ signal ]))
 
                 lldb

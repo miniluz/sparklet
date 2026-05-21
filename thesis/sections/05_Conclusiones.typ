@@ -1,9 +1,24 @@
-#import "@preview/deal-us-tfc-template:1.2.1": *
+#import "/utils/tfc_template.typ": *
+#import "/utils/capítulos.typ": cita, resumen
 #import "/sections/01_Introducción.typ": (
   objetivos_aprendizaje, objetivos_proyecto,
 )
 
 = Conclusiones
+
+#cita[
+  "Y si ven un chico que viene hasta ustedes, si ríe, si tiene pelo como de oro,
+  #linebreak()
+  si no contesta cuando ustedes le preguntan, ya sabrán quién es."
+][Antoine de Saint-Exupéry (El principito)]
+
+#resumen[
+  En este capítulo se explica la implementación final de Sparklet. En la sección @sec_diseño se especifica la
+  arquitectura del sistema. Entre la @sec_osciladores y la @sec_motor_de_síntesis se explica el procesamiento de audio
+  del sintetizador. En la sección @sec_configuración se documenta cómo se logró que fuese configurable en compilación y
+  ejecución. Entre la @sec_ejecutor y la @sec_operaciones_dsp se especifica la parte del sistema específica al hardware
+  usado. Finalmente, en la @sec_manuales se comenta la implementación de los manuales del sistema.
+]
 
 #pagebreak()
 

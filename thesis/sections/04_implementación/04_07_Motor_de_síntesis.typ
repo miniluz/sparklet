@@ -1,9 +1,10 @@
-#import "@preview/deal-us-tfc-template:1.2.1": *
+#import "/utils/tfc_template.typ": *
 #import "/utils/requirements.typ": req, req-ids, setup-reqs
 
 #show: setup-reqs
 
 == Motor de síntesis
+<sec_motor_de_síntesis>
 
 El motor de síntesis es un componente simple que integra el generador con los efectos, como el ecualizador. Es la capa
 exterior del sistema de audio. Proporciona una interfaz sencilla que inicializa todos sus componentes y abstrae su

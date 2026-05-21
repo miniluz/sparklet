@@ -1,12 +1,24 @@
-#import "@preview/deal-us-tfc-template:1.2.1": *
+#import "/utils/tfc_template.typ": *
+#import "/utils/capítulos.typ": cita, resumen
 
 = Introducción
 
-#todo[En todos los títulos voy a añadir un resumen de la sección y quizá una cita relevante.]
+#cita[
+  "Cuando el misterio es demasiado impresionante, es imposible desobedecer."
+][Antoine de Saint-Exupéry (El principito)]
+
+#resumen[
+  Este capítulo aporta el contexto necesario para entender el proyecto. En la @sec_motivación se introducen las
+  circunstancias que motivan su ejecución y en la @sec_objetivos se establecen los objetivos de alto nivel.
+]
+
+
+#todo[Tengo que cambiar todas las primeras páginas de los capítulos para que sean así.]
 
 #pagebreak()
 
 == Motivación
+<sec_motivación>
 
 #todo[Aquí falta añadir referencias.]
 
