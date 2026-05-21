@@ -8,7 +8,7 @@
   list(..items.map(item => [#item]))
 }
 
-#let riesgo(nombre, descripcion, impacto, probabilidad, mitigación) = context {
+#let riesgo(nombre, descripción, impacto, probabilidad, mitigación) = context {
   let id = zero-pad(counter("riesgo").get().at(0) + 1, 3)
   let color = rgb("#ffe6e6")
   block(
@@ -26,7 +26,7 @@
       ),
       [*Probabilidad*], [#probabilidad],
       [*Impacto*], [#impacto],
-      [*Descripción*], [#descripcion],
+      [*Descripción*], [#descripción],
       [*Mitigación*],
       {
         if mitigación.len() > 0 { list_from_array(mitigación) } else {

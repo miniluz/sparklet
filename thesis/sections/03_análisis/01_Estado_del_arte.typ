@@ -26,7 +26,7 @@ basan en Arduinos, que son fáciles de programar y conseguir pero caros para la 
 estos proyectos revela que la mayoría no tienen documentación o están mal documentados, dificultando saber qué
 funcionalidades tienen, su instalación y su uso. Además, debido a su falta de pruebas, es difícil saber si funcionan.
 
-Una gran excepción es Zynthian. Vende una plataforma de síntesis completa, podiendo funcionar como sintetizador, como
+Una gran excepción es Zynthian. Vende una plataforma de síntesis completa, pudiendo funcionar como sintetizador, como
 unidad de efectos o incluso como una DAW mínima. Tanto el software como el hardware es libre y puede construirse desde
 cero con componentes disponibles. También hay una tienda oficial en la que se vende ya ensamblado por 535 €, o como un
 kit DIY por 360 €.
@@ -54,7 +54,7 @@ Aunque existen soluciones optimizadas para sistemas empotrados, la gestión de c
 envolvente pueden introducir artefactos perceptibles si no se realiza interpolación, y la interpolación puede resultar
 demasiado cara para ciertos sistemas.
 
-En este trabajo, se define un algoritmo para el envolvente ADSR eficiente en aritmética de coma fija, capaz de ser
+En este trabajo, se propone un algoritmo para el envolvente ADSR eficiente en aritmética de coma fija, capaz de ser
 configurado dinámicamente sin artefactos audibles incluso ante cambios abruptos de los parámetros. Además, se propone un
 sistema de gestión de polifonía eficiente, orientado a mejorar la estabilidad bajo estas situaciones extremas
 manteniendo un coste computacional adecuado para sistemas empotrados.
