@@ -34,6 +34,7 @@ implementan. El proyecto usa tres tipos de pruebas:
   frecuencia con cruces por cero y se compara con la esperada. Estas son ejecutadas automáticamente antes de hacer un
   commit, además de en un workflow de GitHub Action cada vez que se hace push.
 
-+ Desde que el sintetizador ha sido capaz de leer MIDI y transmitir audio por USB, ha sido ejecutado en la placa de
-  desarrollo manualmente para evitar regresiones. Se hace de forma regular durante el desarrollo, pero además se realiza
-  una prueba rigurosa de toda su funcionalidad al final de cada fase antes de su cierre.
++ Desde que el sintetizador ha sido capaz de leer MIDI y transmitir audio por USB, ha sido probado manualmente en la
+  placa de desarrollo manualmente para verificar su funcionamiento continuado de forma regular. Además de hacerse de
+  forma regular, Se hace de forma regular durante el desarrollo, se realiza una prueba rigurosa manual de toda la
+  funcionalidad al final de cada sprint.

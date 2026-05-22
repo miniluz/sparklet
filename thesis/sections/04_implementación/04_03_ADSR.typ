@@ -5,6 +5,14 @@
 
 #show math.equation.where(block: true): set text(14pt)
 
+#import "@preview/zero:0.6.1": num, set-group, set-num
+#set-num(decimal-separator: ",", digits: 1)
+#set-group(
+  size: 3,
+  separator: sym.space.thin,
+  threshold: 5,
+)
+
 == Envolvente ADSR
 <sec_adsr>
 
@@ -37,9 +45,6 @@ el ataque más agresivo") @ref_book_music_tutorial. Son:
 + Ataque: Tiempo que tarda la nota en pasar de estar silenciada a tener su máximo volumen. Ajustar su longitud permite
   aproximar los sonidos de varios instrumentos: una guitarra tiene un ataque corto, mientras que un violín tiene un
   ataque largo.
-/* El ataque, el
-decaimiento y la relajación suelen ser configurables tanto en longitud como en forma, permitiendo que el volumen
-crezca de forma uniforme, que crezca más al principio o que crezca más al final. */
 + Decaimiento: Tiempo que tarda la nota en bajar del volumen máximo al nivel de sostenimiento. Por ejemplo, en
   instrumentos como la flauta es largo, mientras que en una marimba es corto.
 + Sostenimiento: Volumen al que se mantiene la nota indefinidamente mientras sea tocada. Por ejemplo, para aproximar una
@@ -64,29 +69,59 @@ rápida al principio, como se ve en la @fig_amp_lineal. Sin embargo, tiene el pr
 principio se pierde poca energía y al final se pierde con demasiada velocidad.
 
 #figure(
-  image("/figures/adsr_vol_lineal.png", width: 69%),
-  caption: [Amplitud equivalente para una transición lineal del volumen.],
+  grid(
+    columns: 1,
+    inset: 0pt,
+    [
+      #figure(
+        image("/figures/adsr_vol_lineal.png", width: 79%),
+        caption: [Amplitud equivalente para una transición lineal del volumen.],
+      )<fig_vol_lineal>
+    ],
+    [
+      #figure(
+        image("/figures/adsr_amp_lineal.png", width: 79%),
+        caption: [Volumen equivalente para una transición lineal de la amplitud.],
+      )<fig_amp_lineal>
+    ],
+  ),
+  numbering: none,
   placement: auto,
-)<fig_vol_lineal>
+)
+
 #figure(
-  image("/figures/adsr_amp_lineal.png", width: 69%),
-  caption: [Volumen equivalente para una transición lineal de la amplitud.],
+  grid(
+    columns: 1,
+    [
+      #figure(
+        image("/figures/adsr_condensador_puro.png", width: 72%),
+        caption: [La transición conseguida por un condensador puro.],
+      )<fig_condensador_puro>
+    ],
+    [
+      #figure(
+        image("/figures/adsr_condensador_rt.png", width: 72%),
+        caption: [La transición conseguida por el modelo matemático del condensador, con $r = #num(0.1)$.],
+      )<fig_condensador_rt>
+
+    ],
+  ),
+  numbering: none,
   placement: auto,
-)<fig_amp_lineal>
-#figure(
-  image("/figures/adsr_condensador.png", width: 69%),
-  caption: [La transición conseguida por el modelo matemático #linebreak() del condensador, con $r_t = 0,1$.],
-  placement: auto,
-)<fig_condensador>
+)
 
 Como solución, se modela matemáticamente el mecanismo que usan los sintetizadores analógicos para controlar el volumen
-de una nota: un condensador. La implementación fue inspirada por la de #cite(<ref_web_adsr>, form: "prose").
-#footnote[Aunque el proyecto permite descargar el código, no ofrece una licencia, por lo que tanto la derivación de las
+de una nota: un condensador. Al empezar a tocar la nota, se carga, y al dejar de tocarla, se descarga. Se usa su voltaje
+para modular la amplitud de la onda. así consiguiendo suavizar la discontinuidad al tocar y soltar una nota. La
+implementación fue inspirada por la de #cite(<ref_web_adsr>, form: "prose").
+#footnote[Aunque el proyecto permite descargar el código, no ofrece una licencia, así que tanto la derivación de las
   fórmulas como la implementación fueron realizadas de forma independiente.]
-El cambio de voltaje de un condensador sigue el decaimiento exponencial. Esta implementación proporciona además un
-parámetro adicional _target ratio_ $r$ que permite interpolar entre un decaimiento exponencial y una transición lineal,
-para permitir dar la forma deseada al envolvente. Se puede ver en la @fig_condensador la respuesta obtenida, que es
-agresiva en el ataque y pierde energía más rápidamente en el decaimiento.
+El cambio de voltaje de un condensador sigue el decaimiento exponencial. Se puede ver en la @fig_condensador_puro la
+respuesta obtenida puro, que es agresivo en el ataque y pierde energía muy rápidamente en el decaimiento. En la
+práctica, usarlo puede resultar en un sonido demasiado agresivo tanto en el ataque como en el decaimiento. Es por esto
+que se usa además un parámetro adicional _target ratio_ $r$ que permite interpolar entre un decaimiento exponencial y
+una transición lineal, para permitir dar la forma deseada al envolvente. En la práctica, usarlo resulta demasiado
+agresivo
 
 Un condensador sigue el decaimiento exponencial. Para poder modelar este comportamiento con números de coma fija, que no
 pueden hacer cálculos exponenciales, se transforman las ecuaciones del decaimiento a una forma recursiva. La forma
@@ -99,27 +134,29 @@ ya mencionado se calcula un objetivo corregido $T$, como se muestra en @eq_base_
 almacenados en un Q15, ya que su valor absoluto nunca es mayor a 1 en los casos relevantes, como se muestra en
 @eq_b_c_range.
 
-$
-  y_n = B + y_(n-1) times C
-$
-<eq_decay_b_c>
+#box[
+  $
+    y_n = B + y_(n-1) times C
+  $
+  <eq_decay_b_c>
 
-$
-  C = (inline(r / (1 + r)))^(1/n)
-  \
-  \
-  T = y_0 + (T_0 - y_0) (1 + r)
-  \
-  \
-  B = T times (1 - C)
-$<eq_base_coefficient_t_r>
+  $
+    C = (inline(r / (1 + r)))^(1/n)
+    \
+    \
+    T = y_0 + (T_0 - y_0) (1 + r)
+    \
+    \
+    B = T times (1 - C)
+  $<eq_base_coefficient_t_r>
 
-$
-  forall r > 0, n > 0 : #h(1em) 0 < C < 1
-  \
-  \
-  forall r > 0, n >= 1, (y_0, T_0) in {(0,1), (1,0)} : -1 <= B <= 1
-$<eq_b_c_range>
+  $
+    forall r > 0, n > 0 : #h(1em) 0 < C < 1
+    \
+    \
+    forall r > 0, n >= 1, (y_0, T_0) in {(0,1), (1,0)} : -1 <= B <= 1
+  $<eq_b_c_range>
+]
 
 === Implementación
 

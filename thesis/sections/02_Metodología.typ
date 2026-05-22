@@ -12,9 +12,9 @@
 
 #resumen[
   En este capítulo se explican las bases metodológicas que respaldan el proyecto. En la @sec_metodología_del_desarrollo,
-  en la @sec_planificación se explica la planificación del proyecto y las desviaciones que ocurrieron respecto a ella,
-  en la @sec_presupuesto se calculan el presupuesto y el coste real del proyecto, y en la @sec_riesgos se exploran los
-  riesgos del proyecto.
+  se explica la metodología usada durante el desarrollo, en la @sec_planificación se explica la planificación del
+  proyecto y las desviaciones que ocurrieron respecto a ella, en la @sec_presupuesto se calculan el presupuesto y el
+  coste real del proyecto, y en la @sec_riesgos se exploran los riesgos del proyecto.
 ]
 
 #pagebreak()

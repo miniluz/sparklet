@@ -8,8 +8,9 @@
 == Estado del arte
 <sec_estado_del_arte>
 
-En esta sección, se analiza el estado del arte. Primero se analizan los sintetizadores que existen actualmente, y a
-continuación se analiza el estado del ámbito académico respecto a los algoritmos que usan los sintetizadores.
+En esta sección, se analiza el estado del arte. Primero se comparan los sintetizadores que existen actualmente, tanto
+abiertos como privativos, para identificar un hueco en el mercado. A continuación, se analiza el estado del ámbito
+académico respecto a los algoritmos que usan los sintetizadores.
 
 === Sintetizadores
 
@@ -26,7 +27,7 @@ polifónico digital, una de las opciones más baratas es el OXI Instruments Cora
 En cuanto a sintetizadores hardware libres, la lista diy-synths @ref_web_diy_synths provee una lista curada de muchos
 proyectos similares de calidad alta. Es un punto de referencia en la comunidad. A continuación se analizan todos:
 
-#table(
+#box(table(
   columns: (auto, 1fr),
 
   table.header([], [Sintetizadores que no son para teclado]),
@@ -49,9 +50,9 @@ proyectos similares de calidad alta. Es un punto de referencia en la comunidad. 
     PicoStepSeq, PicoTracker, Pikocore, Polaron, Poly555, Protean, Quantum DJ, Real SID shield, SC1000, Spires, Teensy
     Audio FX, Teensy Beats Shield, Totoro, WTPA2, Wee Noise Maker, Wirehead Freaq FM, Yowler, zeptocore.
   ],
-)
+))
 
-#table(
+#box(table(
   columns: (auto, 1fr),
 
   table.header([], [Sintetizadores experimentales y poco convencionales]),
@@ -72,9 +73,9 @@ proyectos similares de calidad alta. Es un punto de referencia en la comunidad. 
     Beam Catcher, Hidden Sound Explorer, Hypjolin, Keep, Mega MIDI, Mozard, Multi, NSynth Super, Noise Toaster,
     Overcycler, PreenFM 2.
   ],
-)
+))
 
-#table(
+#box(table(
   columns: (auto, 1fr),
 
   table.header([], [Sintetizadores no aptos para usuarios no técnicos]),
@@ -95,9 +96,9 @@ proyectos similares de calidad alta. Es un punto de referencia en la comunidad. 
   [
     ATTiny-Punk-Console, Lil' mono, Meeblip, Mushsynth-8.
   ],
-)
+))
 
-#table(
+#box(table(
   columns: (auto, 1fr),
 
   table.header([], [Sintetizadores con un límite de 4 voces o menos]),
@@ -119,9 +120,9 @@ proyectos similares de calidad alta. Es un punto de referencia en la comunidad. 
     Aciduino, Ambika, Anushuri, D-D_Teensy, Flounder, Hog, Kastle, miniMO, Mixtape Alpha, NTH synth, Paper Bits, Polykit
     X1, Roundabout, S54 Liv's Synth, Sigma-6, Shruthi, Totoro, Wirehead Mutant, YM2149 Synth, ZeKit, x0xb0x.
   ],
-)
+))
 
-#table(
+#box(table(
   columns: (auto, 1fr),
 
   table.header([], [Sintetizadores con precio superior a 100€]),
@@ -146,7 +147,7 @@ proyectos similares de calidad alta. Es un punto de referencia en la comunidad. 
     Zynthian.
 
   ],
-)
+))
 
 En conclusión, Sparklet puede rellenar un hueco en este mercado. Puede soportar varios microcontroladores y componentes
 para que el usuario pueda usar las opciones más baratas que tenga disponibles, incluso llegando a un precio inferior a

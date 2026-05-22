@@ -8,7 +8,7 @@
 ][Antoine de Saint-Exupéry (El principito)]
 
 #resumen[
-  Este capítulo aporta el contexto necesario para entender el proyecto. En la @sec_motivación se introducen las
+  En este capítulo se aporta el contexto necesario para entender el proyecto. En la @sec_motivación se introducen las
   circunstancias que motivan su ejecución y en la @sec_objetivos se establecen los objetivos de alto nivel.
 ]
 
@@ -22,8 +22,8 @@ experiencia de los músicos y, sobre todo, democratizado el arte. El famoso Mini
 uno de los primeros sintetizadores portátiles y ampliamente usados en conciertos, salió en 1970 @ref_web_moog_history.
 Su precio en 1974 era de 1595 \$ @ref_web_moog_price, equivalente a unos 9266 € actuales, tomando en cuenta la
 inflación. Hoy en día, es posible e incluso fácil instalar una estación de audio digital (DAW) de código abierto, como
-Ardour @ref_web_ardour, un sintetizador gratuito, como Helm @ref_web_helm, y componer una canción usando exclusivamente
-software libre.
+Ardour @ref_web_ardour, un sintetizador gratuito, como Helm @ref_web_helm, e interpretar una canción usando
+exclusivamente software libre.
 
 A pesar de las facilidades que ofrece trabajar con software, el estilo de síntesis modular que seguía Robert Moog sigue
 en uso. La estandarización ha permitido combinar módulos de distintas compañías para formar un sintetizador propio

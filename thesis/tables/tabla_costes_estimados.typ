@@ -10,7 +10,7 @@
 #let coste_internet_mensual = 40.0
 #let meses = 9.0
 #let reserva_porcentaje = 10.0
-#let beneficio_porcentaje = 10.0
+#let beneficio_porcentaje = 15.0
 
 #let calcular_costes(horas) = {
   let personal = sueldo_junior * (100 + seguridad_social) / 100 * horas

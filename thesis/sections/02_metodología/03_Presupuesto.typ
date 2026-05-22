@@ -43,9 +43,9 @@
 
   + Internet: se asume un coste de #coste_internet_mensual € por mes durante el desarrollo.
 
-  + Reserva: se establece una reserva para riesgos del 10% sobre el total de los costes anteriores.
+  + Reserva: se establece una reserva para riesgos del #reserva_porcentaje% sobre el total de los costes anteriores.
 
-  + Beneficio: se establece un margen de beneficio del 15% sobre el total de costes más la reserva.
+  + Beneficio: se establece un margen de beneficio del #beneficio_porcentaje% sobre el total de costes más la reserva.
 
   Con todo ello, el presupuesto del proyecto asciende a $#total_estimado "€"$, desglosado como se puede ver en la
   @tabla_coste_estimado. Los costes incurridos durante la ejecución son de $#total_real "€"$, desglosados como se puede

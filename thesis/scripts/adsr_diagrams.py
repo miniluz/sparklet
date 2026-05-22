@@ -131,7 +131,57 @@ def variation_2_linear_db():
     return fig
 
 
-def variation_3_exponential():
+def variation_3_puro():
+    fig, axes = create_figure_base()
+
+    t = np.linspace(0, 1, 500)
+    r_t = 0.001
+    tau = 1 / np.log((1 + r_t) / r_t)
+
+    # Left: Amplitude with exponential formula
+    T = 1 + r_t
+    amplitude = T + (0 - T) * np.exp(-t / tau)
+
+    axes[0].plot(t, amplitude, color=LINE_COLOR, linewidth=LINE_WIDTH)
+    axes[0].set_xlim(-PADDING, 1 + PADDING)
+    axes[0].set_ylim(-0.05, 1.05)
+    axes[0].set_xlabel("Tiempo")
+    axes[0].set_ylabel("Amplitud")
+    axes[0].set_title("Ataque de un condensador")
+
+    # Right: Equivalent volume
+    volume = amplitude_to_db(amplitude)
+    axes[1].plot(t, volume, color=LINE_COLOR, linewidth=LINE_WIDTH)
+    axes[1].set_xlim(-PADDING, 1 + PADDING)
+    axes[1].set_ylim(-45, 5)
+    axes[1].set_xlabel("Tiempo")
+    axes[1].set_ylabel("Volumen (dB)")
+    axes[1].set_title("Ataque de un condensador (dB)")
+
+    # Left: Amplitude with exponential formula
+    T = 1 - (1 + r_t)
+    amplitude = T + (1 - T) * np.exp(-t / tau)
+
+    axes[2].plot(t, amplitude, color=LINE_COLOR, linewidth=LINE_WIDTH)
+    axes[2].set_xlim(-PADDING, 1 + PADDING)
+    axes[2].set_ylim(-0.05, 1.05)
+    axes[2].set_xlabel("Tiempo")
+    axes[2].set_ylabel("Amplitud")
+    axes[2].set_title("Decaimiento de un condensador")
+
+    # Right: Equivalent volume
+    volume = amplitude_to_db(amplitude)
+    axes[3].plot(t, volume, color=LINE_COLOR, linewidth=LINE_WIDTH)
+    axes[3].set_xlim(-PADDING, 1 + PADDING)
+    axes[3].set_ylim(-45, 5)
+    axes[3].set_xlabel("Tiempo")
+    axes[3].set_ylabel("Volumen (dB)")
+    axes[3].set_title("Decaimiento de un condensador (dB)")
+
+    return fig
+
+
+def variation_4_exponential():
     fig, axes = create_figure_base()
 
     t = np.linspace(0, 1, 500)
@@ -200,5 +250,8 @@ if __name__ == "__main__":
     fig2 = variation_2_linear_db()
     save_figure(fig2, "adsr_vol_lineal.png")
 
-    fig3 = variation_3_exponential()
-    save_figure(fig3, "adsr_condensador.png")
+    fig3 = variation_3_puro()
+    save_figure(fig3, "adsr_condensador_puro.png")
+
+    fig3 = variation_4_exponential()
+    save_figure(fig3, "adsr_condensador_rt.png")

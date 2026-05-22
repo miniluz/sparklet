@@ -220,13 +220,12 @@
     [Segunda iteración de la memoria.],
     [
       - Redacción de la sección de implementación.
-      - Mejoras al código:
-        - Mejoras a la legibilidad.
-        - Paso de la lectura del hardware de configuración a un modelo de polling.
-        - Uso de QEI (_timers_ hardware) para la lectura de encoders rotativos.
-        - Eliminación del canal entre el hardware de configuración y el gestor de configuración.
-        - Hacer opcional la configurabilidad en ejecución.
-        - Añadir herramientas de código abierto para la prueba del sintetizador.
+      - Mejoras a la legibilidad.
+      - Paso de la lectura del hardware de configuración a un modelo de polling.
+      - Uso de QEI (_timers_ hardware) para la lectura de encoders rotativos.
+      - Eliminación del canal entre el hardware de configuración y el gestor de configuración.
+      - Hacer opcional la configurabilidad en ejecución.
+      - Añadir herramientas de código abierto para la prueba del sintetizador.
     ],
   ),
   sprint(

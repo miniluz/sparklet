@@ -63,9 +63,45 @@ llamados parámetros. Se configuran con un archivo `build.rs`, que se ejecuta an
 `Config.toml` y genera un archivo `build_config.rs` con un `struct` que contiene todos los parámetros. `build_config.rs`
 se incluye en el código en tiempo de compilación con la macro `include!()`.
 
-=== Soporte a otros dispositivos
+==== Soporte a otros dispositivos
 
-#todo[Por escribir.]
+Como se explicó en la @sec_múltiples_dispositivos, se usan diferentes especificaciones del hardware en el módulo
+`hardware` para especificar la configuración. Se elige cuál usar con feature flags, que se configuran del mismo modo con
+`run-with-flags.sh`. El pseudocódigo de la implementación usada se encuentra en el @cod_hardware. Además de esto, se usa
+el microcontrolador para determinar otros factores, como la arquitectura para la que se compila y si se usa un
+dispositivo con un M4 o M7 para CMSIS-DSP.
+
+#figure(
+  ```rust
+  // Archivo mod.rs
+  #[cfg(feature = "stm32h723zg")]
+  mod stm32h723zg; // Importa el módulo correspondiente al sistema
+  pub use stm32h723zg::*; // Y lo exporta
+
+
+  #[cfg(feature = "stm32f401rc")]
+  pub use stm32f401rc::*;
+  mod stm32f401rc;
+
+  // Archivo stm32h723zg.rs
+  ConfigHardware {
+      button_next_page: PC14,
+      button_prev_page: PC15,
+      // ...
+  }
+
+  // Archivo stm32f401rc.rs
+  ConfigHardware {
+      button_next_page: PA3,
+      button_prev_page: PC13,
+      // ...
+  }
+  ```,
+  caption: [Pseudocódigo de cómo dos dispositivos devuelven la misma estructura para la configuración eligiendo los
+    periféricos adecuados a cada uno.],
+  placement: auto,
+)<cod_hardware>
+
 
 === Durante la ejecución
 

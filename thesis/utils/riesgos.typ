@@ -14,7 +14,7 @@
   show: d => format_tables(d, extra_separators: (4,), fill_evens: true)
 
   let id = zero-pad(counter("riesgo").get().at(0) + 1, 3)
-  table(
+  box(table(
     columns: (1fr, 3fr),
     inset: 6pt,
     table.header([RK#id], [#nombre]),
@@ -27,6 +27,6 @@
         "Ninguna."
       }
     },
-  )
+  ))
   counter("riesgo").step()
 }
