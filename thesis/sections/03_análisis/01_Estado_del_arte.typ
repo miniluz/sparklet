@@ -9,8 +9,9 @@
 <sec_estado_del_arte>
 
 En esta sección, se analiza el estado del arte. Primero se comparan los sintetizadores que existen actualmente, tanto
-abiertos como privativos, para identificar un hueco en el mercado. A continuación, se analiza el estado del ámbito
-académico respecto a los algoritmos que usan los sintetizadores.
+abiertos como privativos, para identificar un hueco en el mercado. Posteriormente, se analiza un area mejorable el
+estado del mundo académico respecto a los sintetizadores. En particular, se explora la falta de algoritmos orientados a
+un funcionamiento intuitivo, sin artefactos y eficientes en entornos de rendimiento limitado.
 
 === Sintetizadores
 

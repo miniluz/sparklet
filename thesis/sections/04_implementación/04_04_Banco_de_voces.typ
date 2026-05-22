@@ -9,7 +9,7 @@
 Sparklet es capaz de reproducir más de una nota a la vez de acuerdo al @rf_polifonía, lo que se conoce como polifonía
 @ref_book_theory_music. La cantidad de notas que puede reproducir a la vez se llama en límite de polifonía $|V|$. Por
 ejemplo, si puede reproducir cuatro notas simultáneamente, se dice que tiene un límite de polifonía de cuatro, o que
-tiene cuatro voces.
+tiene cuatro voces. Sparklet puede conseguir una polifonía de 12 voces, como indica el @rnf_rendimiento.
 
 El componente de Sparklet que mantiene el estado de las voces y las gestiona se llama el banco de voces, denominado
 `VoiceBank`. El comportamiento del banco de voces es simple si nunca se tocan más de $|V|$ notas simultáneamente: cada
