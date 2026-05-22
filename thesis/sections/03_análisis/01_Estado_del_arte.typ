@@ -1,4 +1,9 @@
 #import "/utils/tfc_template.typ": *
+#import "/utils/table_format.typ": format_tables
+
+#show: d => format_tables(d, extra_separators: (3,), fill_evens: true)
+
+#show table.cell: c => pad(x: 2pt, y: 1pt, c)
 
 == Estado del arte
 <sec_estado_del_arte>
@@ -18,44 +23,138 @@ de onda analógicos más baratos incluyen el Behringer 921B (40 €) o Behringer
 nota a la vez. El Behringer Brains (90€) es una alternativa digital, también monofónica. Si se busca un generador
 polifónico digital, una de las opciones más baratas es el OXI Instruments Coral, a la venta por unos 380 €.
 
-En cuanto a sintetizadores hardware libres, la lista diy-synths @ref_web_diy_synths provee una lista de muchos proyectos
-similares.
+En cuanto a sintetizadores hardware libres, la lista diy-synths @ref_web_diy_synths provee una lista curada de muchos
+proyectos similares de calidad alta. Es un punto de referencia en la comunidad. A continuación se analizan todos:
 
-Se clasifican en las siguientes tres categorías:
+#table(
+  columns: (auto, 1fr),
 
-+ Proyectos que no son sintetizadores de melodía y armonía, sino que son por ejemplo arpegiadores MIDI, efectos o
-  sintetizadores de baterías: Arpie, Coron DS7, DrumKid, Echo Rocket, Faderbank 16n, Fasma Festival, Groundbot, LMN-3,
-  Le Strum, Lunchbeat, MIDIbox, MIDIvampire II, Matrix sequencer, N32B, Nano minipops
-+ Proyectos poco documentados: ATTiny-Punk-Console, Lil' mono, Meeblip, Mushsynth-8,
-+ Proyectos de ejemplo: proyectos muy simples sin las capacidades que se esperan de un sintetizador real (p. ej. sin
-  poder controlar la frecuencia con un dispositivo externo): ArduTouch, Totoro,
-+ Proyectos experimentales cuyas peculiaridades hacen que no sean competencia, como por ejemplo que se controlen las
-  notas con luz: Beam Catcher, Hidden Sound Explorer, Hypjolin, Keep, Mega MIDI, Mozard, Multi, NSynth Super,
-+ Sintetizadores con 4 voces o menos: Aciduino, Ambika, Anushuri, D-D_Teensy, Hog, Kastle, miniMO, Mixtape Alpha, NTH
-  synth,
-+ Sintetizadores completos con precio superior a 100€: Bread Modular
-+ Competencia fuerte: Flounder, KELPIE, MiniDexed,
+  table.header([], [Sintetizadores que no son para teclado]),
 
-#todo([Explicar en detalle la competencia fuerte.])
+  [Descripción],
+  [
+    Arpegiadores MIDI, unidades para efectos, sintetizadores de tambores, sintetizadores que no son controlables por
+    MIDI o un voltaje de control, etc.
+  ],
 
-#todo(
-  [Resulta que la competencia de sintetizadores hardware libres es más intensa de lo que pensaba, por lo que tengo
-    que reescribir esto. El foco será que Sparklet provee un ecualizador, polifonía, un precio muy bajo, y flexibilidad en
-    los componentes.],
+  [Diferenciación],
+  [
+    Sparklet es un sintetizador para teclado. No son el mismo tipo de sintetizador
+  ],
+
+  [Proyectos],
+  [
+    ArduTouch, Arpie, Coron DS7, DrumKid, Echo Rocket, Faderbank 16n, Fasma Festival, Groundbot, LMN-3, Le Strum,
+    Lunchbeat, MIDIbox, MIDIvampire II, Matrix sequencer, N32B, Nano minipops, Nyblcore, Op-Synth, OpenDeck, Ottopot,
+    PicoStepSeq, PicoTracker, Pikocore, Polaron, Poly555, Protean, Quantum DJ, Real SID shield, SC1000, Spires, Teensy
+    Audio FX, Teensy Beats Shield, Totoro, WTPA2, Wee Noise Maker, Wirehead Freaq FM, Yowler, zeptocore.
+  ],
 )
 
-// Una gran excepción es Zynthian @ref_web_zynthian. Vende una plataforma de síntesis completa, pudiendo funcionar como
-// sintetizador, como unidad de efectos o incluso como una DAW mínima. Tanto el software como el hardware es libre y puede
-// construirse desde cero con componentes disponibles. También hay una tienda oficial en la que se vende ya ensamblado por
-// 535 €, o como un kit DIY por 360 €.
+#table(
+  columns: (auto, 1fr),
 
-Sparklet, el sintetizador de este proyecto, puede rellenar un hueco en este mercado. Puede soportar varios
-microcontroladores y componentes para que el usuario pueda usar las opciones más baratas que tenga disponibles, incluso
-llegando a un precio inferior a 20 €. Por este precio, se consigue una polifonía de 12 voces, apropiada para tocar con
-un teclado usando ambas manos, un gran diferenciador. Además, incluye ecualización. Con documentación suficiente para su
-instalación, su uso, su desarrollo y para dar soporte a un nuevo dispositivo, podría ser instalado por usuarios menos
-técnicos. Las pruebas automáticas aportan confianza al usuario de la calidad del código y de que sea funcional. En
-resumen, puede ofrecer una funcionalidad superior al resto de sintetizadores de su rango de precio.
+  table.header([], [Sintetizadores experimentales y poco convencionales]),
+
+  [Descripción],
+  [
+    Proyectos experimentales, por ejemplo en los que el sonido del sintetizador se controla con luz usando fotodiodos.
+  ],
+
+  [Diferenciación],
+  [
+    Sparklet es un sintetizador orientado a la interpretación de un músico con un teclado. Estos proyectos están
+    orientados a un nicho que disfruta de explorar sonidos, generalmente ambientales.
+  ],
+
+  [Proyectos],
+  [
+    Beam Catcher, Hidden Sound Explorer, Hypjolin, Keep, Mega MIDI, Mozard, Multi, NSynth Super, Noise Toaster,
+    Overcycler, PreenFM 2.
+  ],
+)
+
+#table(
+  columns: (auto, 1fr),
+
+  table.header([], [Sintetizadores no aptos para usuarios no técnicos]),
+
+  [Descripción],
+  [
+    Sintetizadores cuyo ensamblado se dificulta por falta de documentación clara orientada a usuarios poco
+    experimentados, por ejemplo únicamente proveyendo esquemáticas del circuito electrónico.
+  ],
+
+  [Diferenciación],
+  [
+    Sparklet incluye manuales detallados para su instalación y uso, facilitando su instalación por usuarios menos
+    técnicos.
+  ],
+
+  [Proyectos],
+  [
+    ATTiny-Punk-Console, Lil' mono, Meeblip, Mushsynth-8.
+  ],
+)
+
+#table(
+  columns: (auto, 1fr),
+
+  table.header([], [Sintetizadores con un límite de 4 voces o menos]),
+
+  [Descripción],
+  [
+    Sintetizadores que tienen un límite de polifonía de 4 o menos. Es decir, que pueden tocar como máximo 4 notas a la
+    vez.
+  ],
+
+  [Diferenciación],
+  [
+    Sparklet está orientado a la interpretación de un músico con un teclado usando ambas manos. El límite de polifonía
+    que ofrecen estos proyectos es insuficiente para este propósito.
+  ],
+
+  [Proyectos],
+  [
+    Aciduino, Ambika, Anushuri, D-D_Teensy, Flounder, Hog, Kastle, miniMO, Mixtape Alpha, NTH synth, Paper Bits, Polykit
+    X1, Roundabout, S54 Liv's Synth, Sigma-6, Shruthi, Totoro, Wirehead Mutant, YM2149 Synth, ZeKit, x0xb0x.
+  ],
+)
+
+#table(
+  columns: (auto, 1fr),
+
+  table.header([], [Sintetizadores con precio superior a 100€]),
+
+  [Descripción],
+  [
+    Sintetizadores con un precio de ensamblaje superior a 100€. Suelen ser muy completos, y a menudo incluyen pantallas
+    y memoria para poder guardar parches, entre otras funcionalidades.
+  ],
+
+  [Diferenciación],
+  [
+    Sparklet se puede ejecutar en un STM32F401RC sin ningún componente adicional con funcionalidad completa, por lo que
+    puede ser ensamblado por tan solo el precio de este chip, que el autor consiguió por 12 €. En caso de que el usuario
+    no pueda adquirir ese microcontrolador, es fácil adaptarlo para que soporte cualquier dispositivo de la familia
+    STM32, incluso configurando su funcionalidad para adaptarse a la potencia del microcontrolador.
+  ],
+
+  [Proyectos],
+  [
+    Bread Modular, KELPIE, MiniDexed, Norns Shield, OTTO, Plinky, Portable synth, Sound Lab Mini-Synth (y el Mk II),
+    Zynthian.
+
+  ],
+)
+
+En conclusión, Sparklet puede rellenar un hueco en este mercado. Puede soportar varios microcontroladores y componentes
+para que el usuario pueda usar las opciones más baratas que tenga disponibles, incluso llegando a un precio inferior a
+20 €. Por este precio, se consigue una polifonía de 12 voces, apropiada para tocar con un teclado usando ambas manos, un
+gran diferenciador. Además, incluye ecualización. Con documentación suficiente para su instalación, su uso, su
+desarrollo y para dar soporte a un nuevo dispositivo, podría ser instalado por usuarios menos técnicos. Las pruebas
+automáticas aportan confianza al usuario de la calidad del código y de que sea funcional. En resumen, puede ofrecer una
+funcionalidad superior al resto de sintetizadores de su rango de precio.
 
 === Ámbito académico
 
