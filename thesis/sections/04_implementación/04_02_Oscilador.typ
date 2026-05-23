@@ -83,5 +83,5 @@ $
 Sparklet incluye 4 tablas para los cuatro tipos de ondas que indica el @rf_ondas. Cada una tiene 256 muestras de 16 bits
 cada una (en formato Q15), por lo que ocupan 512 bytes cada una y 2 KiB en total. Estas tablas se generan en la con
 utilidades que se ejecutan en la computadora de desarrollo con la arquitectura `x86_64` antes del desarrollo. Se
-encuentran en la carpeta `sparklet/table_generators/src/bin`.#fn Calculan el valor de cada muestra en la tabla usando
+encuentran en la carpeta `sparklet/table-generators/src/bin`.#fn Calculan el valor de cada muestra en la tabla usando
 números de coma flotante, los convierten a Q15 y generan archivos de código Rust que definen las tablas.

@@ -37,7 +37,7 @@ fn main() {
     let attack = get_u8("attack");
     let sustain = get_u8("sustain");
     let decay_release = get_u8("decay_release"); // Maps TOML decay_release -> release
-    let osc_type = get_u8("oscilator_type");
+    let osc_type = get_u8("oscillator_type");
     let f250 = get_u8("f250hz");
     let f500 = get_u8("f500hz");
     let f1000 = get_u8("f1000hz");
@@ -52,7 +52,7 @@ pub struct InitialConfig {{
     pub attack: u8,
     pub sustain: u8,
     pub decay_release: u8,
-    pub oscilator_type: u8,
+    pub oscillator_type: u8,
     pub f250hz: u8,
     pub f500hz: u8,
     pub f1000hz: u8,
@@ -78,7 +78,7 @@ pub const BUILD_CONFIG: BuildConfig = BuildConfig {{
         attack: {attack},
         sustain: {sustain},
         decay_release: {decay_release},
-        oscilator_type: {osc_type},
+        oscillator_type: {osc_type},
         f250hz: {f250},
         f500hz: {f500},
         f1000hz: {f1000},

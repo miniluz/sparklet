@@ -21,7 +21,7 @@ polyphony = 16
 encoder_multiplier = 4
 # How often to poll peripherals for changes in milliseconds
 config_poll_millis = 5
-# How often to update the config in miliseconds
+# How often to update the config in milliseconds
 config_update_millis = 100
 
 [initial_config]
@@ -34,7 +34,7 @@ decay_release = 200
 #   1 => Saw
 #   2 => Square
 #   3 => Triangle
-oscilator_type = 1
+oscillator_type = 1
 # Equalizer
 f250hz = 200
 f500hz = 200

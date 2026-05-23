@@ -20,7 +20,7 @@ pub const INITIAL_CONFIG: [[u8; CONFIG_ENCODER_COUNT]; CONFIG_PAGE_COUNT] = [
         BUILD_CONFIG.initial_config.sustain,
         BUILD_CONFIG.initial_config.decay_release,
     ],
-    [BUILD_CONFIG.initial_config.oscilator_type, 127, 127],
+    [BUILD_CONFIG.initial_config.oscillator_type, 127, 127],
 ];
 
 #[cfg(feature = "octave-filter")]
@@ -30,7 +30,7 @@ pub const INITIAL_CONFIG: [[u8; CONFIG_ENCODER_COUNT]; CONFIG_PAGE_COUNT] = [
         BUILD_CONFIG.initial_config.sustain,
         BUILD_CONFIG.initial_config.decay_release,
     ],
-    [BUILD_CONFIG.initial_config.oscilator_type, 127, 127],
+    [BUILD_CONFIG.initial_config.oscillator_type, 127, 127],
     [
         BUILD_CONFIG.initial_config.f250hz,
         BUILD_CONFIG.initial_config.f500hz,

@@ -39,40 +39,53 @@
 
           typst = typst-wrapper.lib.${pkgs.stdenv.hostPlatform.system}.wrapTypst { };
 
+          rust = pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml;
+
           ciPackages = with pkgs; [
-            (rust-bin.fromRustupToolchainFile ./rust-toolchain.toml)
+            rust
             just
             prek
             typstyle
             cspell
             cargo-nextest
+            mdbook
+          ];
+
+          userPackages = with pkgs; [
+            rust
+            cargo-binutils
+            usbutils
+            probe-rs-tools
+            dfu-util
           ];
         in
-        {
+        rec {
+          default = development;
+
           ci = pkgs.mkShell {
             nativeBuildInputs = ciPackages;
             buildInputs = [ ];
           };
 
-          default = pkgs.mkShell {
+          user = pkgs.mkShell {
+            nativeBuildInputs = userPackages;
+            buildInputs = [ ];
+          };
+
+          development = pkgs.mkShell {
             allowSubstitutes = false;
 
             nativeBuildInputs =
               ciPackages
+              ++ userPackages
               ++ (with pkgs; [
-                cargo-binutils
                 cargo-expand
                 cargo-bloat
                 bacon
 
-                cowsay
-
                 (octave.withPackages (octavePackages: with octavePackages; [ signal ]))
 
                 lldb
-                usbutils
-                probe-rs-tools
-                dfu-util
 
                 typst
                 drawio

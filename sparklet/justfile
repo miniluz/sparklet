@@ -17,52 +17,52 @@ gen-wavetables: gen-sine gen-saw gen-triangle gen-square
 # Generate sine wavetable
 gen-sine:
     @echo "Generating sine wavetable..."
-    @cargo run --manifest-path table_generators/Cargo.toml --bin generate_sine_wavetable > synth-engine/src/wavetable/sine_wavetable.rs
+    @cargo run --manifest-path table-generators/Cargo.toml --bin generate_sine_wavetable > synth-engine/src/wavetable/sine_wavetable.rs
 
 # Generate saw wavetable
 gen-saw:
     @echo "Generating saw wavetable..."
-    @cargo run --manifest-path table_generators/Cargo.toml --bin generate_saw_wavetable > synth-engine/src/wavetable/saw_wavetable.rs
+    @cargo run --manifest-path table-generators/Cargo.toml --bin generate_saw_wavetable > synth-engine/src/wavetable/saw_wavetable.rs
 
 # Generate triangle wavetable
 gen-triangle:
     @echo "Generating triangle wavetable..."
-    @cargo run --manifest-path table_generators/Cargo.toml --bin generate_triangle_wavetable > synth-engine/src/wavetable/triangle_wavetable.rs
+    @cargo run --manifest-path table-generators/Cargo.toml --bin generate_triangle_wavetable > synth-engine/src/wavetable/triangle_wavetable.rs
 
 # Generate square wavetable
 gen-square:
     @echo "Generating square wavetable..."
-    @cargo run --manifest-path table_generators/Cargo.toml --bin generate_square_wavetable > synth-engine/src/wavetable/square_wavetable.rs
+    @cargo run --manifest-path table-generators/Cargo.toml --bin generate_square_wavetable > synth-engine/src/wavetable/square_wavetable.rs
 
 # Generate phase increment table
 gen-phase-increment:
     @echo "Generating phase increment table..."
-    @cargo run --manifest-path table_generators/Cargo.toml --bin generate_phase_increment_table > synth-engine/src/wavetable/phase_increment_table.rs
+    @cargo run --manifest-path table-generators/Cargo.toml --bin generate_phase_increment_table > synth-engine/src/wavetable/phase_increment_table.rs
 
 # Generate ADSR coefficient tables
 gen-adsr:
     @echo "Generating ADSR coefficient tables..."
-    @cargo run --manifest-path table_generators/Cargo.toml --bin generate_adsr_coefficient_tables > synth-engine/src/adsr/config_table.rs
+    @cargo run --manifest-path table-generators/Cargo.toml --bin generate_adsr_coefficient_tables > synth-engine/src/adsr/config_table.rs
 
 # Generate sustain amplitude table
 gen-sustain:
     @echo "Generating db linear amplitude table..."
-    @cargo run --manifest-path table_generators/Cargo.toml --bin generate_db_linear_amplitude_table > synth-engine/src/adsr/db_linear_amplitude_table.rs
+    @cargo run --manifest-path table-generators/Cargo.toml --bin generate_db_linear_amplitude_table > synth-engine/src/adsr/db_linear_amplitude_table.rs
 
 # Generate octave filter coefficients
 gen-octave-filter:
     @echo "Generating octave filter coefficients..."
-    @cargo run --manifest-path table_generators/Cargo.toml --bin generate_octave_filter_coefficients > synth-engine/src/octave_filter/filter_coefficients.rs
+    @cargo run --manifest-path table-generators/Cargo.toml --bin generate_octave_filter_coefficients > synth-engine/src/octave_filter/filter_coefficients.rs
 
 # Build the table generators without running them
 build-generators:
     @echo "Building table generators..."
-    @cargo build --manifest-path table_generators/Cargo.toml --release
+    @cargo build --manifest-path table-generators/Cargo.toml --release
 
 # Clean generated files
 clean-generators:
     @echo "Cleaning table generators build artifacts..."
-    @cargo clean --manifest-path table_generators/Cargo.toml
+    @cargo clean --manifest-path table-generators/Cargo.toml
 
 # Run tests for all modules
 test:

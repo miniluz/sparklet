@@ -34,7 +34,7 @@ impl<const ENCODER_AMOUNT: usize> Default for Page<ENCODER_AMOUNT> {
 
 /* Schema:
  *   First page: Attack, Sustain, Decay/Release
- *   Second page: Oscilator, unused, unused
+ *   Second page: Oscillator, unused, unused
  *   Third page and fourth page: Equalizer bank, from lowest to highest
  */
 #[derive(Format, Debug, Clone, Copy, PartialEq, Eq)]
