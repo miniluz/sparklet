@@ -26,7 +26,7 @@ You will need to:
 
 If you want to use another board, you will need to do some development work. I am willing to help with this. If you don't
 feel up to the task, open an issue and I'll try to help!  However, do read the beginning of the "Adding support for a new
-device" section of the [development section](./02_Development.md), just to make sure that your board _can_ be supported.
+device" section of the [development page](./02_Development.md), just to make sure that your board _can_ be supported.
 
 ## Installation
 
@@ -163,21 +163,20 @@ board (search online for something like "nucleo-144 pinout"). You can see also t
 pull-up and that it's active low. Therefore you will need to wire it like so. The red cable to the right should connect
 to `5V`, the black to `GND`, and the yellow to `PA3` (the input marked `A0`).
 
-<!-- TODO -->
+![Connecting a button with an internal pull-up to the board](images/button_pull_up.png)
 
 If instead of `Pull::Up` it was `Pull::None`, you would need to wire it like this instead:
 
-<!-- TODO -->
+![Connecting a button with no internal pull-up to the board](images/button_pull_none.png)
 
 The second button is marked as the internal button, so it's on the board already. No need to wire it if you're using the
 Nucleo-144.
 
-
 Finally, the encoders are wired like so, with the yellow pin going to the first pin specified and the blue to the second.
 You can reverse them in the configuration file by specifying a negative `parameters.encoder_multiplier`, along with
-adjusting their sensitivity. I used 5K ohm resistances.
+adjusting their sensitivity. This example uses 5K ohm resistances, which work fine.
 
-<!-- TODO -->
+![Connecting a rotative encoder to the board](images/rotative_encoder.png)
 
 ## Running Sparklet
 

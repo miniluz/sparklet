@@ -3,3 +3,8 @@ authors = ["miniluz"]
 language = "en"
 src = "src"
 title = "Sparklet Manual"
+
+[output.html]
+git-repository-url = "https://github.com/miniluz/sparklet"
+edit-url-template = "https://github.com/miniluz/sparklet/edit/main/sparklet/manual/{path}"
+site-url = "/sparklet/"
