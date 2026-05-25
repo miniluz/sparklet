@@ -2,6 +2,7 @@
 #import "/utils/tfc_template.typ": *
 #import "/utils/datos_sprints.typ": horas_estimadas, horas_reales
 
+
 == Planificación
 <sec_planificación>
 
@@ -12,10 +13,10 @@ proyecto. Cada sprint corresponde a dos semanas, estimando dos horas de trabajo 
 Además, se planificaron hitos, representando momentos en los que se consigue un paso en el proyecto.
 
 Los sprints, su objetivo principal y las fechas en las que está se puede ver en la @tabla_sprints_objetivos. Se pueden
-ver los hitos en la @tabla_hitos. La descripción detallada del trabajo realizado en cada sprint se puede ver en la
-@tabla_sprints_descripciones. El tiempo de trabajo estimado y dedicado a cada sprint se puede ver en la
-@tabla_sprints_tiempos. Finalmente, se representan los sprints como diagramas de Gantt en la @fig_gantt_antes_navidad y
-@fig_gantt_después_navidad.
+ver los hitos en la @tabla_hitos y los entregables en la @tabla_entregables. La descripción detallada del trabajo
+realizado se puede ver en la @tabla_sprints_descripciones. El tiempo de trabajo estimado y dedicado a cada sprint se
+puede ver en la @tabla_sprints_tiempos. Finalmente, se representan los sprints como diagramas de Gantt en la
+@fig_gantt_antes_navidad y @fig_gantt_después_navidad.
 
 === Desviaciones
 <sec_desviaciones>
@@ -28,10 +29,33 @@ comenta en más profundidad en la @sec_lecciones_aprendidas.
 #pagebreak()
 #include "/tables/tabla_hitos.typ"
 #include "/tables/tabla_sprints_tiempos.typ"
+
+#[
+  #import "/utils/table_format.typ": format_tables
+  #show: format_tables
+
+  #figure(
+    table(
+      columns: (auto, auto),
+      align: (left, left),
+      [Entregable], [Enlace],
+
+      [Código], [https://github.com/miniluz/sparklet/],
+
+      [Manual],
+      [
+        https://github.com/miniluz/sparklet/tree/main/sparklet/manual/
+        #linebreak()
+        También disponible en https://blog.miniluz.dev/sparklet/
+      ],
+    ),
+    caption: "Entregables del proyecto y los enlaces en los que están disponibles.",
+    // placement: auto,
+  )<tabla_entregables>
+]
+
 #pagebreak()
 #include "/tables/tabla_sprints_descripciones.typ"
 #pagebreak()
-
 #include "/figures/diagrama_gantt.typ"
-
 #pagebreak()

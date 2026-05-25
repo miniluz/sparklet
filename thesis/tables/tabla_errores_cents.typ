@@ -34,6 +34,6 @@
     [ $#num(261.6) "Hz"$ ],
     [ $#num(4.8) "cents"$ ],
   ),
-  caption: "Errores en cents para algunas notas usando un incremento de 16 bits",
+  caption: "Errores en cents para algunas notas usando un incremento de 16 bits.",
   placement: auto,
 )<tabla_errores_cents>

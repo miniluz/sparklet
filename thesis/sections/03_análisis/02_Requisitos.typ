@@ -47,3 +47,8 @@ sistema útil que supere el estado del arte.
   El sintetizador ha de tener pruebas que validen su funcionalidad ejecutadas automáticamente durante el desarrollo de
   forma visible.
 ]
+#req("rnf_manual", "NF")[Manual][
+  El sintetizador ha de tener un manual disponible de forma accesible. El manual ha de detallar el uso del sintetizador,
+  la instalación del software en el sintetizador, y el desarrollo del software del sintetizador (en particular, cómo
+  añadir soporte a un nuevo dispositivo).
+]

@@ -126,13 +126,13 @@
     [
       #figure(
         gantt-figure(sprints-a, t-start-a, t-end-a, ""),
-        caption: "Diagrama de Gantt de los sprints anteriores a las vacaciones de Navidad.",
+        caption: "Diagrama de Gantt de los sprints anteriores a las vacaciones de invierno.",
       ) <fig_gantt_antes_navidad>
     ],
     [
       #figure(
         gantt-figure(sprints-b, t-start-b, t-end-b, ""),
-        caption: "Diagrama de Gantt de los sprints posteriores a las vacaciones de navidad",
+        caption: "Diagrama de Gantt de los sprints posteriores a las vacaciones de invierno.",
       ) <fig_gantt_después_navidad>
     ],
   ),

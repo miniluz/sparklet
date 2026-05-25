@@ -9,43 +9,12 @@ array of hardware options so each person might buy or use what's available to th
 features and compatibility needs to be discussed. However, don't be discouraged! As long as it's viable, I'm willing
 to help make it happen.
 
-## Development environment
+## Setting up the development environment
 
 For development, do what's specified in the [Installation](./02_Installation.md) section's prerequisites. However, you
 will simply use `nix-shell` to obtain the development shell. Alternatively, you may want to install
 [direnv](https://direnv.net/docs/installation.html) and [nix-direnv](https://github.com/nix-community/nix-direnv), which
 will load the development environment whenever you change into the shell.
-
-## Structure
-
-* `flake.nix`, `flake.lock`, `shell.nix`, `.envrc`: Nix is used to provide the tools for development.
-* `experiments/`: Small projects made to test out parts of the system. Only included since this project is my thesis.
-* `thesis/`: Similarly, the source code for the document of my thesis.
-* `sparklet/`: Full code for Sparklet, the project. It's spread across modules.
-  * `cmsis-interface/`, `cmsis-native/`, `cmsis-rust/`: Modules handling DSP operations. An interface is provided so
-    that modules may use a Rust implementation when being run in tests and a CMSIS-DSP based implementation for the chip.
-  * `config/`: Manages runtime configuration.
-  * `midi/`: Manages MIDI bytes. The actual input is in `runner/`.
-  * `synth-engine/`: The logic for rendering, including the oscillator, ADSR, voice bank, EQ, etc.
-  * `table-generators/`: Generates Q15 constants used for ADSR, the filter bank, and the wavetables.
-  * `runner/`: Logic used to actually run the chip.
-    * `hardware/`: Hardware-specific logic, mostly pins and hardware configuration.
-
-## Tools
-
-* The Rust toolchain is used for development
-  * `bacon` will run the linter constantly on reload.
-  * `cargo-binutils`, `cargo-expand` and `cargo-bloat` are useful for analyzing the size of the executable
-  * `cargo-nextest` is used for running tests.
-  * `lldb` is provided for debugging.
-  * `octave` is used for getting the coefficients of the filters (sorry).
-* `just` is used as a command runner (try running `just` in various directories to see available commands)
-* `prek`, `typstyle` and `cspell` are used for linting, on top of what the Rust toolchain provides.
-* `usbutils`, `probe-rs-tools` and `dfu-util` are provided for interacting with the microcontrollers.
-* `vmpk` is the MIDI keyboard used for testing, and `qpwgraph` is used for routing the audio source of Sparklet to the
-  computer's speakers.
-* `mdbook` is used for compiling this book.
-* `typst`, `drawio`, `entr` and `python` are used for writing the thesis document.
 
 ## Adding support for a new device
 
@@ -74,3 +43,34 @@ You will to specify the new hardware layout in `sparklet/runner/src/hardware`:
 3. Modify each submodule's `mod.rs` file so it reexports the new device's implementation if the chip is enabled.
 4. Optionally, add compile-time assertions that fail if some of the features cannot work in the new device.
 5. Check that every feature compiles and works properly.
+
+## Project structure reference
+
+* `flake.nix`, `flake.lock`, `shell.nix`, `.envrc`: Nix is used to provide the tools for development.
+* `experiments/`: Small projects made to test out parts of the system. Only included since this project is my thesis.
+* `thesis/`: Similarly, the source code for the document of my thesis.
+* `sparklet/`: Full code for Sparklet, the project. It's spread across modules.
+  * `cmsis-interface/`, `cmsis-native/`, `cmsis-rust/`: Modules handling DSP operations. An interface is provided so
+    that modules may use a Rust implementation when being run in tests and a CMSIS-DSP based implementation for the chip.
+  * `config/`: Manages runtime configuration.
+  * `midi/`: Manages MIDI bytes. The actual input is in `runner/`.
+  * `synth-engine/`: The logic for rendering, including the oscillator, ADSR, voice bank, EQ, etc.
+  * `table-generators/`: Generates Q15 constants used for ADSR, the filter bank, and the wavetables.
+  * `runner/`: Logic used to actually run the chip.
+    * `hardware/`: Hardware-specific logic, mostly pins and hardware configuration.
+
+## Tools included in the developmente environment
+
+* The Rust toolchain is used for development
+  * `bacon` will run the linter constantly on reload.
+  * `cargo-binutils`, `cargo-expand` and `cargo-bloat` are useful for analyzing the size of the executable
+  * `cargo-nextest` is used for running tests.
+  * `lldb` is provided for debugging.
+  * `octave` is used for getting the coefficients of the filters (sorry).
+* `just` is used as a command runner (try running `just` in various directories to see available commands)
+* `prek`, `typstyle` and `cspell` are used for linting, on top of what the Rust toolchain provides.
+* `usbutils`, `probe-rs-tools` and `dfu-util` are provided for interacting with the microcontrollers.
+* `vmpk` is the MIDI keyboard used for testing, and `qpwgraph` is used for routing the audio source of Sparklet to the
+  computer's speakers.
+* `mdbook` is used for compiling this book.
+* `typst`, `drawio`, `entr` and `python` are used for writing the thesis document.

@@ -25,7 +25,7 @@ todas las opciones se pueden controlar usando el archivo `Config.toml`. Un ejemp
 
 #figure(
   raw(read("/code/Config.toml"), block: true, lang: "toml"),
-  caption: [Fragmento del archivo de configuración `Config.toml`],
+  caption: [Fragmento del archivo de configuración `Config.toml`.],
   placement: auto,
 )<cod_config_toml>
 

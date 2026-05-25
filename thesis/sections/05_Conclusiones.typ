@@ -13,16 +13,15 @@
 ][Antoine de Saint-Exupéry (El principito)]
 
 #resumen[
-  En este capítulo se explica la implementación final de Sparklet. En la sección @sec_diseño se especifica la
-  arquitectura del sistema. Entre la @sec_osciladores y la @sec_motor_de_síntesis se explica el procesamiento de audio
-  del sintetizador. En la sección @sec_configuración se documenta cómo se logró que fuese configurable en compilación y
-  ejecución. Entre la @sec_ejecutor y la @sec_operaciones_dsp se especifica la parte del sistema específica al hardware
-  usado. Finalmente, en la @sec_manuales se comenta la implementación de los manuales del sistema.
+  En este capítulo se evalúan los resultados del proyecto. En la @sec_cumplimiento se indica el cumplimiento con los
+  objetivos del proyecto, en la @sec_lecciones_aprendidas se listan lecciones que se han aprendido durante su
+  realización y en la @sec_trabajo_futuro se presentan posibles líneas de trabajo futuro.
 ]
 
 #pagebreak()
 
 == Cumplimiento
+<sec_cumplimiento>
 
 En esta sección se evalúa el cumplimiento de los objetivos del proyecto y de aprendizaje, indicados en la
 @sec_objetivos, con los requisitos, indicados en la @sec_requisitos, y si se ha aportado al estado del arte, según lo
@@ -35,7 +34,7 @@ Cabe repetir los objetivos del proyecto para poder evaluarlos:
 #objetivos_proyecto
 
 Se ha creado un sintetizador musical completo (@sec_osciladores, @sec_adsr, @sec_banco_de_voces, @sec_generador,
-@sec_eq, @sec_midi, @sec_usb), configurable (@sec_configuración) y con manuales accesibles (@sec_manuales). Además, se
+@sec_eq, @sec_midi, @sec_usb), configurable (@sec_configuración) y con manuales accesibles (@sec_manual). Además, se
 presentó una arquitectura basada en la multitarea cooperativa para crear sintetizadores capaces de operar en múltiples
 dispositivos con limitaciones de rendimiento de manera fiable (@sec_diseño). Todos los requisitos planteados se han
 cumplido. Así, se aporta al estado del arte de los sintetizadores, llenando un hueco en el mercado.
@@ -102,6 +101,7 @@ Lincoln de forma apócrifa @ref_quote_lincoln, "si tuviera cinco minutos para co
 afilando mi hacha".
 
 == Trabajo futuro
+<sec_trabajo_futuro>
 
 Considero que, en cuanto a Sparklet, la línea de trabajo futuro más clara es hacerlo compatible con los sistemas
 modulares y el formato Eurorack. Usando las entradas ADC del microcontrolador, se podrían proveer varias entradas de

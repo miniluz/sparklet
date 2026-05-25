@@ -220,7 +220,7 @@ tocan o dejan de tocar.
       }
   }
   ```,
-  caption: [Lógica de la máquina de estados `ADSRState`],
+  caption: [Lógica de la máquina de estados `ADSRState`.],
   placement: auto,
 )<cod_adsr_state>
 

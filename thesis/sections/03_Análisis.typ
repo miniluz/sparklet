@@ -6,7 +6,7 @@
 #cita[
   "Las personas mayores nunca son capaces de comprender las cosas por sí mismas,
   #linebreak()
-  y es muy aburrido para los niños tener que darles una y otra vez explicaciones"
+  y es muy aburrido para los niños tener que darles una y otra vez explicaciones."
 ][Antoine de Saint-Exupéry (El principito)]
 
 #resumen[

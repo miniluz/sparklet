@@ -177,7 +177,9 @@ Este proporciona todos los programas usadas en el desarrollo, incluyendo Rust, O
 fija sus versiones. Garantiza que el entorno de desarrollo es el mismo que el de ejecución de pruebas, para cumplir el
 @rnf_pruebas.
 
-#todo[Hablar de lo que uso para generar y hostear los manuales.]
+El manual de Sparklet está escrito en documentos Markdown para facilitar la edición de otras personas. A partir de esto
+se generan los archivos HTML y etc. de un sitio web estático usando `mdbook`, un software estándar en la comunidad de
+Rust. Estos archivos se alojan en GitHub Pages, que los sirve de forma gratuita @ref_web_gh_pages.
 
 Se usa _just_ como gestor de comandos, una alternativa a usar una `Makefile` más usada por la comunidad de Rust. Este
 proporciona una interfaz fácil (`just test`) para todas las secuencias de comandos comunes usadas en el desarrollo. Para

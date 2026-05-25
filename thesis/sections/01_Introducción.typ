@@ -59,7 +59,7 @@ complejas de crear uno. Este trabajo intenta remediar ambos problemas.
         none,
         caption: [
           El Minimoog Model D. Imagen de Andrew Russeth @ref_img_minimoog, usada bajo licencia #box[CC BY-SA 2.0]
-          @ref_img_cc2
+          @ref_img_cc2.
         ],
       )<fig_minimoog>
     ],
@@ -68,7 +68,7 @@ complejas de crear uno. Este trabajo intenta remediar ambos problemas.
         none,
         caption: [
           Un sintetizador modular. Imagen de Daniel Larsen @ref_img_modular, usada bajo licencia #box[CC BY-SA 2.0]
-          @ref_img_cc2
+          @ref_img_cc2.
         ],
       )<fig_modular_synth>
     ],

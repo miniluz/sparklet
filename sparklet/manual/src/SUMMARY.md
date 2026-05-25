@@ -2,6 +2,5 @@
 
 [Introduction](./Introduction.md)
 
-- [Usage](./01_Usage.md)
-- [Installation](./02_Installation.md)
-- [Development](./03_Development.md)
+- [Installation and usage](./01_Installation_and_usage.md)
+- [Development](./02_Development.md)

@@ -16,7 +16,7 @@
   arquitectura del sistema. Entre la @sec_osciladores y la @sec_motor_de_síntesis se explica el procesamiento de audio
   del sintetizador. En la sección @sec_configuración se documenta cómo se logró que fuese configurable en compilación y
   ejecución. Entre la @sec_ejecutor y la @sec_operaciones_dsp se especifica la parte del sistema específica al hardware
-  usado. Finalmente, en la @sec_manuales se comenta la implementación de los manuales del sistema.
+  usado. Finalmente, en la @sec_manual se comenta la implementación de los manuales del sistema.
 ]
 
 #pagebreak()
@@ -45,4 +45,4 @@
 
 #include "04_implementación/04_12_Operaciones_DSP.typ"
 
-#include "04_implementación/04_13_Manuales.typ"
+#include "04_implementación/04_13_Manual.typ"
