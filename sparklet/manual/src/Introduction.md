@@ -23,6 +23,8 @@ run in most ARM Cortex M4 or M7 chips. It features:
 
 ## Contributing
 
-Sparklet is TODO, under the TODO license. Feel free to contribute on [GitHub](https://github.com/miniluz/sparklet). If you
-need any help, creating an issue there will also be your best bet. If you add support for a new device, please open a PR so
-the community might benefit! Check the [Development](./02_Development.md) section
+Sparklet is open-source, under the GNU AGPL v3 license. Feel free to contribute on
+[GitHub](https://github.com/miniluz/sparklet). If you need any help, creating an issue there will also be your best bet.
+If you add support for a new device, please open a PR so the community might benefit!
+
+For a guide, check the [Development](./02_Development.md) section.

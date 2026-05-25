@@ -25,7 +25,7 @@ Check out the manual at <https://blog.miniluz.dev/sparklet/>!
 
 ## Contributing
 
-Sparklet is TODO, under the TODO license. Feel free to contribute on [GitHub](https://github.com/miniluz/sparklet). If you
-need any help, creating an issue there will also be your best bet. If you add support for a new device, please open a PR so
-the community might benefit! Check the [Development](https://blog.miniluz.dev/sparklet/02_Development.html) section of the
-manual.
+Sparklet is open-source, under the GNU AGPL v3 license. Feel free to contribute!. If you need any help, creating an issue
+will be your best bet. If you add support for a new device, please open a PR so the community might benefit!
+
+For a guide, check the [Development](https://blog.miniluz.dev/sparklet/02_Development.html) section of the manual.
