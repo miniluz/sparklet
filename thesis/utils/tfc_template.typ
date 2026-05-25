@@ -357,6 +357,8 @@
   #let is-odd-page() = calc.rem(counter(page).get().first(), 2) == 1
   #let current-heading = state("current-heading", "")
 
+  #let header-displacement = 0.4cm
+
   #set page(header: context {
     box(width: 100%, [
       #let contenido
@@ -376,12 +378,12 @@
           posicion = right
           contenido = hydra(skip-starting: false, 2)
         }
-        place(left + horizon, line(
+        place(left + horizon, dy: -header-displacement, line(
           start: (-5cm, 0cm),
           end: (100% + 5cm, 0cm),
           stroke: 3pt + color-secundario,
         ))
-        place(posicion + horizon, box(
+        place(posicion + horizon, dy: -header-displacement, box(
           outset: 2mm,
           radius: 1cm,
           fill: color-secundario,
@@ -396,15 +398,21 @@
     ])
   }) if incluye-secciones-encabezados
 
+  #let footer-displacement = 0.1cm
 
   #set page(
-    margin: (outside: margen-externo, inside: margen-interno),
+    margin: (
+      outside: margen-externo,
+      inside: margen-interno,
+      top: 2.5cm + header-displacement,
+      bottom: 2.5cm + footer-displacement,
+    ),
     numbering: "I",
     footer: context {
       box(width: 100%, [
         #let contenido = [#counter(page).display()]
         #let posicion
-        #place(left + horizon, line(
+        #place(left + horizon, dy: footer-displacement, line(
           start: (-5cm, 0cm),
           end: (100% + 5cm, 0cm),
           stroke: 3pt + color-secundario,
@@ -414,7 +422,7 @@
         } else {
           posicion = right
         }
-        #place(posicion + horizon, box(
+        #place(posicion + horizon, dy: footer-displacement, box(
           outset: 2mm,
           radius: 1cm,
           fill: color-secundario,
@@ -548,7 +556,7 @@
       // Título centrado
       #it.body
     ]
-    v(1.3cm)
+    v(2cm)
   }
 
   #doc

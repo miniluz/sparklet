@@ -35,9 +35,9 @@
     a la interpretación del músico sin producir artefactos perceptibles, combinando las heurísticas clásicas de
     antigüedad, amplitud y estado de liberación con una cola intermedia.
 
-    El resultado es un sistema que contribuye tanto a la democratización de la síntesis _do it yourself_ (DIY) como al
-    estado del arte en algoritmos de síntesis musical para sistemas con recursos computacionales limitados. El uso de
-    pruebas automáticas, el soporte de múltiples microcontroladores, y la documentación de su uso, instalación,
+    El resultado es un sistema que contribuye tanto a la democratización de la síntesis #box[_do it yourself_] (DIY)
+    como al estado del arte en algoritmos de síntesis musical para sistemas con recursos computacionales limitados. El
+    uso de pruebas automáticas, el soporte de múltiples microcontroladores, y la documentación de su uso, instalación,
     desarrollo y extensión hacen que resalte frente a las alternativas.
   ],
   palabras-clave: (
@@ -71,8 +71,8 @@
     to the performer's input without producing artifacts, combining the classical heuristics of note age, amplitude and
     release stage with an intermediate queue.
 
-    The result is a system that contributes both to the democratizacion of do-it-yourself (DIY) synthesis and to the
-    state of the art in musical synthesis algorithms for computationally constrained platforms. Automated testing,
+    The result is a system that contributes both to the democratizacion of #box[do-it-yourself] (DIY) synthesis and to
+    the state of the art in musical synthesis algorithms for computationally constrained platforms. Automated testing,
     support for multiple microcontrollers, and thorough documentation covering usage, installation, development and
     extension set it apart from alternatives.
   ],

@@ -21,8 +21,14 @@
 
 #include "./02_metodología/01_Metodología_del_desarrollo.typ"
 
+#pagebreak()
+
 #include "./02_metodología/02_Planificación.typ"
 
+#pagebreak()
+
 #include "./02_metodología/03_Presupuesto.typ"
+
+#pagebreak()
 
 #include "./02_metodología/04_Riesgos.typ"

@@ -58,4 +58,3 @@ comenta en más profundidad en la @sec_lecciones_aprendidas.
 #include "/tables/tabla_sprints_descripciones.typ"
 #pagebreak()
 #include "/figures/diagrama_gantt.typ"
-#pagebreak()

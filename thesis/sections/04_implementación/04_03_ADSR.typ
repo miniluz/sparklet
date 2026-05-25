@@ -18,13 +18,14 @@
 
 Cuando un oscilador se activa y desactiva repentinamente, no genera un sonido agradable. Cuando se toca una nota,
 empieza repentinamente al máximo volumen, y cuando se deja de tocar, para instantáneamente. Estos cambios bruscos se
-escuchan como clics, que no son compatibles con el @rnf_calidad_de_audio.
+escuchan como clics, que son inaceptables para Sparklet como indica el @rnf_calidad_de_audio.
 
 El envolvente de ataque, decaimiento, sostenimiento y relajación (_attack, decay, sustain, release_ o ADSR) suaviza esta
 transición. Se origina en los sintetizadores analógicos, y se ha convertido en el estándar para controlar la envolvente
-de amplitud de un sintetizador @ref_book_music_tutorial. Un envolvente de amplitud es una señal que controla la amplitud
-de una onda, y por lo tanto su volumen. En este caso, se usa el ADSR como envolvente de amplitud para la onda que genera
-el oscilador, como se ve en la @eq_adsr_modulación.
+de amplitud de un sintetizador @ref_book_music_tutorial. Un envolvente de amplitud es una señal que modula la amplitud
+de otra, y que por lo tanto controla su volumen. En la síntesis musical, se suele usar un envolvente ADSR para modular
+la amplitud de la onda que genera el oscilador, como se ve en la @eq_adsr_modulación @ref_book_music_tutorial. Así se
+consigue que la nota gane volumen durante unos instantes al tocarla, y lo pierda gradualmente al soltarla.
 
 $
   "salida"[n] = "salida_oscilador"[n] times "salida_adsr"[n]
@@ -32,8 +33,8 @@ $
 <eq_adsr_modulación>
 
 Se divide en cuatro etapas, como se puede ver en la @fig_adsr. Estas son configurables para dar forma al sonido,
-generalmente para conseguir imitar un instrumento o dar el carácter buscado a la nota de forma intuitiva (p. ej. "hacer
-el ataque más agresivo") @ref_book_music_tutorial. Son:
+generalmente para conseguir imitar un instrumento o dar el carácter buscado a la nota (p. ej. "hacer el ataque más
+agresivo") @ref_book_music_tutorial. Son:
 
 #figure(
   include "/figures/adsr.typ",
@@ -45,12 +46,15 @@ el ataque más agresivo") @ref_book_music_tutorial. Son:
 + Ataque: Tiempo que tarda la nota en pasar de estar silenciada a tener su máximo volumen. Ajustar su longitud permite
   aproximar los sonidos de varios instrumentos: una guitarra tiene un ataque corto, mientras que un violín tiene un
   ataque largo.
+
 + Decaimiento: Tiempo que tarda la nota en bajar del volumen máximo al nivel de sostenimiento. Por ejemplo, en
   instrumentos como la flauta es largo, mientras que en una marimba es corto.
+
 + Sostenimiento: Volumen al que se mantiene la nota indefinidamente mientras sea tocada. Por ejemplo, para aproximar una
   flauta o un violín sería de casi el 100%, ya que esos instrumentos pueden mantener una nota indefinidamente. Sin
   embargo, para imitar una marimba generalmente se usaría un sostenimiento del 0%, ya que la vibración de la barra decae
   naturalmente hasta extinguirse.
+
 + Relajación o desvanecimiento: Tiempo que tarda el volumen de la nota en bajar del nivel de sostenimiento a cero una
   vez se libera la tecla. Su longitud depende más de la técnica que del instrumento: un flautista puede dejar que la
   nota se desvanezca gradualmente, o puede cortarla repentinamente. En un sintetizador, se suele ajustar según la

@@ -103,3 +103,7 @@ textregistered
 textsuperscript
 Tytel
 zynthian
+Daniele
+diátaxis
+Diátaxis
+Procida

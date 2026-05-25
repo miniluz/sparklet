@@ -30,29 +30,23 @@
 
   Para el cálculo del presupuesto y el coste, se toman en cuenta los siguientes aspectos:
 
-  + Personal: se establece un sueldo bruto de $#sueldo_junior "€/h"$, tomando como referencia el salario medio de un
-    desarrollador junior en España, costando un #seguridad_social% más tomando en cuenta la seguridad social y otros
-    gastos.
-
-  + Equipo: figuran los $110 "€"$ de coste del ordenador, los $60 "€"$ de la placa de desarrollo (STM32H723ZG), los
-    $10 "€"$ del segundo microcontrolador (STM32F401RC), y los 20 € del paquete de componentes electrónicos usados,
-    dando un total de $200 "€"$. Todo est equipo se amortiza a #amortización_años años.
-
+  + Personal: se usa un sueldo bruto de $#sueldo_junior "€/h"$, en base al salario medio de un desarrollador junior en
+    España, más un #seguridad_social% por la seguridad social y otros gastos.
+  + Equipo: figuran los $110 "€"$ del ordenador, los $60 "€"$ de la placa de desarrollo, los $10 "€"$ del segundo
+    microcontrolador, y los 20 € del paquete de componentes electrónicos usados, dando un total de $200 "€"$ amortizado
+    a #amortización_años años.
   + Electricidad: Se asume un consumo de $#consumo_w "W"$ constante durante el desarrollo con un coste de
     $#coste_electricidad_kwh "€/kWh"$.
-
   + Internet: se asume un coste de #coste_internet_mensual € por mes durante el desarrollo.
 
-  + Reserva: se establece una reserva para riesgos del #reserva_porcentaje% sobre el total de los costes anteriores.
-
-  + Beneficio: se establece un margen de beneficio del #beneficio_porcentaje% sobre el total de costes más la reserva.
+  Además, se establece una reserva estratégica del #reserva_porcentaje% sobre el total de los costes anteriores, y un
+  margen de beneficio del #beneficio_porcentaje% sobre el total de costes más la reserva.
 
   Con todo ello, el presupuesto del proyecto asciende a $#total_estimado "€"$, desglosado como se puede ver en la
-  @tabla_coste_estimado. Los costes incurridos durante la ejecución son de $#total_real "€"$, desglosados como se puede
-  ver en la @tabla_coste_real. El aumento en el coste se debe a que se han dedicado más horas de las estimadas. Sin
-  embargo, gracias a la reserva se ha podido cubrir dicho aumento, obteniendo un superávit de
-  $#(total_estimado - total_real) "€"$, un $#((total_estimado - total_real) / total_estimado * 100)%$ del presupuesto
-  total.
+  @tabla_coste_estimado. Los costes reales incurridos son de $#total_real "€"$, como se puede ver en la
+  @tabla_coste_real. El aumento en el total parcial es debido a que se han dedicado más horas de las estimadas. Sin
+  embargo, la reserva ha bastado para cubrirlo, resultando en un superávit de $#(total_estimado - total_real) "€"$, un
+  $#((total_estimado - total_real) / total_estimado * 100)%$ del presupuesto total.
 ]
 
 #figure(
@@ -77,7 +71,5 @@
     ],
   ),
   numbering: none,
-  placement: auto,
+  placement: bottom,
 )
-
-#pagebreak()

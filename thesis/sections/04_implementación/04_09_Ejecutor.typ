@@ -50,5 +50,5 @@ audio se ejecuta únicamente cuando se pide una salida de audio.
 
 === Rendimiento
 
-El ejecutor en su totalidad, siendo ejecutado en las condiciones que indica el @rnf_rendimiento, es capaz de calcular
-cada muestra de audio en $857 "µs"$, dando un margen del $14.3%$, así cumpliendo con el requisito.
+El sintetizador es capaz de calcular cada muestra de audio en $857 "µs"$ bajo las condiciones que indica el
+@rnf_rendimiento. Esto resulta en un margen del $14.3%$, superando el 10% que pide dicho requisito.

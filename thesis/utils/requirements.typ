@@ -15,8 +15,8 @@
         grid(
           columns: (auto, 1fr),
           column-gutter: 1em,
-          align(top, pad(left: 1em, [R#id.])),
-          align(top + left, [#short: #body]),
+          align(top, pad(left: 1em, text(weight: "semibold")[R#id.])),
+          align(top + left, [#text(weight: "semibold")[#short]: #body]),
         ),
       ) #label(lbl)]
   }

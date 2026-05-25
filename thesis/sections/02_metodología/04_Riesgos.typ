@@ -5,15 +5,15 @@
 <sec_riesgos>
 
 Se ha realizado un análisis cuantitativo de los riegos asociados al proyecto usando una matriz de probabilidad e
-impacto, en base a la propuesta por el PMBOK @ref_book_pmbok. Se estimó su probabilidad de ocurrir como baja (1 punto),
+impacto, en base a la que propone el PMBOK @ref_book_pmbok. Se estimó su probabilidad de ocurrir como baja (1 punto),
 media (2 puntos) o alta (3 puntos), y del mismo modo su impacto. Se puntuaron según el producto de ambos valores. A
 continuación se muestran las que consiguieron una puntuación de al menos 4, junto a las estrategias usados para
 mitigarlos:
 
 #riesgo(
-  [Imposibilidad práctica de utilizar Rust en el entorno embebido],
+  [Imposibilidad práctica de utilizar Rust para el desarrollo],
   [
-    El proyecto depende en gran medida del ecosistema de Rust y de librerías específicas para desarrollo embebido, por
+    El proyecto depende en gran medida del ecosistema de Rust y de librerías específicas para desarrollo empotrado, por
     lo que problemas de compatibilidad, compilación o soporte hardware podrían dificultar la implementación prevista.
   ],
   [Alto.],
@@ -28,15 +28,14 @@ mitigarlos:
   [Rendimiento insuficiente en microcontroladores de bajo coste],
   [
     El objetivo de soportar dispositivos muy económicos y sin soporte de coma flotante puede provocar limitaciones de
-    rendimiento o memoria al ejecutar síntesis polifónica, interpolación de ADSR y procesamiento en tiempo real
-    simultáneamente.
+    rendimiento o memoria al ejecutar síntesis polifónica, interpolación de ADSR y ecualización simultáneamente.
   ],
   [Alto.],
   [Media.],
   (
-    // Mitigaciones
     [Uso de CMSIS-DSP para optimizar las operaciones de procesamiento.],
-    [Posibilidad de reducir la polifonía o ciertas funcionalidades para adaptarse a las capacidades del dispositivo.],
+    [Posibilidad de reducir la polifonía y eliminar ciertas funcionalidades para adaptarse a las capacidades del
+      dispositivo.],
   ),
 )
 
@@ -64,10 +63,9 @@ mitigarlos:
   [Medio.],
   [Media.],
   (
-    // Mitigaciones
     [El autor del trabajo es un músico con experiencia tocando sintetizadores.],
     [Realización de pruebas manuales durante el desarrollo.],
-    [Priorización de funcionalidades comunes en sintetizadores existentes.],
+    [Uso del comportamiento de sintetizadores existentes como referencia.],
     [Documentación orientada a usuarios no expertos en programación.],
   ),
 )

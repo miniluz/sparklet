@@ -43,3 +43,7 @@ La fiabilidad del módulo de `midly` es fundamental, pues es el único módulo e
 gestión escrito a mano. Se puede encontrar con mensajes erróneos, con ruido, o en el peor caso maliciosos, y los ha de
 manejar correctamente para cumplir el @rnf_fiabilidad. Por lo tanto, este fue el módulo más probado. Su resistencia a
 errores y mensajes largos fue validada: es capaz de procesar mensajes tras haber recibido mil bytes de datos aleatorios
+
+=== Configuración
+
+#todo[Falta explicar cómo se usa el MIDI para configurar el chip en ejecución.]

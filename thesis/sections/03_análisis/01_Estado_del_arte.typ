@@ -10,13 +10,13 @@
 
 En esta sección, se analiza el estado del arte. Primero se comparan los sintetizadores que existen actualmente, tanto
 abiertos como privativos, para identificar un hueco en el mercado. Posteriormente, se analiza un area mejorable el
-estado del mundo académico respecto a los sintetizadores. En particular, se explora la falta de algoritmos orientados a
-un funcionamiento intuitivo, sin artefactos y eficientes en entornos de rendimiento limitado.
+estado del mundo académico respecto a los sintetizadores. En particular, se explora la falta de algoritmos eficientes,
+sin artefactos y orientados a un funcionamiento intuitivo en entornos de rendimiento limitado.
 
 === Sintetizadores
 
 Primero, se analizan los sintetizadores de software libre o gratuitos. Aunque hay muchos, uno de los mas usados y
-completos es Helm, un sintetizador aditivo. Helm @ref_web_helm se toma como referencia para saber qué funcionalidades
+completos es Helm, un sintetizador aditivo. Helm @ref_web_helm se toma como referencia para saber qué comportamientos
 resultan útiles en un sintetizador, aunque su implementación no se puede usar como referencia al depender de operaciones
 de coma flotante. Sin embargo, no son competencia directa, pues se está creando un producto hardware.
 
@@ -25,8 +25,8 @@ de onda analógicos más baratos incluyen el Behringer 921B (40 €) o Behringer
 nota a la vez. El Behringer Brains (90€) es una alternativa digital, también monofónica. Si se busca un generador
 polifónico digital, una de las opciones más baratas es el OXI Instruments Coral, a la venta por unos 380 €.
 
-En cuanto a sintetizadores hardware libres, la lista diy-synths @ref_web_diy_synths provee una lista curada de muchos
-proyectos similares de calidad alta. Es un punto de referencia en la comunidad. A continuación se analizan todos:
+En cuanto a sintetizadores hardware libres, la lista diy-synths @ref_web_diy_synths provee una selección de
+sintetizadores de software y hardware libre de alta calidad. A continuación se analizan todos:
 
 #box(table(
   columns: (auto, 1fr),
@@ -53,6 +53,8 @@ proyectos similares de calidad alta. Es un punto de referencia en la comunidad. 
   ],
 ))
 
+#v(0.5cm)
+
 #box(table(
   columns: (auto, 1fr),
 
@@ -75,6 +77,8 @@ proyectos similares de calidad alta. Es un punto de referencia en la comunidad. 
     Overcycler, PreenFM 2.
   ],
 ))
+
+#v(0.5cm)
 
 #box(table(
   columns: (auto, 1fr),
@@ -99,6 +103,8 @@ proyectos similares de calidad alta. Es un punto de referencia en la comunidad. 
   ],
 ))
 
+#v(0.5cm)
+
 #box(table(
   columns: (auto, 1fr),
 
@@ -122,6 +128,8 @@ proyectos similares de calidad alta. Es un punto de referencia en la comunidad. 
     X1, Roundabout, S54 Liv's Synth, Sigma-6, Shruthi, Totoro, Wirehead Mutant, YM2149 Synth, ZeKit, x0xb0x.
   ],
 ))
+
+#v(0.5cm)
 
 #box(table(
   columns: (auto, 1fr),
@@ -150,9 +158,13 @@ proyectos similares de calidad alta. Es un punto de referencia en la comunidad. 
   ],
 ))
 
-En conclusión, Sparklet puede rellenar un hueco en este mercado. Puede soportar varios microcontroladores y componentes
-para que el usuario pueda usar las opciones más baratas que tenga disponibles, incluso llegando a un precio inferior a
-20 €. Por este precio, se consigue una polifonía de 12 voces, apropiada para tocar con un teclado usando ambas manos, un
+#v(0.5cm)
+
+Se puede ver que hay un hueco en el mercado. En particular, faltan sintetizadores baratos con un límite de polifonía
+alto, apto para interpretar una pieza en teclado usando ambas manos. Este es el hueco que puede llenar Sparklet.
+
+Puede soportar varios microcontroladores y componentes para que el usuario pueda usar las opciones más baratas que tenga
+disponibles, incluso llegando a un precio inferior a 20 €. Por este precio, se consigue una polifonía de 12 voces, un
 gran diferenciador. Además, incluye ecualización. Con documentación suficiente para su instalación, su uso, su
 desarrollo y para dar soporte a un nuevo dispositivo, podría ser instalado por usuarios menos técnicos. Las pruebas
 automáticas aportan confianza al usuario de la calidad del código y de que sea funcional. En resumen, puede ofrecer una
@@ -169,7 +181,8 @@ algoritmo que decide cuáles se dejan de tocar para permitir dar paso a las nuev
 estrategias de asignación de voces (véase #citas), estas suelen basarse en criterios heurísticos simples como la
 antigüedad de la nota, su amplitud o su estado de liberación. En escenarios extremos, cuando se tocan muchas notas entre
 eventos de procesamiento o bajo eventos rápidos de tocar y liberar una nota, pueden llevar a un comportamiento
-subóptimo, ya sea generando discontinuidades perceptibles o al comportarse de forma contraintuitiva.
+subóptimo, ya sea generando discontinuidades perceptibles o al comportarse de forma contraintuitiva (p. ej. no
+respondiendo con inmediatez a la interpretación del músico).
 
 De forma similar, el diseño de envolventes ADSR en aritmética de punto fijo y con recursos limitados presenta desafíos.
 Aunque existen soluciones optimizadas para sistemas empotrados (véase #citas), la gestión de cambios dinámicos en los

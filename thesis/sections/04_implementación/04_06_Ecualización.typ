@@ -30,7 +30,7 @@ a los componentes correspondientes.
 #figure(
   image("/figures/Ecualizador.pdf", width: 90%),
   caption: [Proceso de división, ajuste y recombinación de bandas en un ecualizador multibanda.],
-  placement: auto,
+  placement: bottom,
 )<fig_eq_diagrama>
 
 #let citation = cite(<ref_book_filter_banks>, form: "prose")

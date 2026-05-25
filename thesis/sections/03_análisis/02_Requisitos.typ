@@ -6,49 +6,51 @@
 == Requisitos
 <sec_requisitos>
 
-En base al estado del arte de los sintetizadores, se proponen los siguientes requisitos, orientados a especificar un
-sistema útil que supere el estado del arte.
+Para crear un sintetizador útil que aporte al estado del arte, se proponen los siguientes requisitos. El sintetizador:
 
-=== Requisitos funcionales
+#v(-0.4cm)
+
+==== Requisitos funcionales
 
 #req("rf_midi_usb", "F")[MIDI USB][
-  El sintetizador ha de ser configurable en compilación para conectarse a MIDI por USB.]
+  Ha de admitir entrada de MIDI por USB.]
 #req("rf_midi_din", "F")[MIDI DIN][
-  El sintetizador ha de ser configurable en compilación para conectarse a MIDI por un puerto DIN.]
+  Ha de admitir entrada de por un puerto DIN.]
 #req("rf_audio_usb", "F")[Audio USB][
-  El sintetizador ha de ser configurable en compilación para conectarse al audio por USB.]
+  Ha de admitir salida de audio por USB.]
 #req("rf_ondas", "F")[Generación de ondas][
-  El sintetizador ha de poder generar ondas sinusoidales, cuadradas, de diente de sierra y triangulares.]
+  Ha de poder generar ondas sinusoidales, cuadradas, de diente de sierra y triangulares, podiendo cambiar entre ellas en
+  ejecución.]
 #req("rf_adsr", "F")[ADSR][
-  El sintetizador ha de modular la amplitud de la onda con un envolvente ADSR configurable.]
+  Ha de modular la amplitud de la onda con un envolvente ADSR configurable en ejecución.]
 #req("rf_ecualizador", "F")[Ecualización][
-  El sintetizador ha de ser configurable en compilación para poder ecualizar la señal.]
+  Ha de tener un ecualizador multibanda configurable en ejecución.]
 #req("rf_polifonía", "F")[Polifonía][
-  El sintetizador ha de tener una cantidad de voces configurable en compilación.]
+  Ha de tener una cantidad de voces configurable en compilación.]
 #req("rf_multi_dispositivos", "F")[Multiples dispositivos][
-  El sintetizador ha de poder ser instalado en al menos dos dispositivos empotrados distintos.]
+  Ha de poder ser instalado en al menos dos dispositivos empotrados distintos.]
 #req("rf_añadir_dispositivos", "F")[Añadir dispositivos][
   Debe estar documentado cómo configurar el sintetizador para un nuevo dispositivo empotrado.]
 #req("rf_configuración_ejecución", "F")[Configuración en ejecución][
-  El sintetizador ha de ser configurable en ejecución con elementos físicos conectados a la placa.]
+  Ha de ser configurable en ejecución con elementos físicos conectados a la placa.]
 
-=== Requisitos no funcionales
+#v(-0.4cm)
+
+==== Requisitos no funcionales
 
 #req("rnf_rendimiento", "NF")[Rendimiento][
-  El sintetizador, con salida de audio por USB, entrada de MIDI por USB e incluyendo el ecualizador, ha de poder acabar
-  de producir cada bloque de audio antes de que el siguiente se solicite con un margen del 10% al ejecutarse en una
-  placa STM32H723ZG.
+  Ha de poder acabar de producir cada bloque de audio antes de que el siguiente se solicite con un margen del 10%, al
+  ejecutarse configurado con salida de audio por USB, entrada de MIDI por USB e incluyendo el ecualizador en una placa
+  STM32H723ZG.
 ]
 #req("rnf_fiabilidad", "NF")[Fiabilidad][
-  El sintetizador ha de operar continuamente sin necesitar un reinicio.]
+  Ha de operar continuamente sin necesitar un reinicio.]
 #req("rnf_calidad_de_audio", "NF")[Calidad de audio][
-  El sintetizador ha de producir audio libre de distorsiones perceptibles.]
+  Ha de producir audio libre de distorsiones perceptibles.]
 #req("rnf_pruebas", "NF")[Pruebas][
-  El sintetizador ha de tener pruebas que validen su funcionalidad ejecutadas automáticamente durante el desarrollo de
-  forma visible.
+  Ha de tener pruebas ejecutadas automáticamente durante el desarrollo, con resultados disponibles en público.
 ]
 #req("rnf_manual", "NF")[Manual][
-  El sintetizador ha de tener un manual disponible de forma accesible. El manual ha de detallar el uso del sintetizador,
-  la instalación del software en el sintetizador, y el desarrollo del software del sintetizador (en particular, cómo
-  añadir soporte a un nuevo dispositivo).
+  Ha de tener un manual disponible online, que detalle tanto la instalación y el uso del sintetizador como el desarrollo
+  del software (en particular, cómo añadir soporte a un nuevo dispositivo).
 ]

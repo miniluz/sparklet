@@ -8,11 +8,11 @@
 == Osciladores
 <sec_osciladores>
 
-Los osciladores son donde comienza la síntesis. Estos reciben una frecuencia y generan una señal de audio a dicha
-frecuencia. Hay diversos tipos de osciladores, pero uno de los más usados en entornos empotrados es el de tabla de onda
-(_wavetable_), debido a su eficiencia. Esta es la razón por la que Sparklet lo usa, según el @rnf_rendimiento. La onda
-deseada se almacena en una tabla de longitud arbitraria $L$, donde cada valor en la tabla representa la amplitud de la
-onda en ese momento, como se ve en la @fig_wavetable @ref_book_music_tutorial @ref_book_theory_music.
+Los osciladores son el lugar donde comienza la síntesis. Reciben una frecuencia y generan una señal de audio. Hay
+diversos tipos de osciladores, pero uno de los más usados en entornos empotrados es el de tabla de onda (_wavetable_),
+debido a su eficiencia. Esta es la razón por la que Sparklet lo usa, de acuerdo al @rnf_rendimiento. La onda deseada se
+almacena en una tabla de longitud arbitraria $L$, donde cada valor en la tabla representa la amplitud de la onda en ese
+momento, como se ve en la @fig_wavetable @ref_book_music_tutorial @ref_book_theory_music.
 
 #figure(
   include "/figures/wavetable.typ",
@@ -29,9 +29,9 @@ onda en ese momento, como se ve en la @fig_wavetable @ref_book_music_tutorial @r
 )
 
 Dese una tabla de longitud $L = 1000$ y un sistema con frecuencia de muestreo de $f_s = #num(48000) "Hz"$. Si cada
-muestreo $s$ se usa, $mod L$, como íncide de la tabla para obtener cada muestra, se genera una onda con la forma que
+muestreo $s$ se usa, $mod L$, como índice de la tabla para obtener una muestra, se genera una onda con la forma que
 indica la tabla a $f = f_s div L = 48 "Hz"$. Si en lugar se avanza por dos cada muestra, usando $2 times s mod 1000$
-como índice, se envía una onda con frecuencia $f = #num(48000) "Hz" div 500 = 96 "Hz"$. En general, la relación entre la
+como índice, se genera una onda con frecuencia $f = f_s div (L div 2) = 96 "Hz"$. En general, la relación entre la
 frecuencia $f$ y el incremento del índice $i$ se da con la @eq_incremento @ref_book_music_tutorial
 @ref_book_theory_music @ref_book_understanding_dsp.
 
@@ -44,9 +44,9 @@ Este incremento no es entero para la mayoría de frecuencias. La resolución de 
 cantidad de bits que se use para representar y acumular el incremento. Sparklet usa una tabla de longitud $L = 256$.
 Supongamos que se usa un número de 16 bits, en formato UQ8.8 (es decir, un número de coma fija sin signo donde 8 bits se
 dedican a la parte entera y 8 dígitos a la parte fraccionaria). Esto da una resolución de
-$#num(48000) "Hz" div 2^16 = #num(0.73) "Hz"$. Esta resolución es alta para las notas agudas, pero no es suficiente para
-las notas graves. En la @tabla_errores_cents se puede ver el error en _cents_ (una centésima del semitono temperado) con
-varias notas.
+$#num(48000) "Hz" div 2^16 = #num(0.73, digits: 2) "Hz"$. Esta resolución es alta para las notas agudas, pero no es
+suficiente para las notas graves. En la @tabla_errores_cents se puede ver el error en _cents_ (una centésima del
+semitono temperado) con varias notas.
 
 #include "../../tables/tabla_errores_cents.typ"
 
@@ -61,18 +61,18 @@ varias notas.
 Para que el error $e_"cents"$ sea imperceptible, como pide el @rnf_calidad_de_audio, tiene que ser menor a $6 "cents"$
 @ref_thesis_minimum_cents. Si queremos un error $f_e$ imperceptible para la frecuencia $f$ de la cuerda más grave de un
 bajo de 5 cuerdas, de unos $30 "Hz"$, el error tiene que ser de #eq_error. Dado que $f_s / 2^"bits" = f_e$, hacen falta
-#eq_bits de precisión. Pero ya que la familia ARM Cortext M es de 32 bits, si se usan más de 16 bits lo mejor es usar 32
-(en formato UQ8.24).
+#eq_bits de precisión. Pero ya que la familia ARM Cortext M es de 32 bits, si se usan más de 16 bits, lo mejor es
+usar 32.
 
-Los 8 bits de la parte entera, $i$, se usan directamente para indexar la tabla $T$. De los 24 bits de la parte
-fraccionaria, se toman los primeros 15 y se interpretan como un Q15, $r$. Estos se usan para interpolar la muestra $i$
-con la siguiente, $i + 1 mod 256$. Interpolar evita el ruido que genera redondear del índice @ref_book_music_tutorial, y
-es necesario para cumplir con el @rnf_calidad_de_audio, y es necesario para cumplir con el @rnf_calidad_de_audio.
-Mientras mayor es $r$, más cerca se está de la siguiente muestra, por lo que se usa como el peso de la siguiente
-muestra. Por lo tanto, la salida se calcula con la @eq_salida_interpolada @ref_book_theory_music.
+Si se usa el formato U8.24, se pueden usar los 8 bits de la parte entera, $i$, directamente como índice de la tabla $T$.
+De los 24 bits de la parte fraccionaria, se toman los primeros 15 y se interpretan como un Q15, $r$. Estos se usan para
+interpolar la muestra $i$ con la siguiente, $(i + 1) mod 256$. Interpolar evita el ruido que genera redondear del índice
+@ref_book_music_tutorial, y es necesario para cumplir con el @rnf_calidad_de_audio. Mientras mayor es $r$, más cerca se
+está de la siguiente muestra. Por esto, $r$ que se usa como el peso de la siguiente muestra, y $1 - r$ como peso de la
+actual. Por lo tanto, la salida se calcula con la @eq_salida_interpolada @ref_book_theory_music.
 
 $
-  T[i] times (1 - r) + T[i+1 mod 256] times r
+  T[i] times (1 - r) + T[(i+1) mod 256] times r
 $
 <eq_salida_interpolada>
 

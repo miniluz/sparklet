@@ -14,38 +14,44 @@ En cuanto a la selección del lenguaje, se evaluaron C, C++, Zig, SPARK y Rust, 
 desarrollo empotrado.
 
 C es una de los lenguajes más populares en el desarrollo empotrado. El @rnf_rendimiento urge la integración de
-CMSIS-DSP, una biblioteca de C para realizar operaciones DSP aprovechando las operaciones del CPU operaciones. Usar C,
-C++ o Zig permitiría integrarse con la librería sin problemas. Sin embargo, aunque he usado C en el pasado, no considero
-que tenga suficiente experiencia para garantizar que no hayan problemas de memoria o un uso incorrecto accidental del
-hardware, para cumplir el @rnf_fiabilidad. Un argumento similar aplica a C++ y a Zig.
+CMSIS-DSP, una biblioteca de C para realizar operaciones DSP aprovechando las operaciones de la arquitectura ARM Cortex.
+Usar C, C++ o Zig permitiría integrarse con la librería con facilidad. Sin embargo, aunque he usado C en el pasado, no
+considero que tenga suficiente experiencia para garantizar que no hayan problemas de memoria o un uso incorrecto
+accidental del hardware, dificultando el @rnf_fiabilidad. Lo mismo ocurre con C++ y Zig.
 
 SPARK es una opción apropiada para conseguir el @rnf_fiabilidad, ya que permite verificar formalmente los programas
 @ref_web_ada_formal_proof. Sin embargo, tiene un ecosistema pequeño, en particular en lo que respecta al audio, por lo
 que se tendría que implementar mucha lógica desde cero. La fricción de esta opción no permitiría realizar el proyecto a
 tiempo.
 
-Rust aporta garantías de fiabilidad suficientes y proporciona un ecosistema suficiente para facilitar la realización del
-proyecto. He podido encontrar bibliotecas para las necesidades del proyecto compatibles con el desarrollo empotrado
-(gestión de operaciones de coma fija, de MIDI, de USB, ejecución de pruebas, etc.), además de herramientas útiles (para
-leer los mensajes del chip, evaluar el uso de memoria del binario, etc.).
+Rust aporta garantías de fiabilidad suficientes y proporciona un ecosistema capaz de facilitar la realización del
+proyecto. He podido encontrar bibliotecas para las necesidades del proyecto (gestión de operaciones de coma fija, de
+MIDI, de USB, ejecución de pruebas, etc.), además de herramientas útiles (para leer los mensajes del chip, evaluar el
+uso de memoria del binario, etc.).
 
-En cuanto a la fiabilidad: usando sistemas como el _borrow checker_, ayuda a comprobar la seguridad de memoria en tiempo
-de compilación @ref_web_rust_lifetimes. Además, el comportamiento indefinido únicamente puede ocurrir en código `unsafe`
-(o código seguro que depende de código `unsafe`) @ref_web_rust_undefined. Es común no escribir código `unsafe` como
-parte de tu programa y depender de bibliotecas que lo usan, minimizando el riesgo de que ocurran si las bibliotecas son
-revisadas. Las librerías de `HAL` (_hardware abstraction layer_) en el ecosistema de Rust están construidas con una API
-diseñada para validar en compilación que la configuración del hardware es correcta. Si se diseña una arquitectura en la
-que no puedan ocurrir bloqueos mutuos (_deadlocks_), se puede tener seguridad de que el programa nunca se tendrá que
-reiniciar, cumpliendo el @rnf_fiabilidad.
+En cuanto a la fiabilidad: usando sistemas como el _borrow checker_, Rust ayuda a comprobar la seguridad de memoria en
+tiempo de compilación @ref_web_rust_lifetimes. Además, el comportamiento indefinido (UB) únicamente puede ocurrir en
+código `unsafe` (o código seguro que depende de código `unsafe`) @ref_web_rust_undefined. Es común no escribir código
+`unsafe` como parte de tu programa y depender de bibliotecas que lo usan, minimizando el riesgo de UB si las bibliotecas
+han sido probadas en profundidad.
+
+Además, las librerías de HAL (_hardware abstraction layer_) en el ecosistema de Rust están construidas con una API
+diseñada para validar en compilación que la configuración del hardware es correcta. Por ejemplo, es imposible activar
+las interrupciones en los pines `PA5` y `PB5` simultáneamente, ya que crear una entrada con interrupciones consume un
+`struct` `EXTI5` del que únicamente se puede obtener uno. Si se intenta, genera un error de compilación. En resumen, si
+el hardware ha sido configurado incorrectamente, el programa no compila. Si se diseña una arquitectura en la que no
+puedan ocurrir bloqueos mutuos (_deadlocks_), se puede tener seguridad de que el programa nunca se tendrá que reiniciar,
+ayudando a cumplir el @rnf_fiabilidad.
 
 Rust también permite realizar compilación cruzada @ref_web_rust_cross, permitiendo que el mismo código sea compilado
 tanto a `x86_64`, la arquitectura del ordenador, como a `thumbv7em` (_ARM Cortex M7_), la arquitectura del
 microcontrolador. El proyecto aprovecha esto moviendo todo el código posible a _crates_ (paquetes) que son
 independientes del hardware. Esto permite desarrollar sin necesidad de tener el microcontrolador a mano, además de
-automatizar las pruebas en workflows de GitHub Actions para que sus resultados sean visibles, para cumplir el
+automatizar las pruebas en workflows de GitHub Actions para que sus resultados sean visibles, así cumpliendo el
 @rnf_pruebas.
 
-Finalmente, Rust es el lenguaje con el que tengo más experiencia de los evaluados. Por todo esto, he elegido usarlo.
+Finalmente, Rust es el lenguaje con el que tengo más experiencia de los evaluados. Por todos estos motivos, se ha usado
+para el desarrollo.
 
 === Marco de aplicaciones
 
@@ -56,33 +62,32 @@ operativo de código abierto muy usado @ref_web_rust_freertos.
 
 FreeRTOS, y la mayoría de RTOS, suelen tener un modelo de concurrencia apropiativo: el sistema operativo quita control a
 las tareas para distribuir el tiempo de ejecución entre ellas @ref_web_freertos. Sin embargo este cambio de tareas
-conlleva un coste. Se ha de reservar espacio para poder guardar la pila de cada tarea de manera conservadora. Además,
-cada vez que hay un cambio de contexto, se han de guardar todos los registros del CPU a memoria y restaurar el estado de
-la nueva tarea, además de actualizar las estructuras de datos que permiten una distribución homogénea
-@ref_web_cooperative_multitasking.
+conlleva un coste. Se ha de reservar espacio en memoria suficiente para poder guardar la pila entera de cada tarea, que
+se estima de manera conservadora. Además, cada vez que hay un cambio de contexto, se han de guardar todos los registros
+del CPU a memoria y restaurar el estado de la nueva tarea, además de actualizar las estructuras de datos que permiten
+una distribución homogénea del tiempo de ejecución entre las tareas @ref_web_cooperative_multitasking.
 
-La alternativa es usar una distribución de tareas cooperativa. En ellos, cada tarea cede el control, generalmente cuando
+La alternativa es usar una modelo de concurrencia cooperativo. En ellos, cada tarea cede el control, generalmente cuando
 está bloqueada por una operación I/O, está inactiva, o en general está esperando una interrupción del CPU. Estas tareas
 generalmente se implementan usando máquinas de estado, que indican explícitamente los datos que hay que preservar entre
-llamadas. Esto ahorra las reservas de espacio dimensionadas para toda la pila de los RTOS. Además, ahorra almacenar y
-restaurar los registros con cada cambio de tarea, ya que este cambio efectivamente es retornar desde una función y
-llamar a otra. Añadir tareas en un sistema cooperativo es muy eficiente en comparación a un RTOS
-@ref_web_cooperative_multitasking. Sin embargo, puede resultar en que una tarea que nunca rinda el control detenga el
-programa. La multitarea cooperativa es apropiada para Sparklet, ya que el sintetizador consiste en una única tarea
-intensiva para la CPU, la generación de audio, que se ejecuta por muestreo, además de tareas ligeras para el CPU
-restringidas por I/O (hardware, MIDI).
+llamadas. Esto ahorra las reservas de memoria sobredimensionadas de los RTOS. Además, ahorra almacenar y restaurar los
+registros con cada cambio de tarea, ya que este cambio efectivamente es retornar desde una función y llamar a otra.
+Añadir tareas en un sistema cooperativo es muy eficiente en comparación a un RTOS @ref_web_cooperative_multitasking. Sin
+embargo, puede resultar en que una tarea que nunca rinda el control detenga el programa. La multitarea cooperativa es
+apropiada para Sparklet, ya que el sintetizador consiste en una única tarea intensiva para la CPU, la generación de
+audio, que se ejecuta por muestreo, además de tareas ligeras para el CPU restringidas por I/O (hardware, MIDI).
 
-Un inconveniente es que, en lenguajes como C, generalmente las máquinas de estado de las tareas son implementadas
-manualmente, haciendo que funciones complejas sean menos legibles. Este método se puede ver en el
+Un inconveniente es que, en lenguajes como C, generalmente las máquinas de estado que forman las tareas cooperativas son
+implementadas manualmente, haciendo que funciones complejas sean menos legibles, como se puede ver en el
 @cod_maquina_estado_manual. En Rust, estas máquinas de estado pueden ser creadas usando las funciones asíncronas, usando
-una sintaxis que parece secuencial con `async` y `await`, de manera similar al desarrollo web. Este método se puede ver
-en el @cod_maquina_estado_async. Estas funciones son transformadas en máquinas de estados automáticamente, que
-implementa la interfaz `Future`. Embassy proporciona un ejecutor cooperativo ligero para plataformas empotradas basada
-en los `Future` de Rust.
+una sintaxis que parece secuencial con `async` y `await`, de forma similar a la usada en el desarrollo web, como se
+puede ver en el @cod_maquina_estado_async. Estas funciones son transformadas en máquinas de estados automáticamente, que
+implementa la interfaz `Future` estándar de Rust. Embassy proporciona un ejecutor cooperativo ligero para plataformas
+empotradas basada en los `Future`.
 #figure(
   grid(
     columns: 1,
-    inset: 0.5em,
+    gutter: 2.5em,
     [
       #figure(
         ```rust
@@ -125,25 +130,33 @@ en los `Future` de Rust.
       )
       <cod_maquina_estado_async>
     ],
+    [
+      #figure(
+        ```rust
+        use defmt::info;
+
+        info!("Midi note received: {}", note);
+        // El texto no se envía al microchip. El mensaje únicamente contiene un identificador del mensaje y el valor de `note`
+        ```,
+        caption: [Ejemplo del uso de `defmt` para registrar eventos en sistemas empotrados, donde el formateo del
+          mensaje se realiza en el huésped en lugar del microcontrolador.],
+      )<cod_ejemplo_defmt>
+    ],
   ),
   numbering: none,
   placement: auto,
 )
 
 Debido a la popularidad de Embassy, su ecosistema es bastante maduro. Ofrece _hardware abstraction layers_, APIs de Rust
-que abstraen las características del hardware (p. ej. entrada, salida, _pull-ups_). Usan el sistema de tipos de Rust
-para garantizar que los estados inválidos del hardware generan fallos durante la compilación (en lugar de durante la
-ejecución), ayudando a conseguir el @rnf_fiabilidad. Por ejemplo, es imposible activar las interrupciones en los pines
-`PA5` y `PB5` simultáneamente, ya que crear una entrada con interrupciones consume un `struct` `EXTI5` del que
-únicamente se puede obtener uno (con código que no es `unsafe`). Si se intenta, genera un error de compilación.
-
-También incluye `embassy_sync`, que ofrece primitivas de sincronización con soporte `async` (p. ej. `Channel`, `Signal`)
-para la comunicación entre tareas @ref_web_embassy_sync, y `embassy_usb`, para dar soporte USB al código con una API de
-nivel bajo @ref_web_embassy_usb.
+que abstraen las características del hardware (p. ej. entrada, salida, _pull-ups_). Provee HALs para casi todos los
+microcontroladores de la familia STM32, permitiendo cumplir el @rf_multi_dispositivos. También incluye `embassy_sync`,
+que ofrece primitivas de sincronización con soporte `async` (p. ej. `Channel`, `Signal`) para la comunicación entre
+tareas @ref_web_embassy_sync, y `embassy_usb`, para dar soporte USB al código con una API de nivel bajo
+@ref_web_embassy_usb.
 
 === Bibliotecas principales
 
-Fuera del ecosistema de Embassy, se usan varias bibliotecas. A continuación se explican las principales.
+Sparklet usa múltiples bibliotecas fuera del ecosistema de Embassy. A continuación se explican las principales.
 
 `defmt` es una biblioteca de _logging_ que permite enviar mensajes de la placa de desarrollo a la computadora sin
 almacenar el texto en la memoria del dispositivo @ref_web_defmt. Transforma los mensajes automáticamente, asignando al
@@ -152,16 +165,6 @@ sus argumentos), y al ordenador huésped darle formato. El texto de los mensajes
 depuración del binario, que no se envían al microcontrolador. Un ejemplo de su uso se puede ver en el
 @cod_ejemplo_defmt.
 
-#figure(
-  ```rust
-  use defmt::info;
-
-  info!("Midi note received: {}", note);
-  // El texto no se envía al microchip. El mensaje únicamente contiene un identificador del mensaje y el valor de `note`
-  ```,
-  caption: [Ejemplo del uso de `defmt` para registrar eventos en sistemas embebidos, donde el formateo del mensaje se
-    realiza en el huésped en lugar del microcontrolador.],
-)<cod_ejemplo_defmt>
 
 `fixed` proporciona tipos para operar con números de coma fija en Rust sin un coste de rendimiento @ref_web_fixed.
 `bytemuck` a su vez permite hacer conversiones de tipo que no conllevan modificar la representación en bits de los
@@ -194,3 +197,6 @@ placa de desarrollo y leer sus mensajes, y `lldb` como debugger.
 
 Para probar el sintetizador, se usa `vmpk` como teclado virtual y `qpwgraph` para conectar la entrada de audio del
 sintetizador a los altavoces del ordenador de desarrollo.
+
+Finalmente, para escribir la memoria, se usó Typst como sistema de composición tipográfica, Draw.io para la creación de
+diversos diagramas, y Python con la biblioteca Matplotlib para la creación de los gráficos.
