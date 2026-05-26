@@ -25,12 +25,9 @@ El ejecutor (`runner`) es responsable de inicializar el hardware, definir los ca
 comunicarse, y crear las tareas que llaman el resto de componentes. Es el primer módulo mencionado hasta el momento que
 sólo se puede ejecutar en el sistema empotrado. En concreto, hace lo siguiente:
 
-+ Inicialización del hardware El módulo `hardware` es responsable de controlar el hardware, es decir las entradas y
-  salidas GPIO, EXTI, etc. necesarias. Aislarlo en un módulo facilita actualizar los detalles si se cambia el chip
-  usado. Inicializa el USB, si es necesario, y determina los pines que serán usados para los botones y codificadores
-  rotativos de la configuración. Finalmente, introduce toda la configuración en el struct `Hardware`, y lo devuelve.
++ Inicialización del hardware (véase @sec_configuración_otros_dispositivos).
 
-+ Inicialización del ejecutor de Embassy.
++ Inicialización del ejecutor de tareas de Embassy.
 
 + Inicialización del USB, si está activado.
 
@@ -49,6 +46,8 @@ Una vez acaba, las tareas toman control del chip. La configuración se ejecuta c
 audio se ejecuta únicamente cuando se pide una salida de audio.
 
 === Rendimiento
+<sec_ejecutor_rendimiento>
 
 El sintetizador es capaz de calcular cada muestra de audio en $857 "µs"$ bajo las condiciones que indica el
-@rnf_rendimiento. Esto resulta en un margen del $14.3%$, superando el 10% que pide dicho requisito.
+@rnf_rendimiento. Esto resulta en un margen del $#num(digits: 1, 14.3)%$, superando el 10% que pide dicho requisito y
+así cumpliéndolo.

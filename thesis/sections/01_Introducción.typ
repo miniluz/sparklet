@@ -86,12 +86,12 @@ Los objetivos de alto nivel del trabajo son los siguientes:
 #let objetivos_proyecto = [
   - Crear un sintetizador musical en un sistema empotrado que resulte útil para músicos con interés en la tecnología.
     - Configurable para soportar diversos dispositivos y componentes.
-    - Con manuales de instalación, uso, desarrollo, y soporte de nuevos dispositivo.
+    - Con un manual que aborde tanto su instalación y uso como su desarrollo.
   - Presentar una arquitectura viable para el desarrollo de sintetizadores similares en microcontroladores.
-  - Elaborar un algoritmo eficiente para el envolvente ADSR en aritmética de coma fija que permita interpolar su
+  - Diseñar un algoritmo eficiente para el envolvente ADSR en aritmética de coma fija que permita interpolar su
     configuración.
-  - Elaborar una estrategia eficiente para el robo de voces que sea intuitivo y no genere artefactos bajo condiciones
-    extremas.
+  - Detallar una estrategia eficiente para el robo de voces que se comporte de forma intuitiva al músico y no genere
+    artefactos bajo condiciones extremas.
 ]
 
 #objetivos_proyecto
@@ -100,9 +100,10 @@ Y los objetivos de aprendizaje son los siguientes:
 
 #let objetivos_aprendizaje = [
   - Aprender sobre el desarrollo empotrado.
-    - Para soportar múltiples sistemas empotrados con el mismo código.
-    - Conseguir una buena experiencia de desarrollo.
+    - Sobre soportar múltiples sistemas empotrados con el mismo código.
+    - Sobre conseguir una buena experiencia del desarrollador (_developer experience_).
   - Aprender del procesamiento de señales digitales.
+    - En particular, sobre su aplicación a la música.
     - En sistemas con limitaciones de velocidad de cálculo (CPU).
     - En sistemas que no tienen disponible coma flotante.
 ]

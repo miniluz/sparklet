@@ -7,7 +7,7 @@
 #cita[
   "Hace seis años ya que mi amigo se fue con su cordero
   #linebreak()
-  y si trato de describirlo es con el fin de no olvidarlo.
+  y si trato de describirlo es con el fin de no olvidarlo".
 ][Antoine de Saint-Exupéry (El principito)]
 
 #resumen[

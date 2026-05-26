@@ -4,7 +4,7 @@
 
 #show: setup-reqs
 
-#set-num(decimal-separator: ",")
+#set-num(digits: 0)
 #set-group(
   size: 3,
   separator: sym.space.thin,
@@ -21,15 +21,17 @@
 == Ecualización
 <sec_eq>
 
-Sparklet implementa un ecualizador multibanda para satisfacer el @rf_ecualizador. Se separa la señal en componentes que
-corresponden a ciertos rangos de frecuencia, la ganancia de estos componentes se ajusta independientemente, y se vuelven
-a combinar, como se puede ver en la @fig_eq_diagrama. #footnote[Usando la tabla `DB_LINEAR_AMLITUDE_TABLE`.] Para
-atenuar un rango de frecuencias en particular o para aumentar las frecuencias agudas, se puede bajar o subir la ganancia
-a los componentes correspondientes.
+Sparklet implementa un ecualizador multibanda para satisfacer el @rf_ecualizador. Un ecualizador permite atenuar o
+intensificar ciertos rangos de frecuencia para conseguir una tonalidad deseada. Un ecualizador multibanda funciona de la
+siguiente forma, que se ve ilustrada en la @fig_eq_diagrama:
+
++ Se separa la señal en componentes que corresponden a ciertos rangos de frecuencia.
++ La ganancia de estos componentes se ajusta independientemente.
++ Se vuelven a combinar.
 
 #figure(
   image("/figures/Ecualizador.drawio.pdf", width: 90%),
-  caption: [Proceso de división, ajuste y recombinación de bandas en un ecualizador multibanda.],
+  caption: [Proceso de división, escalado y combinación de bandas en un ecualizador multibanda.],
   placement: bottom,
 )<fig_eq_diagrama>
 
@@ -47,10 +49,10 @@ paso banda y el último de paso alto, para repartir entre ellos todo el rango de
 almacenando los coeficientes en formato Q15.
 
 #figure(
-  image("/figures/octave_filter_response_q15.png", width: 90%),
+  image("/figures/octave_filter_response_q15.png", width: 100%),
   caption: [Respuesta espectral del banco de filtros, calculada usando un barrido sinusoidal en formato Q15. Se muestra
     la respuesta espectral de cada banda y de la suma de todas las bandas.],
-  placement: auto,
+  placement: bottom,
 )<fig_eq_response>
 
 El objetivo del banco es permitir controlar el tono del sonido en términos generales, permitiendo al músico controlar
@@ -66,9 +68,9 @@ bandas.
 - entre $4000 div sqrt(2) "Hz"$ y $4000 times sqrt(2) "Hz"$ (paso banda),
 - y $8000 "Hz"$ (paso alto).
 
-Esta solución atenúa las frecuencias bajas y altas aproximadamente $6,5 "dB"$ más que las medias, como se puede ver en
-la @fig_eq_response. Usar estas frecuencias con filtros Butterworth fue la combinación que consiguió los mejores
-resultados por experimentación, teniendo en cuenta que almacenar los coeficientes de un filtro en un Q15 afecta
+Esta solución atenúa las frecuencias bajas y altas aproximadamente $#num(digits: 1, 6.5) "dB"$ más que las medias, como
+se puede ver en la @fig_eq_response. Usar estas frecuencias con filtros Butterworth fue la combinación que consiguió los
+mejores resultados por experimentación, teniendo en cuenta que almacenar los coeficientes de un filtro en un Q15 afecta
 considerablemente su respuesta.
 
 === Rendimiento
@@ -79,15 +81,16 @@ ecualizador. Se realizaron las medidas en el sintetizador siendo ejecutado en su
 @sec_rendimiento_generador.
 
 Con 12 voces, el cálculo de una muestra con el ecualizador tarda $855 "µs"$, y sin él tarda $769 "µs"$. El ecualizador
-añade $86 "µs"$ al cálculo, un $8.6%$ del tiempo disponible, conllevando un coste del $11%$ en relación a no usarlo. Con
-8 voces, el cálculo de una muestra con el ecualizador tarda $557 "µs"$, y sin él tarda $515 "µs"$. El ecualizador añade
-$42 "µs"$ al cálculo, un $4.2%$ del tiempo disponible, conllevando un coste del $8%$ en relación a no usarlo.
+añade $86 "µs"$ al cálculo, un $#num(digits: 1, 8.6)%$ del tiempo disponible, conllevando un coste del $11%$ en relación
+a no usarlo. Con 8 voces, el cálculo de una muestra con el ecualizador tarda $557 "µs"$, y sin él tarda $515 "µs"$. El
+ecualizador añade $42 "µs"$ al cálculo, un $#num(digits: 1, 4.2)%$ del tiempo disponible, conllevando un coste del $8%$
+en relación a no usarlo.
 
-Se estima que el tiempo que usa con 8 voces es más cercano al que de verdad lleva, ya que su cálculo es independiente
-del número de voces. Esto es debido a que cuanto más toma el cálculo, más probable es que otras tareas lo interrumpan y
-alarguen artificialmente su duración. Siendo así, se puede estimar que usar el ecualizador añade unos $42 "µs"$ de
-duración al cálculo. Sabiendo que el CPU de la placa STM32H723ZG opera a $550 "MHz"$, se puede estimar que calcular 48
-muestras con el ecualizador toma $42 "µs" times 550 "MHz" = 23100 "ciclos"$, o $481 "ciclos"$ por muestra.
+Ya que el coste computacional del ecualizador es indepentiente de la cantidad de voces, se estima que la medida
+realizada con 8 voces es más cercana a la realidad. Esto es debido a que mientras más toma el cálculo, más probable es
+que otras tareas lo interrumpan y alarguen artificialmente su duración. Sabiendo que el CPU de la placa STM32H723ZG
+opera a $550 "MHz"$, se puede estimar que calcular 48 muestras con el ecualizador toma
+$42 "µs" times 550 "MHz" = 23100 "ciclos"$, o $481 "ciclos"$ por muestra.
 
 #figure(
   image("/figures/con_vs_sin_eq.png", width: 90%),

@@ -10,10 +10,10 @@
 <sec_configuración_compilación>
 
 Sparklet ha de cumplir el @rnf_rendimiento y el @rf_multi_dispositivos simultáneamente. Una dificultad es que algunas
-características, como el ecualizador o la lectura de MIDI por USB, pueden ser demasiado pesadas para el CPU o la memoria
-de dispositivo menos capaces. Desactivar estas funcionalidades en ejecución con un `if` no es suficiente, porque su
-código sigue ocupando memoria. Por ejemplo, para dar soporte a MIDI por USB, se incluye un controlador de USB completo
-en el código.
+características, como el ecualizador o una polifonía alta, pueden ser demasiado pesadas para el CPU o la memoria de
+dispositivo menos capaces. Desactivar estas funcionalidades en ejecución con un `if` no es suficiente, porque su código
+sigue ocupando memoria. Por ejemplo, para dar soporte a MIDI por USB, se incluye un controlador de USB completo en el
+código.
 
 Debido a esto, ciertas características de Sparklet son configurable durante la compilación. Para facilitar este proceso,
 todas las opciones se pueden controlar usando el archivo `Config.toml`. Un ejemplo de este archivo se puede ver en la
@@ -30,9 +30,9 @@ todas las opciones se pueden controlar usando el archivo `Config.toml`. Un ejemp
 )<cod_config_toml>
 
 Para permitir activar y desactivar las características, se usan las _feature flags_ de Rust. Las feature flags permiten
-incluir o excluir ciertas secciones de código, bibliotecas, etc @ref_web_rust_features. Se puede hacer que dependan de
+incluir o excluir ciertas secciones de código, bibliotecas, etc. @ref_web_rust_features. Se puede hacer que dependan de
 si cierta feature flag está activa, de si no está activa, o de si cierta combinación está activa, como se puede ver en
-el @cod_ejemplo_feature_flags. Usando feature flags, las siguientes características son configurables:
+el @cod_ejemplo_feature_flags. Usando feature flags, las siguientes características se pueden activar o desactivar:
 
 - El chip a usar: qué hardware abstraction layer y qué pines usar.
 - La entrada de MIDI: por un pin usando el formato DIN, por USB, o desactivada.
@@ -48,15 +48,23 @@ el @cod_ejemplo_feature_flags. Usando feature flags, las siguientes característ
   fn roll_dice() -> u8 { rand_range(1..=6) }
   ```,
   caption: [Ejemplo básico del uso de feature flags en Rust mediante atributos #[cfg] para seleccionar distintas
-    implementaciones de una función en tiempo de compilación. La implementación no seleccionada se incluye en el binario
-    final.],
+    implementaciones de una función en tiempo de compilación. La implementación no seleccionada no se incluye en el
+    binario final.],
   placement: auto,
 )<cod_ejemplo_feature_flags>
 
 El script `run-with-flags.sh` lee los campos relevantes de `Config.toml` y activa las feature flags correspondientes,
-permitiendo que se configuren fácilmente. Este toma como argumento el comando a ejecutar con las flags, de manera que
-para construir el código se puede ejecutar `./run-with-flags.sh cargo build --release`, y el script ejecutará a su vez
-`cargo build --release --no-default-features --features midi-usb audio-usb [...]`.
+permitiendo que se configuren fácilmente. Este toma como argumento un comando y lo llama especificando toda la
+configuración, como se ve en el @cod_run_with_flags.
+
+#figure(
+  ```bash
+  ./run-with-flags.sh cargo build --release
+  # ejecuta
+  DEFMT_LOG=off cargo build --release --no-default-features --features midi-usb audio-usb [...] --config "build.target = [...]" [...]
+  ```,
+  caption: [Ejemplo del script `run-with-flags.sh` configurando un comando más largo.],
+)<cod_run_with_flags>
 
 `Config.rs` también contiene ciertos números constantes como los valores iniciales del ADSR y la cantidad de voces,
 llamados parámetros. Se configuran con un archivo `build.rs`, que se ejecuta antes de la compilación. Este lee el
@@ -64,12 +72,15 @@ llamados parámetros. Se configuran con un archivo `build.rs`, que se ejecuta an
 se incluye en el código en tiempo de compilación con la macro `include!()`.
 
 ==== Soporte a otros dispositivos
+<sec_configuración_otros_dispositivos>
 
-Como se explicó en la @sec_múltiples_dispositivos, se usan diferentes especificaciones del hardware en el módulo
-`hardware` para especificar la configuración. Se elige cuál usar con feature flags, que se configuran del mismo modo con
-`run-with-flags.sh`. El pseudocódigo de la implementación usada se encuentra en el @cod_hardware. Además de esto, se usa
-el microcontrolador para determinar otros factores, como la arquitectura para la que se compila y si se usa un
-dispositivo con un M4 o M7 para CMSIS-DSP.
+Como se explicó en la @sec_múltiples_dispositivos, en el módulo `hardware` dada dispositivo indica los periféricos y la
+configuración hardware que le corresponde en un formato uniforme. Con feature flags se incluye en el código la
+implementación del dispositivo elegido. El módulo `hardware` lo reexporta, y el resto de componentes importan lo que
+exporte `hardware`. El pseudocódigo de la implementación usada se encuentra en el @cod_hardware.
+
+Además, se usa el microcontrolador objetivo para determinar otros factores, como la arquitectura para la que se compila,
+si se usa un dispositivo con un M4 o M7 para CMSIS-DSP, y el comando que se usa para transmitir el binario al chip.
 
 #figure(
   ```rust
@@ -107,20 +118,20 @@ dispositivo con un M4 o M7 para CMSIS-DSP.
 
 Sparklet se puede configurar en la ejecución con dos botones y tres codificadores rotatorios, como indica el
 @rf_configuración_ejecución. Para permitir modificar más de tres parámetros con los tres codificadores, se pagina la
-configuración: los codificadores modifican los valores de la página actual, mientras que los botones controlan la
-página. El módulo responsable de esta gestión es `ConfigManager`, que mantiene el estado de las páginas, los parámetros
-y la página seleccionada, y procesa eventos de configuración.
+configuración. Los botones permiten cambiar de página, y los codificadores modifican los valores de la página actual. El
+módulo responsable de esta gestión es `ConfigManager`, que mantiene el estado de las páginas, los parámetros y la página
+seleccionada, y procesa los eventos de configuración.
 
 La tarea de configuración es independiente a la de generación de audio. Lee los componentes asociados por muestreo, por
-defecto cada $5 "ms"$. Para los botones, mantiene una máquina de estado simple para aplicar _debouncing_. Para los
-codificadores rotativos, usa `Qei` de Embassy, que configura los timers del hardware conectando pines a su canal 1 y 2
-para acumular la diferencia de fase a un contador, sin necesidad de tiempo del CPU. Cada muestreo, la tarea de
-configuración mide la diferencia del contador con la última muestra, y la envía a `ConfigManager`.
+defecto cada $5 "ms"$. Para los botones, mantiene una máquina de estado para aplicar _debouncing_. Para los
+codificadores rotativos, usa `Qei` de Embassy, que configura los timers del hardware para acumular la diferencia de fase
+a un contador automáticamente, sin ocupar tiempo de procesamiento del CPU. Cada muestreo, la tarea de configuración mide
+la diferencia del valor actual contador con el anterior, y lo envía a `ConfigManager`.
 
-Para transmitir la configuración de forma eficiente, según el @rnf_rendimiento, los cambios en la configuración se
-transmiten al resto de módulos con menos frecuencia, por defecto cada $100 "ms"$. Se conecta al resto de módulos usando
-un `TripleBuffer`, permitiendo que `ConfigManager` nunca se bloquee al escribir y que el la generación nunca se bloquee
-al leer.
+Para propagar la configuración de forma eficiente, facilitando cumplir el @rnf_rendimiento, los cambios a la
+configuración se transmiten al resto de módulos con menos frecuencia a la que se leen los periféricos (por defecto, cada
+$100 "ms"$). Se conecta al resto de módulos usando un `TripleBuffer`, permitiendo que `ConfigManager` nunca se bloquee
+al escribir y que el motor de síntesis nunca se bloquee al leer.
 
 La taza de muestreo y de actualización de la configuración son parte de los parámetros configurados con el archivo
 `build.rs`, como se explica en la @sec_configuración_compilación.

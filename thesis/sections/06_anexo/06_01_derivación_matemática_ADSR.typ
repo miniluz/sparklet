@@ -2,12 +2,21 @@
 
 #show math.equation.where(block: true): set text(14pt)
 
+#import "@preview/zero:0.6.1": num, set-group, set-num
+
+#set-num(decimal-separator: ",")
+#set-group(
+  size: 3,
+  separator: sym.space.thin,
+  threshold: 5,
+)
+
 == Derivación matemática de las ecuaciones que usa el envolvente ADSR
 <sec_derivación_ADSR>
 
-Las fórmulas finales indicadas en la @sec_adsr_modelo se repiten a continuación por claridad: la @eq_decay_b_c, la
-@eq_base_coefficient_t_r y la @eq_b_c_range. A continuación, se detalla su derivación partiendo de la fórmula de
-decaimiento exponencial que sigue un condensador.
+Las fórmulas finales indicadas en la @sec_adsr_modelo, la @eq_decay_b_c, la @eq_base_coefficient_t_r y la @eq_b_c_range,
+se repiten a continuación. En este anexo, se detalla su derivación partiendo de la fórmula de decaimiento exponencial
+que sigue un condensador.
 
 #context query(<eq_decay_b_c>).first()
 
@@ -15,10 +24,12 @@ decaimiento exponencial que sigue un condensador.
 
 #context query(<eq_b_c_range>).first()
 
-La fórmula que modela el comportamiento de un condensador cuando se cambia el voltaje entre sus terminales es la decaída
-exponencial. Cuando un condensador tiene un voltaje $y_0$ y se cierra su circuito con una resistencia, su voltaje sobre
-el tiempo $y(t)$ decae a 0, siguiendo la @eq_decay_to_0, donde $tau$ determina la duración que toma la decaída (a mayor
-$tau$, mayor duración).
+=== Derivación de forma exponencial
+
+La fórmula que modela el comportamiento de un condensador cuando se cambia el voltaje entre sus terminales es el
+decaimiento exponencial. Cuando un condensador tiene un voltaje $y_0$ y se cierra su circuito con una resistencia, su
+voltaje sobre el tiempo $y(t)$ decae a 0, siguiendo la @eq_decay_to_0, donde $tau$ determina la duración que toma la
+decaída.
 
 $
   y(t) = y_0 times e^inline((-t)/tau)
@@ -40,13 +51,16 @@ $
 $
 <eq_decay_iterative>
 
-Su equivalencia se puede demostrar con la hipótesis de inducción definida en la @eq_induction_hypothesis. El caso base
-$m = 1$ es verdadero por definición.
+#pagebreak()
+
+Su equivalencia se puede demostrar con la hipótesis de inducción definida en la @eq_induction_hypothesis.
 
 $
   y_n = T + (y_(n-m) - T) times e^inline((-m)/tau)
 $
 <eq_induction_hypothesis>
+
+El caso base $m = 1$ es verdadero por definición.
 
 #context query(<eq_decay_iterative>).first()
 
@@ -84,6 +98,8 @@ $
 
 #context query(<eq_decay_to_T>).first()
 
+#pagebreak()
+
 Para simplificar la @eq_decay_iterative, se define el coeficiente $C$ y la base $B$, como se ve en la
 @eq_base_coefficient. Esto permite redefinirla en términos de $B$ y $C$, como se ve en la @eq_decay_b_c:
 
@@ -115,16 +131,18 @@ Para simplificar la @eq_decay_iterative, se define el coeficiente $C$ y la base 
   breakable: false,
 )
 
-Se podría controlar $tau$ para controlar la velocidad de la decaída. Sin embargo, esto tiene dos inconvenientes: sólo
-permitiría tener una curva de decaimiento exponencial hacia un objetivo (es decir, no permite controlar la forma de la
-curva), y el decaimiento exponencial nunca llega a su valor objetivo. Esto dificultaría crear la máquina de estados que
-modela el envolvente ADSR. La transición del estado de ataque al de decaimiento ocurre cuando se llega al volumen
-máximo, y una decaída exponencial nunca llega a su valor objetivo.
+Se podría controlar $tau$ para controlar la velocidad de la decaída. Sin embargo, esto tiene dos inconvenientes:
++ La única curva posible sería la del decaimiento exponencial, que no es deseable como se explicó en la
+  @sec_adsr_modelo.
++ El decaimiento exponencial nunca llega a su valor objetivo. Esto dificultaría crear la máquina de estados que modela
+  el envolvente ADSR. La transición del estado de ataque al de decaimiento ocurre cuando se llega al volumen máximo, y
+  una decaída exponencial nunca llega a su valor objetivo.
 
 Lo que propone #cite(<ref_web_adsr>, form: "prose") es que el objetivo $T$ al que decaer no sea el objetivo $T_0$ al que
-se quiere llegar, sino que se exceda por un _target ratio_ $r > 0$. Por ejemplo, si el estado inicial es $y_0 = 1$ y se
-quiere llegar al objetivo $T_0 = 0$, el decaimiento se realiza con target ratio $r = 0.5$, el decaimiento se realiza
-hacia un valor $T$ un 50% más lejos del objetivo real $T_0$, es decir hacia $T = 1.5$. $T$ se calcula con la @eq_t_r.
+se quiere llegar, sino que se exceda por un _target ratio_ $r > 0$. Por ejemplo, si el estado inicial es $y_0 = 0$ y se
+quiere llegar al objetivo $T_0 = 1$, el decaimiento se realiza con target ratio $r = #num(digits: 1, 0.1)$, el
+decaimiento se realiza hacia un valor $T$ un 10% más lejos del objetivo real $T_0$, es decir hacia $T
+= #num(digits: 1, 1.1)$. $T$ se calcula con la @eq_t_r.
 
 $
   T = y_0 + (T_0 - y_0) times (1 + r)
@@ -226,6 +244,8 @@ $
 $
 <eq_tau_t_r>
 
+#pagebreak()
+
 Por lo tanto, dada la @eq_base_coefficient, se redefinen $C$ y $B$ en base al valor inicial $y_0$, el objetivo $T$, el
 target ratio $r$ y el la cantidad de muestras que tarda $n$ en la @eq_base_coefficient_t_r:
 
@@ -248,12 +268,12 @@ target ratio $r$ y el la cantidad de muestras que tarda $n$ en la @eq_base_coeff
   breakable: false,
 )
 
-/* TODO Insertar código Rust */
+=== Derivación de los rangos posibles de los valores
 
-Finalmente queda demostrar que pueden ser almacenados en un Q15. Es importante notar que $T_0$ y $y_0$ en la práctica
-sólo tienen dos casos:
-+ En el attack, $y_0 = 0$ y $T_0 = 1$
-+ En el decay y release, $y_0 = 1$ y $T_0 = 0$
+Finalmente queda demostrar que pueden ser almacenados en un Q15. Es importante notar que, en la práctica, sólo hay dos
+valores que pueden tomar $T_0$ y $y_0$:
++ En el ataque, $y_0 = 0$ y $T_0 = 1$
++ En el decaimiento y la relajación, $y_0 = 1$ y $T_0 = 0$
 
 Por lo tanto, es suficiente demostrar lo que afirma la @eq_b_c_range:
 
@@ -274,6 +294,10 @@ Es fácil demostrarlo para $C$, ya que por definición $r > 0$:
 Para $B$, se pueden evaluar ambos casos de forma independiente:
 
 #context query(<eq_base_coefficient_t_r>).first()
+
+#pagebreak()
+
+==== Caso de ataque
 
 Para el caso $y_0 = 0$, $T_0 = 1$:
 
@@ -312,6 +336,10 @@ El límite superior, $B = (1+r) times (1 - (inline(r/(1+r)))^(1/n)) <= 1$, se pu
   block: true,
   numbering: none,
 )
+
+#pagebreak()
+
+==== Caso de decaimiento y relajación
 
 Para el caso $y_0 = 1$, $T_0 = 0$:
 

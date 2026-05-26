@@ -170,7 +170,7 @@ desarrollo y para dar soporte a un nuevo dispositivo, podría ser instalado por 
 automáticas aportan confianza al usuario de la calidad del código y de que sea funcional. En resumen, puede ofrecer una
 funcionalidad superior al resto de sintetizadores de su rango de precio.
 
-=== Ámbito académico
+=== Literatura
 
 #let citas = [#cite(<ref_book_theory_music>, form: "prose"),
   #cite(<ref_book_music_tutorial>, form: "prose")]
