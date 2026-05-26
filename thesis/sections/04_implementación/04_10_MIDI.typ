@@ -28,7 +28,7 @@ Sparklet soporta la entrada MIDI tanto por un puerto DIN, usando UART, como por 
 `MidiListener` con otros módulos se puede ver representada en la @fig_midi_listener.
 
 #figure(
-  image("/figures/MIDI.pdf", width: 80%),
+  image("/figures/MIDI.drawio.pdf", width: 80%),
   caption: [`MidiListener` recibe bytes de la entrada, sea por DIN o USB, y pasa los eventos al `VoiceBank` por una cola
     con descarte.],
   placement: auto,

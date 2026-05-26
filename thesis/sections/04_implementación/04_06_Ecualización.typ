@@ -28,7 +28,7 @@ atenuar un rango de frecuencias en particular o para aumentar las frecuencias ag
 a los componentes correspondientes.
 
 #figure(
-  image("/figures/Ecualizador.pdf", width: 90%),
+  image("/figures/Ecualizador.drawio.pdf", width: 90%),
   caption: [Proceso de división, ajuste y recombinación de bandas en un ecualizador multibanda.],
   placement: bottom,
 )<fig_eq_diagrama>

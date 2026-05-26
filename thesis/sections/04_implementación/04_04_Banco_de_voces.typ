@@ -60,12 +60,6 @@ una de las dificultades principales del desarrollo de Sparklet. Tómense los sig
 === Solución implementada
 <sec_procesado_midi>
 
-#figure(
-  image("/figures/Banco de voces.pdf", width: 60%),
-  caption: [Representación en diagrama del algoritmo de robo de voces implementado.],
-  placement: auto,
-)<fig_voice_bank>
-
 Tomando estos casos límite en cuenta, se implementó el siguiente algoritmo, que los gestiona todos de forma eficiente.
 Un diagrama del algoritmo se puede ver en la @fig_voice_bank. Además, se provee una descripción en detalle en la
 siguiente sección.
@@ -79,11 +73,26 @@ se contribuye a resolver también el segundo problema, pues se garantiza que só
 el caso, volver a tocar y soltar la tecla hará que deje de sonar, volviendo al comportamiento esperado.
 
 #figure(
-  todo[Falta hacer],
-  caption: [Comportamiento de una nota al ser vuelta a tocar antes de que su amplitud baje a cero.],
+  grid(
+    columns: 1,
+    gutter: 1em,
+    [
+      #figure(
+        image("/figures/Banco de voces.drawio.pdf", width: 60%),
+        caption: [Representación en diagrama del algoritmo de robo de voces implementado.],
+      )<fig_voice_bank>
+    ],
+    [
+      #figure(
+        image("/figures/Retrigger.drawio.pdf", width: 50%),
+        caption: [Comportamiento de una nota al volver a ser tocada antes de que su amplitud baje a cero.],
+      )
+      <fig_retrigger>
+    ],
+  ),
+  numbering: none,
   placement: auto,
 )
-<fig_retrigger>
 
 #todo[Quizá debería poner ilustraciones de cómo se ven estos casos límite con esta implementación.]
 
