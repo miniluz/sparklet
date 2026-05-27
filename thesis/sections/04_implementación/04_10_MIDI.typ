@@ -27,15 +27,13 @@ El protocolo MIDI es un estándar para transmitir información de control entre 
 los mensajes de control change (CC), que como se mencionó en la @sec_configuración_ejecución permiten configurar
 Sparklet.
 
-Para gestionar la entrada MIDI, se usa el `struct` `MidiListener`. Expone un método `process_bytes` que recibe un vector
-de bytes y lo procesa usando la biblioteca `midly`. `midly` permite identificar mensajes MIDI recibiendo un byte a la
-vez, lo que la hace compatible con leer MIDI usando un puerto DIN. Cuando `midly` identifica un evento MIDI,
-`MidiListener` lo envía al `VoiceBank` por un canal con descarte, que este procesa como se explica en la
-@sec_procesado_midi.
-#footnote[Una conexión MIDI por el puerto DIN puede producir menos de $2000$ mensajes soportados por segundo, y Sparklet
-  puede consumir hasta $16000$. En la práctica la cola nunca se llena.]
+Para gestionarlo se usa el `struct` `MidiListener`. Expone un método `process_bytes` que recibe un vector de bytes y lo
+procesa usando la biblioteca `midly`. Cuando se identifica un evento MIDI, `MidiListener` lo envía al `VoiceBank` por un
+canal con descarte, que este procesa como se explica en la @sec_procesado_midi.
+#footnote[Una conexión MIDI por el puerto DIN puede producir como mucho $2000$ mensajes compatibles por segundo, y
+  Sparklet puede consumir hasta $16000$. En la práctica la cola nunca se llena.]
 
-Sparklet soporta la entrada MIDI tanto por un puerto DIN, usando UART, como por USB, como indican el @rf_midi_din y el
+Sparklet admite una conexión MIDI tanto por un puerto DIN, usando UART, como por USB, como indican el @rf_midi_din y el
 @rf_midi_usb. En ambos casos, se consiguen los bytes de los mensajes MIDI y se envían a `MidiListener`. La conexión de
 `MidiListener` con otros módulos se puede ver representada en la @fig_midi_listener.
 
@@ -46,12 +44,12 @@ Sparklet soporta la entrada MIDI tanto por un puerto DIN, usando UART, como por 
   placement: auto,
 )<fig_midi_listener>
 
-`Sparklet` únicamente soporta los eventos MIDI `NoteOn`, `NoteOff` y `Controller` (CC). El resto de eventos son
-descartados por `MidiListener` antes de enviarlos por el canal por rendimiento.
-#footnote[Un dispositivo MIDI puede ignorar los mensajes que no soporta @ref_web_midi.]
+`Sparklet` únicamente es compatible con los eventos MIDI `NoteOn`, `NoteOff` y `Controller` (CC). El resto de eventos se
+descartan antes de ser enviados por el canal, para evitar procesamiento innecesario.
+#footnote[Un dispositivo MIDI puede ignorar los mensajes con los que no es compatible @ref_web_midi.]
 El protocolo MIDI acepta mensajes de extensión del sistema (SysEx) de longitud arbitraria y contenido definido por el
-fabricante. Al asignar a `midly` un buffer de 4 bytes, suficiente para los eventos que Sparklet soporta @ref_web_midi,
-se evita procesar cualquier mensaje de tamaño superior al buffer, ahorrando memoria.
+fabricante. Al asignar a `midly` un buffer de 4 bytes, suficiente para los eventos con los que Sparklet es compatible
+@ref_web_midi, se evita procesar cualquier mensaje de tamaño superior al buffer, ahorrando memoria.
 
 La fiabilidad del módulo de `midly` es fundamental, pues es el único módulo escrito para este proyecto que consume
 directamente datos externos. La implementación ha de considerar que se puede encontrar con mensajes erróneos, con ruido,

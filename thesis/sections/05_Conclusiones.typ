@@ -41,7 +41,7 @@ cumplido. Así, se aporta al estado del arte de los sintetizadores, llenando un 
 
 Además, se presentaron los algoritmos para el envolvente ADSR (@sec_adsr) y el robo de voces (@sec_banco_de_voces) con
 suficiente detalle para ser recreados e implementados en la práctica. Estos nuevos algoritmos funcionan de forma fiable
-bajo las condiciones limitadas del microcontrolador, y soportan interpolación en el caso del ADSR y situaciones extremas
+bajo las condiciones limitadas del microcontrolador, y admiten interpolación en el caso del ADSR y situaciones extremas
 en el caso del robo de voces sin generar artefactos perceptibles. Su desarrollo contribuye al estado del arte de la
 literatura.
 
@@ -94,10 +94,10 @@ componentes, las pruebas de rendimiento se realizaron en sprints posteriores, en
 visitar código y optimizarlo a posteriori, una vez se había perdido el contexto. Hasta cierto punto, esto es inevitable,
 pero podría haber sido reducido si se hubiese investigado un poco más antes de realizar las implementaciones.
 
-Por último, se analiza la lección anterior desde otro punto de vista. Si no se hubiesen tenido en cuenta al diseñar la
-arquitectura aspectos como la necesidad de dar soporte a múltiples dispositivos, de poder ejecutar pruebas en un
-ordenador, y de usar librerías para los cálculos DSP, se habría tardado mucho más en implementarlo. En el futuro, antes
-de empezar con un proyecto complejo, analizaré las partes que pueden generar más complejidad e investigaré para
+Por último, se analiza la lección anterior desde otro punto de vista. Si no se hubiesen tenido en cuenta desde el
+principio aspectos como la necesidad de ser compatible con múltiples dispositivos, de poder ejecutar pruebas en un
+ordenador y de usar bibliotecas para los cálculos DSP, se habría tardado mucho más en implementarlos. En el futuro,
+antes de empezar con un proyecto complejo, analizaré las partes que pueden generar más complejidad e investigaré para
 encontrar una solución compatible. Como se atribuye a Lincoln de forma apócrifa @ref_quote_lincoln, "si tuviera cinco
 minutos para cortar un árbol, pasaría los primeros tres afilando mi hacha".
 
@@ -106,7 +106,7 @@ minutos para cortar un árbol, pasaría los primeros tres afilando mi hacha".
 
 Considero que, en cuanto a Sparklet, la línea de trabajo futuro más clara es hacerlo compatible con los sistemas
 modulares y el formato Eurorack. Usando las entradas ADC del microcontrolador, se podrían proveer varias entradas de
-voltaje de control (un formato en el que se especifica una nota con voltaje) para soportar la polifonía. Usando un DAC
+voltaje de control (un formato en el que se especifica una nota con voltaje) para admitir la polifonía. Usando un DAC
 externo, se podría proveer una salida analógica de 3.5mm. Además, se podría también proveer un archivo CAD para poder
 crear a mano o con impresión 3D un caparazón compatible con Eurorack. Una dificultad sería intentar mantener la
 flexibilidad de Sparklet en cuanto a microcontroladores y componentes, que aporta mucho a reducir su precio.

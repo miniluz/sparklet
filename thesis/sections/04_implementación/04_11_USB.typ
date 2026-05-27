@@ -24,6 +24,6 @@ Se usa la transmisión de audio en el modo síncrono, en el que el dispositivo m
 audio al dispositivo esclavo @ref_web_usb_audio. Se usa para ahorrar la complejidad de tener un reloj interno
 independiente y de mantenerlo sincronizado con el dispositivo maestro.
 
-Además, se soporta controlar el volumen y el silenciamiento del sintetizador con señales USB. Cuando se reciben estos
+Además, se admite controlar el volumen y el silenciamiento del sintetizador con señales USB. Cuando se reciben estos
 eventos, se almacena el factor equivalente en amplitud y se almacena en el estado, que a su vez se multiplica por el
 bloque de audio antes de transmitirlo.

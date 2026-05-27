@@ -35,7 +35,7 @@ código `unsafe` (o código seguro que depende de código `unsafe`) @ref_web_rus
 `unsafe` como parte de tu programa y depender de bibliotecas que lo usan, minimizando el riesgo de UB si las bibliotecas
 han sido probadas en profundidad.
 
-Además, las librerías de HAL (_hardware abstraction layer_) en el ecosistema de Rust están construidas con una API
+Además, las bibliotecas HAL (_hardware abstraction layer_) en el ecosistema de Rust están construidas con una API
 diseñada para validar en compilación que la configuración del hardware es correcta. Por ejemplo, es imposible activar
 las interrupciones en los pines `PA5` y `PB5` simultáneamente, ya que crear una entrada con interrupciones consume un
 `struct` `EXTI5` del que únicamente se puede obtener uno. Si se intenta, genera un error de compilación. En resumen, si
@@ -150,9 +150,8 @@ empotradas basada en los `Future`.
 Debido a la popularidad de Embassy, su ecosistema es bastante maduro. Ofrece _hardware abstraction layers_, APIs de Rust
 que abstraen las características del hardware (p. ej. entrada, salida, _pull-ups_). Provee HALs para casi todos los
 microcontroladores de la familia STM32, permitiendo cumplir el @rf_multi_dispositivos. También incluye `embassy_sync`,
-que ofrece primitivas de sincronización con soporte `async` (p. ej. `Channel`, `Signal`) para la comunicación entre
-tareas @ref_web_embassy_sync, y `embassy_usb`, para dar soporte USB al código con una API de nivel bajo
-@ref_web_embassy_usb.
+que ofrece primitivas de sincronización compatibles con `async` (p. ej. `Channel`, `Signal`) para la comunicación entre
+tareas @ref_web_embassy_sync, y `embassy_usb`, para permitir que el código tenga una interfaz USB @ref_web_embassy_usb.
 
 === Bibliotecas principales
 

@@ -131,7 +131,7 @@
     [Salida de audio y entrada de MIDI por USB.],
     [
       - Lectura de la especificación de USB Audio 1.0.
-      - Modificación de la librería `embassy-usb` para implementar un dispositivo de entrada de audio síncrona.
+      - Modificación de la biblioteca `embassy-usb` para implementar un dispositivo de entrada de audio síncrona.
       - Implementación de la salida de audio del sintetizador por USB audio.
       - Implementación de la entrada de MIDI por USB.
     ],
@@ -234,13 +234,13 @@
     "2026-05-15",
     20,
     30.5,
-    [Configuración en la compilación y soporte a otros dispositivos.],
+    [Configuración en la compilación y compatibilidad con dispositivos.],
     [
       - Mejoras a la legibilidad del código.
       - Creación del archivo de configuración Config.toml y el script para activar las feature flags en base a él.
       - Creación del _script_ de construcción `build.rs` para establecer parámetros en el código.
       - Permitir cambiar la configuración por inicial del ADSR, ecualizador, etc.
-      - Dar soporte al STM32F401RC aparte del STM32H723ZG (la placa de desarrollo).
+      - Aportar compatibilidad con el STM32F401RC aparte del STM32H723ZG (la placa de desarrollo).
       - Redacción de la sección de configuración del TFG.
       - Creación de imágenes para el TFG.
     ],

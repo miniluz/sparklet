@@ -34,5 +34,5 @@ que lo hace más eficiente para bloques grandes como son los de audio.
 
 Usar una cola para los bloques conlleva un retraso. Si se muestrea una vez cada milisegundo, entonces se responde con un
 bloque generado hace tantos milisegundos como tenga bloques la cola. Sin embargo tener una cola de más de un bloque
-ayuda a soportar picos de procesamiento (que podrían ocurrir, por ejemplo, si ocurren muchas interrupciones) sin generar
+ayuda a tolerar picos de carga (que podrían ocurrir, por ejemplo, si ocurren muchas interrupciones) sin generar
 artefactos de audio, ayudando a cumplir el @rnf_calidad_de_audio. Debido a esto Sparklet usa una cola de dos bloques.

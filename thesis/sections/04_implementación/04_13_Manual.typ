@@ -28,7 +28,7 @@ recomienda Diátaxis y "referencia" del mismo modo.
 + Sección sobre el desarrollo.
   - Explicación de lo que se espera de las contribuciones al proyecto
   - Guía de obtención del entorno de desarrollo del proyecto.
-  - Guía para añadir soporte a un nuevo dispositivo.
+  - Guía para añadir compatibilidad con nuevo dispositivo.
   - Referencia de la estructura del repositorio.
   - Referencia de las herramientas disponibles en el entorno de desarrollo.
 

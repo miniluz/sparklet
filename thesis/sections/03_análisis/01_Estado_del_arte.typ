@@ -25,8 +25,8 @@ de onda analógicos más baratos incluyen el Behringer 921B (40 €) o Behringer
 nota a la vez. El Behringer Brains (90€) es una alternativa digital, también monofónica. Si se busca un generador
 polifónico digital, una de las opciones más baratas es el OXI Instruments Coral, a la venta por unos 380 €.
 
-En cuanto a sintetizadores hardware libres, la lista diy-synths @ref_web_diy_synths provee una selección de
-sintetizadores de software y hardware libre de alta calidad. A continuación se analizan todos:
+En cuanto a sintetizadores hardware libres, la _Base de datos de sintetizadores DIY_ @ref_web_diy_synths provee una
+selección de sintetizadores de software y hardware libre de alta calidad. A continuación se analizan todos:
 
 #box(table(
   columns: (auto, 1fr),
@@ -145,9 +145,9 @@ sintetizadores de software y hardware libre de alta calidad. A continuación se 
   [Diferenciación],
   [
     Sparklet se puede ejecutar en un STM32F401RC sin ningún componente adicional con funcionalidad completa, por lo que
-    puede ser ensamblado por tan solo el precio de este chip, que el autor consiguió por 12 €. En caso de que el usuario
-    no pueda adquirir ese microcontrolador, es fácil adaptarlo para que soporte cualquier dispositivo de la familia
-    STM32, incluso configurando su funcionalidad para adaptarse a la potencia del microcontrolador.
+    se puede usar por tan solo el precio de este chip, que el autor consiguió por 12 €. En caso de que el usuario no
+    pueda adquirir este microcontrolador, es fácil modificar el código para añadir compatibilidad con casi cualquier
+    dispositivo de la familia STM32, e incluso recortar su funcionalidad para adaptarse a sus capacidades.
   ],
 
   [Proyectos],
@@ -163,12 +163,13 @@ sintetizadores de software y hardware libre de alta calidad. A continuación se 
 Se puede ver que hay un hueco en el mercado. En particular, faltan sintetizadores baratos con un límite de polifonía
 alto, apto para interpretar una pieza en teclado usando ambas manos. Este es el hueco que puede llenar Sparklet.
 
-Puede soportar varios microcontroladores y componentes para que el usuario pueda usar las opciones más baratas que tenga
-disponibles, incluso llegando a un precio inferior a 20 €. Por este precio, se consigue una polifonía de 12 voces, un
-gran diferenciador. Además, incluye ecualización. Con documentación suficiente para su instalación, su uso, su
-desarrollo y para dar soporte a un nuevo dispositivo, podría ser instalado por usuarios menos técnicos. Las pruebas
-automáticas aportan confianza al usuario de la calidad del código y de que sea funcional. En resumen, puede ofrecer una
-funcionalidad superior al resto de sintetizadores de su rango de precio.
+Es compatible con varios microcontroladores y componentes para que el usuario pueda elegir una opción que le sea barata,
+por ejemplo aprovechando un descuento. Puede llegar a un precio inferior a 20 € y a tal precio ofrecer una polifonía de
+12 voces y ecualización, un gran diferenciador. Dado que tiene documentación suficiente para su instalación, su uso y
+para añadir compatibilidad con un nuevo dispositivo, podría ser instalado por usuarios menos técnicos que muchos otros
+sintetizadores DIY. Las pruebas automáticas, cuyos resultados son públicos, aportan confianza de la calidad del código y
+validan su funcionamiento. En resumen, puede ofrecer una funcionalidad superior al resto de sintetizadores de su rango
+de precio.
 
 === Literatura
 
@@ -176,7 +177,7 @@ funcionalidad superior al resto de sintetizadores de su rango de precio.
   #cite(<ref_book_music_tutorial>, form: "prose")]
 
 Uno de los problemas de diseñar un sintetizador polifónico (que permite tocar más de una nota a la vez) es la estrategia
-para el robo de voces @ref_book_theory_music. Es decir, cuando se tocan más notas de las que soporta el sintetizador, el
+para el robo de voces @ref_book_theory_music. Es decir, cuando se tocan más notas de las que admite el sintetizador, el
 algoritmo que decide cuáles se dejan de tocar para permitir dar paso a las nuevas. Aunque en la literatura existen
 estrategias de asignación de voces (véase #citas), estas suelen basarse en criterios heurísticos simples como la
 antigüedad de la nota, su amplitud o su estado de liberación. En escenarios extremos, cuando se tocan muchas notas entre

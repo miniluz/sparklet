@@ -8,7 +8,7 @@ elegidas y el resto de requisitos del proyecto fueron divididos en _sprints_, in
 @ref_web_manifiesto_ágil, como se explicará en detalle en la siguiente sección.
 
 Como política de ramas, los commits se hacen directamente sobre `main`. Al ser un proyecto en el que sólo trabaja un
-desarrollador, no se considera necesario usar otras ramas. Usando _workflows_ de GitHub Actions se valida cada _push_
+desarrollador, no se considera necesario usar otras ramas. Usando _workflows_ de GitHub Actions se valida en cada _push_
 que el código compila, que todas las pruebas pasan, que el formato del código es correcto, y que no hay errores
 ortográficos en el documento.
 

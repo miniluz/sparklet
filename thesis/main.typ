@@ -56,9 +56,10 @@
     extensible y bien documentado.
 
     La literatura de la síntesis musical en sistemas empotrados de bajo rendimiento, en particular con aritmética de
-    coma fija, es escasa. Uno de los problemas que destaca es el diseño de envolventes ADSR que soporten configuración
-    dinámica. Para remediarlo, se propone un algoritmo para el envolvente ADSR configurable dinámicamente, basado en los
-    condensadores que usaban los sintetizadores analógicos para modular la amplitud de la onda.
+    coma fija, es escasa. Uno de los problemas que destaca es el diseño de envolventes de ataque, decaimiento,
+    sostenimiento y relajación (ADSR) que admiten configuración dinámica. Para remediarlo, se propone un algoritmo
+    configurable dinámicamente, basado en los condensadores que usaban los sintetizadores analógicos para modular la
+    amplitud de la onda.
 
     Otro problema es la gestión eficiente de la polifonía mediante una estrategia de robo de voces robusta ante
     condiciones extremas. Se aporta un algoritmo eficiente para la asignación de voces orientado a responder con rapidez
@@ -67,8 +68,8 @@
 
     El resultado es un sistema que contribuye tanto a la democratización de la síntesis #box[_do it yourself_] (DIY)
     como al estado del arte en algoritmos de síntesis musical para sistemas con recursos computacionales limitados. El
-    uso de pruebas automáticas, el soporte de múltiples microcontroladores, y la documentación de su uso, instalación,
-    desarrollo y extensión hacen que resalte frente a las alternativas.
+    uso de pruebas automáticas, la compatibilidad con múltiples microcontroladores, y la documentación de su uso,
+    instalación, desarrollo y extensión hacen que resalte frente a las alternativas.
   ],
   palabras-clave: (
     "síntesis de audio",
@@ -92,9 +93,9 @@
     affordable, accessible, extensible and well-documented.
 
     Literature on musical synthesizers for low-performance embedded systems, particularly those using fixed-point
-    arithmetic, is sparse. A notable problem is the design of ADSR envelopes that support dynamic reconfiguration. As a
-    solution, the thesis proposes a dynamically configurable ADSR envelope algorithm modeled after the capacitor-based
-    circuits found in analogue synthesizers that modulate wave amplitude.
+    arithmetic, is sparse. A notable problem is the design of attack, decay, sustain and release (ADSR) envelopes that
+    support dynamic reconfiguration. As a solution, this thesis proposes a dynamically configurable algorithm modeled
+    after the capacitor-based circuits found in analogue synthesizers that modulate wave amplitude.
 
     A second problem is the efficient management of polyphony, particularly a voice-stealing strategy that holds up
     under extreme conditions. The thesis contributes an efficient voice allocation algorithm designed to respond quickly

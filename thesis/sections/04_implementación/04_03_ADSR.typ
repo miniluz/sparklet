@@ -182,7 +182,7 @@ condensador modelado `Capacitor`.
 
 El modelo del condensador `Capacitor` es una máquina de estados pequeña. Tiene los estados `Charging`, `Discharging`,
 `ReachedTarget` y `QuickDischarging`. `QuickDischarging` se usa cuando se tocan más notas a la vez de las que el
-programa soporta y descarga el condensador de forma casi inmediata (véase la @sec_banco_de_voces). Mantiene la carga
+sintetizador admite, y descarga el condensador de forma casi inmediata (véase la @sec_banco_de_voces). Mantiene la carga
 actual (`current`) y objetivo (`target`), aparte de los $B$ y $C$ que usa para cargar (en el ataque) y descargar (en el
 decaimiento y relajación).
 #footnote[Las $B$ y $C$ de `QuickDischarging` son constantes externas a `Capacitor`, ya que no son configurables]

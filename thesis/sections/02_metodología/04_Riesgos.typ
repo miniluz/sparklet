@@ -13,21 +13,21 @@ mitigarlos:
 #riesgo(
   [Imposibilidad práctica de utilizar Rust para el desarrollo],
   [
-    El proyecto depende en gran medida del ecosistema de Rust y de librerías específicas para desarrollo empotrado, por
-    lo que problemas de compatibilidad, compilación o soporte hardware podrían dificultar la implementación prevista.
+    El proyecto depende en gran medida del ecosistema de Rust y de bibliotecas específicas para desarrollo empotrado,
+    por lo que problemas de compatibilidad podrían dificultar la implementación prevista.
   ],
   [Alto.],
   [Media.],
   (
     [Validación temprana del uso de Rust.],
-    [Investigación previa de librerías para DSP, USB y lectura MIDI.],
+    [Investigación previa de bibliotecas para DSP, USB y lectura MIDI.],
   ),
 )
 
 #riesgo(
   [Rendimiento insuficiente en microcontroladores de bajo coste],
   [
-    El objetivo de soportar dispositivos muy económicos y sin soporte de coma flotante puede provocar limitaciones de
+    El objetivo de ser compatible con dispositivos muy económicos y sin coma flotante puede provocar limitaciones de
     rendimiento o memoria al ejecutar síntesis polifónica, interpolación de ADSR y ecualización simultáneamente.
   ],
   [Alto.],
@@ -42,7 +42,7 @@ mitigarlos:
 #riesgo(
   [Dificultad para mantener compatibilidad entre múltiples plataformas],
   [
-    El soporte para distintos microcontroladores, componentes y configuraciones hardware puede aumentar
+    La compatibilidad con distintos microcontroladores, componentes y configuraciones hardware puede aumentar
     significativamente la complejidad del código y dificultar su mantenimiento y depuración.
   ],
   [Medio.],

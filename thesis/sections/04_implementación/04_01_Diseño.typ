@@ -6,7 +6,7 @@
 === Arquitectura
 
 #figure(
-  image("/figures/Diagrama de la arquitectura.drawio.pdf", width: 73%),
+  image("/figures/Diagrama de la arquitectura.drawio.pdf", width: 67%),
   caption: "Diagrama de la arquitectura de Sparklet.",
   placement: bottom,
 )<fig_diagrama_arquitectura>
@@ -26,7 +26,7 @@ motor de síntesis para que genere el siguiente.
 
 El motor de audio tiene una cola de eventos MIDI que han llegado desde la generación del último bloque de audio. La
 tarea de entrada MIDI lee un _stream_ de bytes y añade a la cola los eventos MIDI que hay en él, descartándolos si
-Sparklet no los soporta o si la cola está llena.
+Sparklet no es compatible o si la cola está llena.
 
 Idealmente se procesarían los eventos MIDI para saber qué notas se están tocando actualmente en una tarea aparte en
 lugar de en la de generación de audio. Sin embargo, el algoritmo que determina qué nota soltar cuando tocar una nueva
@@ -35,16 +35,16 @@ nota supera el límite de polifonía requiere de información privada al motor d
 La configuración, sin embargo, no depende de información privada, por lo que se extrae a una tarea separada. Sparklet
 puede ser configurada por periféricos y por MIDI, de acuerdo al @rf_configuración_periféricos y @rf_configuración_midi.
 Ambas entradas se comunican con el gestor de configuración usando una cola con descarte. La configuración se comunica al
-motor de síntesis por un triple buffer, que nunca bloquea la lectura ni la escritura, para evitar retrasos en la
+motor de síntesis por un triple _buffer_, que nunca bloquea la lectura ni la escritura, para evitar retrasos en la
 generación de audio.
 
-=== Soporte de múltiples dispositivos
+=== Compatibilidad con múltiples dispositivos
 <sec_múltiples_dispositivos>
 
-Ya que la mayoría del código es independiente de la plataforma, y debido a que tanto Embassy como CMSIS-DSP soportan
-casi todos los dispositivos STM32 que usan un ARM Cortex M4 o M7 (con y sin coma flotante), la cantidad de código que
-varía entre dos dispositivos es mínimo. En particular, únicamente cambia la configuración del hardware (p. ej. los pines
-y la configuración USB).
+Ya que la mayoría del código es independiente de la plataforma, y debido a que tanto Embassy como CMSIS-DSP son
+compatibles con casi todos los dispositivos STM32 que usan un ARM Cortex M4 o M7 (con y sin coma flotante), la cantidad
+de código que varía entre dos dispositivos es mínimo. En particular, únicamente cambia la configuración del hardware (p.
+ej. los pines y la configuración USB).
 
 Todo el código que especifica estos detalles se encuentra en un único módulo, `hardware`. Se hace de esta forma para
 facilitar añadir nuevos dispositivo y depurar problemas con el dispositivo actual. Cada dispositivo indica los
@@ -60,7 +60,7 @@ implementación del dispositivo activo, y las tareas importan lo que exporta el 
 
       #figure(
         image("/figures/hardware.drawio.pdf", width: 95%),
-        caption: "Diagrama representando la arquitectura usada para soportar múltiples dispositivos.",
+        caption: "Diagrama representando la arquitectura usada para ofrecer compatibilidad con múltiples dispositivos.",
       )<fig_hardware>
     ],
     [

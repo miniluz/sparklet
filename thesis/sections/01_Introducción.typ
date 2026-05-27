@@ -18,11 +18,12 @@
 <sec_motivación>
 
 La aplicación de la ingeniería informática a la música ha abierto nuevas posibilidades creativas, mejorado la
-experiencia de los músicos y facilitando el acceso de los. El Minimoog Model D (véase la @fig_minimoog), uno de los
-primeros sintetizadores portátiles y ampliamente usados en conciertos, salió en 1970 @ref_web_moog_history. Su precio en
-1974 era de 1595 \$ @ref_web_moog_price, equivalente a unos 9266 € actuales, tomando en cuenta la inflación. Hoy en día,
-es posible e incluso fácil instalar una estación de audio digital (DAW) de código abierto, como Ardour @ref_web_ardour,
-un sintetizador gratuito, como Helm @ref_web_helm, e interpretar una canción usando exclusivamente software libre.
+experiencia de los expertos y facilitando el acceso a los novatos. El Minimoog Model D (véase la @fig_minimoog), uno de
+los primeros sintetizadores portátiles y ampliamente usados en conciertos, salió en 1970 @ref_web_moog_history. Su
+precio en 1974 era de 1595 \$ @ref_web_moog_price, equivalente a unos 9266 € actuales, tomando en cuenta la inflación.
+Hoy en día, es posible e incluso fácil instalar una estación de audio digital (DAW) de código abierto, como Ardour
+@ref_web_ardour, un sintetizador gratuito, como Helm @ref_web_helm, e interpretar una canción usando exclusivamente
+software libre.
 
 A pesar de las facilidades que ofrece trabajar con software, el estilo de síntesis modular que seguía Robert Moog sigue
 en uso. La estandarización ha permitido combinar módulos de distintas compañías para formar un sintetizador propio
@@ -34,7 +35,7 @@ con fines didácticos @ref_web_diy_kits.
 Quizá el único ámbito que aún resiste el movimiento DIY es el de los sintetizadores. Sean analógicos o digitales, son
 mucho más complejos que otros módulos como mezcladores y ecualizadores. Aún no existe una solución accesible, buena y
 barata para crear un sintetizador por tu cuenta, como se explora en la @sec_estado_del_arte. Además, un desarrollador
-que lo intente crear se encontrará con una falta de literatura sobre los algoritmos concretos usados para las partes más
+que intente crearlo se encontrará con una falta de literatura sobre los algoritmos concretos usados para las partes más
 complejas de un sintetizador. Este trabajo intenta remediar ambos problemas.
 
 #figure(
@@ -85,7 +86,7 @@ Los objetivos de alto nivel del trabajo son los siguientes:
 
 #let objetivos_proyecto = [
   - Crear un sintetizador musical en un sistema empotrado que resulte útil para músicos con interés en la tecnología.
-    - Configurable para soportar diversos dispositivos y componentes.
+    - Configurable para ser compatible con diversos dispositivos y componentes.
     - Con un manual que aborde tanto su instalación y uso como su desarrollo.
   - Presentar una arquitectura viable para el desarrollo de sintetizadores similares en microcontroladores.
   - Diseñar un algoritmo eficiente para el envolvente ADSR en aritmética de coma fija que permita interpolar su
@@ -100,7 +101,7 @@ Y los objetivos de aprendizaje son los siguientes:
 
 #let objetivos_aprendizaje = [
   - Aprender sobre el desarrollo empotrado.
-    - Sobre soportar múltiples sistemas empotrados con el mismo código.
+    - Sobre crear código compatible con múltiples microcontroladores.
     - Sobre conseguir una buena experiencia del desarrollador (_developer experience_).
   - Aprender del procesamiento de señales digitales.
     - En particular, sobre su aplicación a la música.

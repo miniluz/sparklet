@@ -54,5 +54,5 @@ Para crear un sintetizador útil que aporte al estado del arte, se proponen los 
 ]
 #req("rnf_manual", "NF")[Manual][
   Ha de tener un manual disponible online, que detalle tanto la instalación y el uso del sintetizador como el desarrollo
-  del software (en particular, cómo añadir soporte a un nuevo dispositivo).
+  del software (en particular, cómo añadir compatibilidad con un nuevo dispositivo).
 ]

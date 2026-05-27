@@ -11,9 +11,9 @@
 
 Sparklet ha de cumplir el @rnf_rendimiento y el @rf_multi_dispositivos simultáneamente. Una dificultad es que algunas
 características, como el ecualizador o una polifonía alta, pueden ser demasiado pesadas para el CPU o la memoria de
-dispositivo menos capaces. Desactivar estas funcionalidades en ejecución con un `if` no es suficiente, porque su código
-sigue ocupando memoria. Por ejemplo, para dar soporte a MIDI por USB, se incluye un controlador de USB completo en el
-código.
+dispositivo menos capaces. Desactivar estas funcionalidades en ejecución con un `if` no es suficiente ya que su código
+sigue ocupando espacio en el binario. Por ejemplo, para permitir la entrada de MIDI por USB, se incluye un controlador
+de USB completo en el código, y aún si no se usase ocuparía mucho espacio en la memoria.
 
 Debido a esto, ciertas características de Sparklet son configurable durante la compilación. Para facilitar este proceso,
 todas las opciones se pueden controlar usando el archivo `Config.toml`. Un ejemplo de este archivo se puede ver en la
@@ -72,7 +72,7 @@ llamados parámetros. Se configuran con un archivo `build.rs`, que se ejecuta an
 `Config.toml` y genera un archivo `build_config.rs` con un `struct` que contiene todos los parámetros. `build_config.rs`
 se incluye en el código en tiempo de compilación con la macro `include!()`.
 
-==== Soporte a otros dispositivos
+==== Compatibilidad con a otros dispositivos
 <sec_configuración_otros_dispositivos>
 
 Como se explicó en la @sec_múltiples_dispositivos, en el módulo `hardware` dada dispositivo indica los periféricos y la
