@@ -11,7 +11,7 @@ const TEST_CHANNEL_SIZE: usize = 16;
 
 macro_rules! setup_voice_bank {
     ($vb:ident) => {
-        let channel = Channel::<NoopRawMutex, MidiEvent, TEST_CHANNEL_SIZE>::new();
+        let channel = Channel::<NoopRawMutex, NoteEvent, TEST_CHANNEL_SIZE>::new();
         let receiver = channel.receiver();
         #[allow(unused_mut)]
         let mut $vb =

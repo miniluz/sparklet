@@ -28,7 +28,7 @@ const FAST_DECAY_RELEASE: u8 = 10;
 // Macro for easily setting up a Generator instance with a Sender and initial config
 macro_rules! setup_synth_engine {
     ($sender:ident, $se:ident) => {
-        let channel = Channel::<NoopRawMutex, MidiEvent, TEST_CHANNEL_SIZE>::new();
+        let channel = Channel::<NoopRawMutex, NoteEvent, TEST_CHANNEL_SIZE>::new();
         let $sender = channel.sender();
         let receiver = channel.receiver();
         let test_config = Config {
