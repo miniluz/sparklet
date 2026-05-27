@@ -20,8 +20,7 @@
 
     Agradezco a Emil, mi otra mitad, que me ha escuchado cada noche, siempre con una sonrisa y un apoyo incondicional.
     Amo tenerte en mis brazos mientras hablas de tus plantas y de tus sueños, sin querer tejiendo en el aire hilos de
-    luz que revelan la belleza de tu ser. Espero hacerte sentir tan amado como tú me haces sentir a mí, aun creyéndolo
-    imposible.
+    luz que revelan la belleza de tu ser. Espero hacerte sentir tan amado como tú me haces sentir a mí.
 
     Quiero agradecer, también, a todos los que me acompañaron estos cuatro años. Al haber superado juntos esta odisea,
     al haber pasado años manteniéndonos cuerdos los unos a los otros, vuestras almas han dejado una marca indeleble en
@@ -38,8 +37,9 @@
     Finalmente, agradezco a los que me han acompañado por más tiempo. A Rafa y a Gianca, con quienes he pasado mil
     tardes y superado mil pesares, y a quienes veo mucho menos de lo que me gustaría. A Nico, a quien he llegado a
     querer un poco más que a mí. Nunca podré pagarte todo la ayuda que me has prestado. Vosotros tres os merecéis mucho,
-    mucho más de lo que el mundo ha querido daros. Espero veros pronto. A Sofía, quien considero mi hermana puesto que
-    la conozco desde que tengo memoria. Estoy deseando verte actuar en Broadway.
+    mucho más de lo que el mundo ha querido daros. Espero veros pronto. A Domingo, quizá la persona con más curiosidad
+    que he conocido. Y a Sofía, quien considero mi hermana puesto que la conozco desde que tengo memoria. Estoy deseando
+    verte actuar en Broadway.
 
     Por último, agradezco a aquellos con quien me descubrí. A Alba, un torbellino de talento. A Corral, el _genius loci_
     de Premià. A Cristian, sin quien no habría sobrevivido al bachillerato. Y a Ena, mi confidente. Me enorgullezco de

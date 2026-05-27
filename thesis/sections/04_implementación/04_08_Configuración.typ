@@ -9,19 +9,19 @@
 === Durante la compilación
 <sec_configuración_compilación>
 
-Sparklet ha de cumplir el @rnf_rendimiento y el @rf_multi_dispositivos simultáneamente. Una dificultad es que algunas
-características, como el ecualizador o una polifonía alta, pueden ser demasiado pesadas para el CPU o la memoria de
-dispositivo menos capaces. Desactivar estas funcionalidades en ejecución con un `if` no es suficiente ya que su código
-sigue ocupando espacio en el binario. Por ejemplo, para permitir la entrada de MIDI por USB, se incluye un controlador
-de USB completo en el código, y aún si no se usase ocuparía mucho espacio en la memoria.
+Sparklet ha de cumplir el @rnf_rendimiento y el @rf_multi_dispositivos simultáneamente. Un obstáculo es que algunas
+características, como el ecualizador o una polifonía alta, pueden ser demasiado pesadas para el CPU o la memoria de un
+dispositivo menos capaz. Desactivar estas funcionalidades en ejecución con un `if` no es suficiente ya que su código
+sigue ocupando espacio en el binario (y algunas funcionalidades ocupan mucho espacio, como la entrada de MIDI por USB
+que incluye un controlador USB completo).
 
-Debido a esto, ciertas características de Sparklet son configurable durante la compilación. Para facilitar este proceso,
-todas las opciones se pueden controlar usando el archivo `Config.toml`. Un ejemplo de este archivo se puede ver en la
-@cod_config_toml. Se permite:
+Debido a esto, ciertas características de Sparklet son configurables durante la compilación. Para que un usuario poco
+técnico pueda configurar el sistema, todas las opciones se pueden controlar usando el archivo `Config.toml`. Un ejemplo
+de este archivo se puede ver en la @cod_config_toml. Se permite:
 
 - Activar y desactivar fácilmente las características del sistema, como la inclusión del ecualizador.
 - Modificar los parámetros de la aplicación, como la cantidad de voces a usar por el motor de síntesis.
-- Establecer la configuración inicial del dispositivo cuando se enciende, como el ataque, sostenimiento, etc.
+- Establecer la configuración inicial del sintetizador, como el ataque, sostenimiento, la onda usada, etc.
 
 #figure(
   raw(read("/code/Config.toml"), block: true, lang: "toml"),
@@ -34,7 +34,7 @@ incluir o excluir ciertas secciones de código, bibliotecas, etc. @ref_web_rust_
 si cierta feature flag está activa, de si no está activa, o de si cierta combinación está activa, como se puede ver en
 el @cod_ejemplo_feature_flags. Usando feature flags, las siguientes características se pueden activar o desactivar:
 
-- El chip a usar: qué hardware abstraction layer y qué pines usar.
+- El modelo de microcontrolador a usar: qué periféricos usar y cómo configurarlos.
 - La entrada de MIDI: por un pin usando el formato DIN, por USB, o desactivada.
 - La inclusión del ecualizador.
 - La capacidad de configurar el sintetizador en ejecución con periféricos.
@@ -62,7 +62,7 @@ configuración, como se ve en el @cod_run_with_flags.
   ```bash
   ./run-with-flags.sh cargo build --release
   # ejecuta
-  DEFMT_LOG=off cargo build --release --no-default-features --features midi-usb audio-usb [...] --config "build.target = [...]" [...]
+  DEFMT_LOG=off cargo build --release --no-default-features --features "midi-usb audio-usb [...]" --config "build.target = [...]" [...]
   ```,
   caption: [Ejemplo del script `run-with-flags.sh` configurando un comando más largo.],
 )<cod_run_with_flags>
@@ -75,7 +75,7 @@ se incluye en el código en tiempo de compilación con la macro `include!()`.
 ==== Compatibilidad con a otros dispositivos
 <sec_configuración_otros_dispositivos>
 
-Como se explicó en la @sec_múltiples_dispositivos, en el módulo `hardware` dada dispositivo indica los periféricos y la
+Como se explicó en la @sec_múltiples_dispositivos, en el módulo `hardware` cada dispositivo indica los periféricos y la
 configuración hardware que le corresponde en un formato uniforme. Con feature flags se incluye en el código la
 implementación del dispositivo elegido. El módulo `hardware` lo reexporta, y el resto de componentes importan lo que
 exporte `hardware`. El pseudocódigo de la implementación usada se encuentra en el @cod_hardware.

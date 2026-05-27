@@ -91,8 +91,8 @@ Los objetivos de alto nivel del trabajo son los siguientes:
   - Presentar una arquitectura viable para el desarrollo de sintetizadores similares en microcontroladores.
   - Diseñar un algoritmo eficiente para el envolvente ADSR en aritmética de coma fija que permita interpolar su
     configuración.
-  - Detallar una estrategia eficiente para el robo de voces que se comporte de forma intuitiva al músico y no genere
-    artefactos bajo condiciones extremas.
+  - Detallar una estrategia eficiente para el robo de voces que se comporte de forma intuitiva para el músico y no
+    genere artefactos bajo condiciones extremas.
 ]
 
 #objetivos_proyecto

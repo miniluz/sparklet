@@ -16,9 +16,9 @@
 == Envolvente ADSR
 <sec_adsr>
 
-Cuando un oscilador se activa y desactiva repentinamente, no genera un sonido agradable. Cuando se toca una nota,
-empieza repentinamente al máximo volumen, y cuando se deja de tocar, para instantáneamente. Estos cambios bruscos se
-escuchan como clics, que son inaceptables para Sparklet como indica el @rnf_calidad_de_audio.
+Cuando un oscilador se activa y desactiva repentinamente, no genera un sonido agradable. Si se usaran directamente, al
+tocar una nota empezaría repentinamente a su máximo volumen y al soltarla pararía instantáneamente. Estos cambios
+bruscos se escuchan como clics, que son inaceptables según indica el @rnf_calidad_de_audio.
 
 El envolvente de ataque, decaimiento, sostenimiento y relajación (_attack, decay, sustain, release_ o ADSR) suaviza esta
 transición. Se origina en los sintetizadores analógicos, y se ha convertido en el estándar para controlar la envolvente
@@ -64,7 +64,7 @@ agresivo") @ref_book_music_tutorial. Son:
 <sec_adsr_modelo>
 
 El ataque, sostenimiento y decaimiento controlan el tiempo que se tarda en pasar de un nivel a otro, pero no la forma de
-la transición. Encontrar una función de transición que sea tanto eficiente como agradable no es trivial.
+la transición. Encontrar una función de transición que sea eficiente y agradable no es trivial.
 
 Por ejemplo, se podría usar una transición lineal en el volumen. Se corresponde con un crecimiento exponencial en la
 amplitud, como se puede ver en la @fig_vol_lineal, debido a que la percepción del volumen es logarítmica. Pero resulta
@@ -72,8 +72,8 @@ poco útil en la práctica, pues se escucha desequilibrada: el ataque se escucha
 de volumen al final, mientras que el decaimiento concentra la pérdida de volumen al principio.
 
 Una transición lineal en la amplitud genera un envolvente más útil para el ataque, ya que el volumen sube de forma más
-rápida al principio, como se ve en la @fig_amp_lineal. Sin embargo, tiene el problema opuesto para el decaimiento: al
-principio se pierde poca energía y al final se pierde con demasiada rapidez.
+rápida al principio, como se ve en la @fig_amp_lineal. Sin embargo, tiene el problema opuesto que la lineal en volumen
+durante el decaimiento: al principio se pierde poca energía y al final se pierde con demasiada rapidez.
 
 #figure(
   grid(
@@ -132,9 +132,9 @@ obtenida, que es agresiva en el ataque y pierde energía muy rápidamente en el 
 
 En la práctica, usarlo resulta en un sonido demasiado agresivo en ambas transiciones. Debido a esto, muchos
 sintetizadores usaban circuitos más complejos con múltiples condensadores, resistencias y transistores. El modelo
-propuesto por #cite_adsr da otra solución al problema. Usa un parámetro adicional _target ratio_ $r$, que permite
-interpolar entre el comportamiento de un condensador y una transición lineal en amplitud. Usando $r$ se puede dar una
-forma agradable a la transición. En la @fig_condensador_rt se puede ver la forma conseguida con $r = #num[0.1]$, la que
+propuesto por #cite_adsr propone otra solución. Usa un parámetro adicional _target ratio_ $r$, que permite interpolar
+entre el comportamiento de un condensador y una transición lineal en amplitud. Usando $r$ se puede dar una forma
+agradable a la transición. En la @fig_condensador_rt se puede ver la forma conseguida con $r = #num[0.1]$, la que
 Sparklet usa para el ataque.
 
 Matemáticamente, un condensador que se carga o descarga sigue un decaimiento exponencial hacia el nuevo voltaje. No es
@@ -182,21 +182,21 @@ condensador modelado `Capacitor`.
 
 El modelo del condensador `Capacitor` es una máquina de estados pequeña. Tiene los estados `Charging`, `Discharging`,
 `ReachedTarget` y `QuickDischarging`. `QuickDischarging` se usa cuando se tocan más notas a la vez de las que el
-sintetizador admite, y descarga el condensador de forma casi inmediata (véase la @sec_banco_de_voces). Mantiene la carga
-actual (`current`) y objetivo (`target`), aparte de los $B$ y $C$ que usa para cargar (en el ataque) y descargar (en el
-decaimiento y relajación).
+sintetizador admite, y descarga el condensador de forma casi inmediata (véase la @sec_banco_de_voces). `Capacitor`
+almacena la carga actual (`current`) y objetivo (`target`), aparte de los $B$ y $C$ que usa para cargar (en el ataque) y
+descargar (en el decaimiento y relajación).
 #footnote[Las $B$ y $C$ de `QuickDischarging` son constantes externas a `Capacitor`, ya que no son configurables]
-El método principal de configuración es `set_target`: el condensador internamente calcula si se carga o descarga.
+El método principal de configuración es `set_target`; el condensador internamente calcula si se carga o descarga.
 
 La máquina de estados `ADSRState` es el núcleo de la implementación. Cada estado define su comportamiento con el nivel
 de amplitud y su transición a otros estados. Los estados comparten un único `Capacitor`, lo que permite suavizar cambios
-dinámicos a la velocidad de la nota o la configuración del envolvente. Este diseño evita discontinuidades bruscas en la
+dinámicos a la configuración del envolvente o la velocidad de la nota. Este diseño evita discontinuidades bruscas en la
 amplitud cuando se cambian parámetros, reduciendo la aparición de artefactos audibles como clics.
 
-Aparte de los estados estándar, `Attack`, `Decay`, `Sustain` y `Release`, tiene un estado `Idle` que devuelve siempre
-cero y un estado `QuickRelease` que activa el modo `QuickDischarge` de `Capacitor`, también usado para la gestión de
-voces. Cada estado ajusta el objetivo del condensador y avanza su simulación una muestra, como se puede ver en el
-pseudocódigo de su implementación en el @cod_adsr_state.
+`ADSRState` tiene, aparte de los estados estándar (`Attack`, `Decay`, `Sustain` y `Release`), un estado `Idle` que
+devuelve siempre cero y un estado `QuickRelease` que activa el modo `QuickDischarge` de `Capacitor`. Cada estado ajusta
+el objetivo del condensador y avanza su simulación una muestra, como se puede ver en el pseudocódigo de su
+implementación en el @cod_adsr_state.
 
 #figure(
   ```rust
@@ -240,14 +240,14 @@ pseudocódigo de su implementación en el @cod_adsr_state.
 
 ==== Configurabilidad
 
-Para cumplir con el @rf_adsr, es necesario que el envolvente ADSR sea configurable dinámicamente. La configuración se
-reparte entre `Capacitor` y `ADSRConfig`. `Capacitor` mantiene la configuración que le es relevante: los $B$ y $C$
-usados para cargar (en el ataque) y descargar (en el decaimiento y la relajación).
+Para cumplir con el @rf_adsr, es necesario que el envolvente sea configurable dinámicamente. La configuración se reparte
+entre `Capacitor` y `ADSRConfig`. `Capacitor` mantiene los $B$ y $C$ usados para cargar (en el ataque) y descargar (en
+el decaimiento y la relajación).
 #footnote[Una peculiaridad de la implementación es que la longitud del decaimiento y de la relajación no son
   configurables por separado, ya que ambos son modelados como una descarga del mismo condensador. Es intencional, pues
   es el comportamiento de un sintetizador analógico real.]
 `ADSRConfig` mantiene la información externa al condensador, como el nivel de sostenimiento y la amplitud objetivo,
-determinado con la velocidad de la nota.
+determinada con la velocidad de la nota.
 #footnote[Para el sostenimiento y la velocidad, la amplitud (no el volumen) tiene relación lineal con la señal de
   configuración. Experimentalmente, produce un resultado más natural, por motivos similares a los explicados en la
   @sec_adsr_modelo. Lo ideal sería usar una curva intermedia, como la del modelo del condensador, pero determinar la
@@ -257,10 +257,10 @@ La configuración de la longitud del ataque, el decaimiento y la relajación se 
 base $B$ y el coeficiente $C$ para todas estas configuraciones se almacenan en una tabla calculada de antemano, ya que
 sus cálculos requieren de operaciones de coma flotante que pueden no estar disponibles en el microcontrolador usado.
 
-La generación del ataque usa $r_t = #num(0.1)$, con el tiempo $t$ abarcando entre #num(digits: 2, 0.01) y 5 segundos. La
-del decaimiento y la relajación, usa $r_t = #num(0.2)$, con el tiempo $t$ abarcando entre #num(digits: 2, 0.01) y 10
+La generación del ataque usa $r = #num(0.1)$, con el tiempo $t$ abarcando entre #num(digits: 2, 0.01) y 5 segundos. La
+del decaimiento y la relajación, usa $r = #num(0.2)$, con el tiempo $t$ abarcando entre #num(digits: 2, 0.01) y 10
 segundos. No se usan pasos homogéneos en el tiempo, porque el salto entre $50 "ms"$ y $100 "ms"$ de ataque se notaría
 mucho más que el salto entre $#num(4.5) "s"$ y $#num(digits: 2, 4.55) "s"$. En su lugar, se usa una curva entre lineal y
-exponencial para facilitar su configuración, dando más precisión al controlar el tiempo cuando es bajo (p. ej. la
-configuración que sigue a $10 "ms"$ es $11 "ms"$ y la que sigue a $1 "s"$ es $#num(1.1) "s"$). El modo `QuickReleasee`
-usa $r_t = 2$ y $t = #num(digits: 2, 0.01)$.
+exponencial para facilitar su configuración, dando más precisión al controlar el tiempo cuando es bajo (p. ej. haciendo
+que la configuración que siga a $10 "ms"$ sea $11 "ms"$ y la que siga a $1 "s"$ sea $#num(1.1) "s"$). El modo
+`QuickReleasee` usa $r = 2$ y $t = #num(digits: 2, 0.01)$.

@@ -15,8 +15,8 @@
 <sec_derivación_ADSR>
 
 Las fórmulas finales indicadas en la @sec_adsr_modelo, la @eq_decay_b_c, la @eq_base_coefficient_t_r y la @eq_b_c_range,
-se repiten a continuación. En este anexo, se detalla su derivación partiendo de la fórmula de decaimiento exponencial
-que sigue un condensador.
+se repiten a continuación. En este anexo, se detalla su derivación a partir de la fórmula de decaimiento exponencial que
+sigue un condensador.
 
 #context query(<eq_decay_b_c>).first()
 

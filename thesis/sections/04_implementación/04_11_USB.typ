@@ -8,7 +8,7 @@
 
 USB es un formato universal y genérico para la transmición de datos. Un dispositivo USB puede integrar varias
 funcionalidades @ref_web_usb. Por ejemplo, una cámara podría exponer un _endpoint_ para transmitir video y otro para
-transmitir audio. Sparklet puede expone un endpoint para la salida de MIDI (salida desde el punto de vista del maestro,
+transmitir audio. Sparklet puede exponer un endpoint para la salida de MIDI (salida desde el punto de vista del maestro,
 no de Sparklet) y otro para la entrada de audio, como indican el @rf_audio_usb y el @rf_midi_usb. Es quizá la manera más
 fácil de usarlo, permitiendo que opere con una única conexión a cualquier ordenador con un puerto USB.
 

@@ -21,10 +21,11 @@
 == Operaciones DSP
 <sec_operaciones_dsp>
 
-Para realizar operaciones DSP de forma eficiente, como pide el @rnf_rendimiento, se usa la biblioteca CMSIS-DSP, usando
-Q15 siempre que sea posible. En concreto, se usa la biblioteca `cmsis_dsp` de Rust, que proporciona _bindings_ para
-CMSIS-DSP. Por cada función incluída en la biblioteca original, se proporciona una función en Rust que la llama. Ya que
-faltaban algunas funciones necesarias para Sparklet, se hizo un fork de la biblioteca para añadir los bindings.
+Para realizar operaciones DSP de forma eficiente, como pide el @rnf_rendimiento, se usa la biblioteca CMSIS-DSP, y se
+usan números en formato Q15 siempre que sea posible. En concreto, se usa la biblioteca `cmsis_dsp` de Rust, que
+proporciona _bindings_ para CMSIS-DSP. Por cada función incluída en la biblioteca original, se proporciona una función
+en Rust que la llama. Ya que faltaban algunas funciones necesarias para Sparklet, se hizo un fork de la biblioteca para
+añadir los bindings.
 
 Como se mencionó en la @sec_inst_dsp, Sparklet usa una interfaz llamada `CmsisOperations` con dos implementaciones: una
 basada en Rust (que puede ejecutarse en cualquier plataforma compatible, incluyendo `x86_64`) y una basada en

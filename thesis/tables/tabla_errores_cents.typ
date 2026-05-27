@@ -35,5 +35,4 @@
     [ $#num(4.8) "cents"$ ],
   ),
   caption: "Errores en cents para algunas notas usando un incremento de 16 bits.",
-  placement: bottom,
 )<tabla_errores_cents>

@@ -46,7 +46,7 @@ Para crear un sintetizador útil que aporte al estado del arte, se proponen los 
   STM32H723ZG.
 ]
 #req("rnf_fiabilidad", "NF")[Fiabilidad][
-  Ha de operar continuamente sin necesitar un reinicio.]
+  Ha de operar continuamente, sin entrar en un estado de error que requiera reiniciarlo.]
 #req("rnf_calidad_de_audio", "NF")[Calidad de audio][
   Ha de producir audio libre de distorsiones perceptibles.]
 #req("rnf_pruebas", "NF")[Pruebas][

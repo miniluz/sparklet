@@ -37,7 +37,7 @@ Se ha creado un sintetizador musical completo (@sec_osciladores, @sec_adsr, @sec
 @sec_eq, @sec_midi, @sec_usb), configurable (@sec_configuración) y con manuales accesibles (@sec_manual). Además, se
 presentó una arquitectura basada en la multitarea cooperativa para crear sintetizadores capaces de operar en múltiples
 dispositivos con limitaciones de rendimiento de manera fiable (@sec_diseño). Todos los requisitos planteados se han
-cumplido. Así, se aporta al estado del arte de los sintetizadores, llenando un hueco en el mercado.
+cumplido. De este modo se aporta al estado del arte de los sintetizadores, llenando un hueco en el mercado.
 
 Además, se presentaron los algoritmos para el envolvente ADSR (@sec_adsr) y el robo de voces (@sec_banco_de_voces) con
 suficiente detalle para ser recreados e implementados en la práctica. Estos nuevos algoritmos funcionan de forma fiable
@@ -54,23 +54,22 @@ Similarmente, se repiten los objetivos de aprendizaje:
 
 #objetivos_aprendizaje
 
-He tenido que aprender, entre otras cosas, sobre la multitarea cooperativa y apropiativa, cómo realizar compilación
-cruzada o compilación condicional, cómo realizar pruebas para plataformas empotradas y cómo probar código que se puede
-compilar a un microcontrolador en un ordenador; que entender los protocolos MIDI, USB y UART, cómo leer hardware tanto
-por interrupciones como por polling, cómo escribir código en situaciones con memoria y poder de procesamiento limitados,
-y cómo generar de antemano código al no poder usar floats y para configurar el sistema en la compilación. Considerando
-que antes del trabajo no había desarrollado para sistemas empotrados más allá de proyectos pequeños con Arduino,
-considero que he aprendido bastante.
+He tenido que aprender, entre otras cosas, sobre la multitarea cooperativa y apropiativa, sobre cómo realizar
+compilación cruzada y compilación condicional, sobre cómo realizar pruebas para plataformas empotradas y sobre cómo
+probar código que se puede compilar a un microcontrolador en un ordenador; he tenido que entender los protocolos MIDI,
+USB y UART, cómo leer hardware tanto por interrupciones como por polling, cómo escribir código en situaciones con
+memoria y poder de procesamiento limitados, y cómo realizar generación de código para configurar el sistema en la
+compilación. Considerando que antes del trabajo apenas había desarrollado para sistemas empotrados, considero que he
+aprendido bastante.
 
-En cuanto al procesamiento de señales digitales, tenía más conocimiento, pero no era consiente de que la mayoría de este
-dependía de los números de coma flotante para funcionar. Al operar en tiempo real en sistemas con limitaciones de
-velocidad de procesamiento y sin usar números de coma flotante, muchas técnicas dejan de ser viables.
-
-Además, diseñar un producto musical da una perspectiva muy distinta a la que tenía antes, que era más teórica. Se vuelve
-una herramienta para conseguir una buena experiencia de usuario y un sonido agradable. También ha tenido mucho valor.
+En cuanto al procesamiento de señales digitales, tenía más conocimiento, pero no era consiente de que la mayoría de él
+dependía de los números de coma flotante en la práctica. Al operar en tiempo real en sistemas con limitaciones de
+velocidad de procesamiento y con números de coma fija, muchas técnicas dejan de ser viables. Además, diseñar un producto
+musical da una perspectiva muy distinta a la que tenía antes, que era más teórica. Se vuelve una herramienta para
+conseguir una buena experiencia de usuario y un sonido agradable.
 
 En definitiva, si cometí un error, fue el de subestimar la cantidad de conocimiento que tendría que adquirir para poder
-realizar este trabajo. Sin embargo, no me arrepiento.
+realizar este trabajo. No me arrepiento.
 
 == Lecciones aprendidas
 <sec_lecciones_aprendidas>
@@ -81,10 +80,10 @@ me adelantaría y podría ampliar el alcance. Al final, apenas ha resultado sufi
 el desarrollo. Tener que aprender un nuevo ámbito toma mucho tiempo, y este no puede ser ignorado al planificar.
 
 Algo similar ocurrió con la memoria. A pesar de sobrestimar su dedicación horaria por un 100%, también se acabó
-subestimado el tiempo que tomaría, como se mencionó en la @sec_desviaciones. En particular, no se tomó en cuenta la
-cantidad de revisiones que han ocurrido y el esfuerzo que se ha dedicado a que el texto sea legible, didáctico, y que
-estuviera acompañado de figuras que aporten a la explicación. En el siguiente proyecto, tendré en cuenta el tiempo que
-toma hacer documentación legible, y en general los aspectos del desarrollo que no son escribir código.
+subestimado el tiempo que tomaría, como se mencionó en la @sec_desviaciones. En particular, no tomé en cuenta la
+cantidad de revisiones que han ocurrido y el esfuerzo que tendría que dedicar a que el texto sea legible y didáctico, y
+a acompañarlo de figuras para aclararlo. En el siguiente proyecto, tendré en cuenta el tiempo que toma hacer
+documentación legible, y en general los aspectos del desarrollo que no son escribir código.
 
 Otro problema ha sido el retrabajo. Se realizaron implementaciones erróneas o incompatibles con la literatura, que
 tuvieron que ser reemplazadas. Un ejemplo fue usar interrupciones para leer los botones y codificadores rotatorios en
@@ -106,14 +105,14 @@ minutos para cortar un árbol, pasaría los primeros tres afilando mi hacha".
 
 Considero que, en cuanto a Sparklet, la línea de trabajo futuro más clara es hacerlo compatible con los sistemas
 modulares y el formato Eurorack. Usando las entradas ADC del microcontrolador, se podrían proveer varias entradas de
-voltaje de control (un formato en el que se especifica una nota con voltaje) para admitir la polifonía. Usando un DAC
-externo, se podría proveer una salida analógica de 3.5mm. Además, se podría también proveer un archivo CAD para poder
-crear a mano o con impresión 3D un caparazón compatible con Eurorack. Una dificultad sería intentar mantener la
-flexibilidad de Sparklet en cuanto a microcontroladores y componentes, que aporta mucho a reducir su precio.
+voltaje de control (un formato en el que se especifica una nota con voltaje) para tener polifonía. Usando un DAC
+externo, se podría proveer una salida analógica de 3,5 mm. Además, se podría también proveer un archivo CAD para poder
+crear a mano o con impresión 3D un caparazón compatible con Eurorack. Un obstáculo sería lograr mantener la flexibilidad
+que ofrece Sparklet en cuanto a microcontroladores y componentes, que aporta mucho a reducir su precio.
 
 Otro aspecto mejorable es la autosuficiencia del sintetizador, si se busca usarlo por sí mismo y no como parte de un
-sistema modular. Se podrían implementar más efectos como la reverberación, el _delay_, o la distorsión, ampliando la
-gama de sonidos que el sintetizador permite.
+sistema modular. Se podrían implementar más efectos como la reverberación, el _delay_ (eco) o la distorsión, ampliando
+la gama de sonidos que el sintetizador permite.
 
 Finalmente, se propone que el ecualizador podría tener una respuesta más plana. La dificultad está en el rendimiento, en
 usar números de coma fija, y en buscar dividir la señal en 6 segmentos. Si se usase Q31 internamente se podrían más

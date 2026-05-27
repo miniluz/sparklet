@@ -9,21 +9,22 @@
 <sec_estado_del_arte>
 
 En esta sección, se analiza el estado del arte. Primero se comparan los sintetizadores que existen actualmente, tanto
-abiertos como privativos, para identificar un hueco en el mercado. Posteriormente, se analiza un area mejorable el
-estado del mundo académico respecto a los sintetizadores. En particular, se explora la falta de algoritmos eficientes,
-sin artefactos y orientados a un funcionamiento intuitivo en entornos de rendimiento limitado.
+abiertos como comerciales, para identificar un hueco en el mercado. Posteriormente, se analiza una laguna de la
+literatura sobre la síntesis musical: la ausencia de algoritmos eficientes y sin artefactos en entornos con recursos
+limitados que resulten en un comportamiento intuitivo para el usuario.
 
 === Sintetizadores
 
 Primero, se analizan los sintetizadores de software libre o gratuitos. Aunque hay muchos, uno de los mas usados y
-completos es Helm, un sintetizador aditivo. Helm @ref_web_helm se toma como referencia para saber qué comportamientos
-resultan útiles en un sintetizador, aunque su implementación no se puede usar como referencia al depender de operaciones
-de coma flotante. Sin embargo, no son competencia directa, pues se está creando un producto hardware.
+completos es Helm, un sintetizador aditivo @ref_web_helm. Helm se usa como referente en cuanto a la experiencia de
+usuario, para saber cómo se ha de comportar un sintetizador para resultar útil e intuitivo. Sin embargo, no son
+competencia directa, pues se está creando un dispositivo hardware.
 
-La competencia más directa son los sintetizadores de hardware. Se empieza por los privativos. Algunos de los generadores
-de onda analógicos más baratos incluyen el Behringer 921B (40 €) o Behringer 110 (50 €), pero no pueden tocar más de una
-nota a la vez. El Behringer Brains (90€) es una alternativa digital, también monofónica. Si se busca un generador
-polifónico digital, una de las opciones más baratas es el OXI Instruments Coral, a la venta por unos 380 €.
+La competencia más directa son otros sintetizadores de hardware. Se empieza por los comerciales. Algunos de los
+generadores de onda analógicos más baratos incluyen el Behringer 921B (40 €) o Behringer 110 (50 €), pero no pueden
+tocar más de una nota a la vez. El Behringer Brains (90€) es una alternativa digital, también monofónica. Si se busca un
+generador polifónico digital, una de las opciones más baratas es el OXI Instruments Coral, a la venta por unos 380 €.
+Sparklet es competitivo principalmente por su precio, ofreciendo síntesis polifónica por menos de 20 €.
 
 En cuanto a sintetizadores hardware libres, la _Base de datos de sintetizadores DIY_ @ref_web_diy_synths provee una
 selección de sintetizadores de software y hardware libre de alta calidad. A continuación se analizan todos:
@@ -138,8 +139,8 @@ selección de sintetizadores de software y hardware libre de alta calidad. A con
 
   [Descripción],
   [
-    Sintetizadores con un precio de ensamblaje superior a 100€. Suelen ser muy completos, y a menudo incluyen pantallas
-    y memoria para poder guardar parches, entre otras funcionalidades.
+    Sintetizadores con un precio de ensamblaje superior a 100€. Suelen ser muy completos, y a menudo incluyen pantallas,
+    memorias externas para poder cargar tablas de onda y guardar perfiles, entre otras funcionalidades.
   ],
 
   [Diferenciación],
@@ -161,7 +162,7 @@ selección de sintetizadores de software y hardware libre de alta calidad. A con
 #v(0.5cm)
 
 Se puede ver que hay un hueco en el mercado. En particular, faltan sintetizadores baratos con un límite de polifonía
-alto, apto para interpretar una pieza en teclado usando ambas manos. Este es el hueco que puede llenar Sparklet.
+alto, aptos para interpretar una pieza en teclado usando ambas manos. Este es el hueco que puede llenar Sparklet.
 
 Es compatible con varios microcontroladores y componentes para que el usuario pueda elegir una opción que le sea barata,
 por ejemplo aprovechando un descuento. Puede llegar a un precio inferior a 20 € y a tal precio ofrecer una polifonía de
@@ -176,14 +177,15 @@ de precio.
 #let citas = [#cite(<ref_book_theory_music>, form: "prose"),
   #cite(<ref_book_music_tutorial>, form: "prose")]
 
-Uno de los problemas de diseñar un sintetizador polifónico (que permite tocar más de una nota a la vez) es la estrategia
-para el robo de voces @ref_book_theory_music. Es decir, cuando se tocan más notas de las que admite el sintetizador, el
-algoritmo que decide cuáles se dejan de tocar para permitir dar paso a las nuevas. Aunque en la literatura existen
-estrategias de asignación de voces (véase #citas), estas suelen basarse en criterios heurísticos simples como la
-antigüedad de la nota, su amplitud o su estado de liberación. En escenarios extremos, cuando se tocan muchas notas entre
-eventos de procesamiento o bajo eventos rápidos de tocar y liberar una nota, pueden llevar a un comportamiento
-subóptimo, ya sea generando discontinuidades perceptibles o al comportarse de forma contraintuitiva (p. ej. no
-respondiendo con inmediatez a la interpretación del músico).
+Uno de los obstáculos al diseñar un sintetizador polifónico (que permite tocar más de una nota a la vez) es la
+estrategia para el robo de voces @ref_book_theory_music. Cuando se tocan más notas de las que admite el sintetizador, ha
+de existir un algoritmo que decida qué ocurre. Puede ignorar las nuevas notas, pero un músico interpretando una canción
+espera oír las notas que toca. Entonces, para resultar intuitivo, se ha de decidir cuáles notas dejar de tocar para dar
+paso a las nuevas. Aunque en la literatura existen estrategias de asignación de voces (véase #citas), estas suelen
+basarse en criterios heurísticos simples como la antigüedad de la nota, su amplitud o su estado de liberación. En casos
+extremos, cuando se tocan muchas notas entre eventos de procesamiento o cuando hay una avalancha de eventos de tocar y
+soltar una nota, pueden llevar a un comportamiento subóptimo, ya sea generando discontinuidades perceptibles o al
+comportarse de forma poco intuitiva (p. ej. no respondiendo con inmediatez a los comandos del músico).
 
 De forma similar, el diseño de envolventes ADSR en aritmética de punto fijo y con recursos limitados presenta desafíos.
 Aunque existen soluciones optimizadas para sistemas empotrados (véase #citas), la gestión de cambios dinámicos en los

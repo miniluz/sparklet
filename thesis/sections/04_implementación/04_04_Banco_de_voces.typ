@@ -14,16 +14,16 @@ de cuatro, o que tiene cuatro voces. Sparklet puede conseguir una polifonía de 
 
 El componente de Sparklet que mantiene el estado de las voces y las gestiona se llama el banco de voces, denominado
 `VoiceBank`. El comportamiento del banco de voces es simple si nunca se tocan más de $|V|$ notas simultáneamente: cada
-vez que se toca una nota, se busca una voz `Voice` libre (con ADSR en estado `Idle`) y se asigna a esa a ella, y cada
-vez que se deja de tocar una nota, se pone el `ADSR` de su voz en el estado `Release`.
+vez que se toca una nota, se busca una voz `Voice` libre (con ADSR en estado `Idle`) y se asigna a ella, y cada vez que
+se deja de tocar una nota, se pone el `ADSR` de su voz en el estado `Release`.
 
 === Casos límite de la superación del límite de polifonía
 
-Un sintetizador, para resultar útil a un músico, debe responder de forma predecible e intuitivamente a sus acciones.
-Cuando un músico toca una nota espera oírla, aún si supera el límite de voces. El sintetizador por lo tanto ha de
-liberar una voz para tocarla, lo que se denomina robo de voces o _voice stealing_ @ref_book_theory_music. No se puede
-reemplazar inmediatamente la nota que está tocando una voz, pues se oiría un clic. Sin embargo, ha de liberarse lo antes
-posible, ya que el músico espera oír la nota que tocó.
+Un sintetizador, para resultar útil a un músico, debe responder de forma intuitiva a sus acciones. Cuando toca una nota,
+espera oírla, aún si supera el límite de voces. El sintetizador por lo tanto ha de liberar una voz para tocarla, lo que
+se denomina robo de voces o _voice stealing_ @ref_book_theory_music. No se puede reemplazar inmediatamente la nota que
+está tocando una voz, pues se oiría un clic. Sin embargo, ha de liberarse lo antes posible, ya que el músico espera oír
+la nota que tocó.
 #footnote[Como se mencionó en la @sec_adsr_implementación, este es el motivo por el que el envolvente ADSR tiene un modo
   `QuickRelease`. Permite soltar una nota inmediatamente, incluso si se ha configurado con una relajación alta.]
 
@@ -34,32 +34,33 @@ posible, ya que el músico espera oír la nota que tocó.
 
 La lógica que determina cuál voz liberar se denomina el algoritmo de asignación de voces. #cite_voice propone las bases
 de un algoritmo simple, pero no es suficiente para resolver todas las situaciones límite que deben ser gestionadas
-correctamente para que el sintetizador resulte intuitivo a un músico. Realizar una implementación elegante y eficiente
-que gestione correctamente todas estas posibilidades fue una de las dificultades principales del desarrollo de Sparklet.
-Tómense los siguientes casos:
+correctamente para que el sintetizador sea intuitivo. Realizar una implementación elegante y eficiente que gestione
+correctamente todas estas posibilidades fue uno de los obstáculos principales del desarrollo de Sparklet. Tómense los
+siguientes casos:
 
 + Un músico toca una pieza con un límite de polifonía bajo. Arpegia rápidamente un acorde: do, mi, sol, mi, do; de forma
   que un decaimiento alto haría que, cuando toque por segunda vez una misma nota, la voz que ya la contiene aún no haya
-  decaído a cero. Una implementación que no tiene esto en cuenta ocuparía una segunda voz para la misma nota. En el peor
-  caso, se podrían empezar a liberar voces forzosamente, aún si el acorde tiene menos notas que el límite.
+  decaído a cero. Una implementación que no tiene esto en cuenta ocuparía una segunda voz para la misma nota, cuando
+  esto no es necesario, y se arriesga a ocupar todas las voces. En el peor caso, se podrían empezar a liberar voces
+  forzosamente, aún si el acorde tiene menos notas que el límite.
 
 + Se han recibido dos eventos de tocar la misma nota sin un evento de soltarla en medio, por ejemplo debido a un error
-  en el cable. Otra implementación podría asignar una segunda voz a esa nota y liberar sólo una si después se recibe un
-  evento de soltar la nota. En este caso, podría ser imposible liberar la segunda voz: incluso si el músico vuelve a
-  tocar y soltar la misma tecla, se asignará y liberará otra voz distinta. Restablecer el comportamiento normal del
-  sintetizador podría necesitar su reinicio, lo que incumpliría el @rnf_fiabilidad.
+  de transmisión de datos. Otra implementación podría asignar una segunda voz a esa nota y liberar sólo una si después
+  se recibe un evento de soltar la nota. En este caso, podría ser imposible liberar la segunda voz: incluso si el músico
+  vuelve a tocar y soltar la misma tecla, se asignará y liberará otra voz distinta. Restablecer el comportamiento normal
+  del sintetizador podría requerir reiniciarlo, lo que incumpliría el @rnf_fiabilidad.
 
-+ Entre dos procesamientos de eventos MIDI, un músico toca más notas del límite. Por ejemplo, hay un límite de 2 notas,
-  ambas ocupadas, y el músico ha tocado 4 notas desde la última vez que se procesaron. Se han de soltar las notas que
-  están siendo tocadas para dar espacio a las nuevas, y priorizar las dos más nuevas de las cuatro. Sin embargo, una
-  implementación que no tiene esto en cuenta podría procesar los eventos uno por uno, y por esto tocar las dos notas más
-  antiguas, antes de ver las dos notas más nuevas y verse obligado a soltarlas de inmediato, retrasando las dos notas
-  más nuevas.
++ Entre dos procesamientos de eventos MIDI, un músico toca más notas que el límite. Por ejemplo, hay un límite de 2
+  notas, ambas ocupadas, y el músico ha tocado 4 notas desde la última vez que se procesaron. Se han de soltar las notas
+  que están siendo tocadas para dar espacio a las nuevas, y priorizar las dos más nuevas de las cuatro. Sin embargo, una
+  implementación que no tiene esto en cuenta podría procesar los eventos uno por uno. Podría resultar en que toque las
+  dos notas más antiguas, antes de ver las dos notas más nuevas. Entonces se vería obligado a soltar las notas que acaba
+  de tocar para dar espacio a las restantes, retrasándolas.
 
-+ Mientras el sistema aún está intentando tocar notas, un músico toca aún más; un caso similar al anterior. Con un
-  límite de 2 notas, hay ya dos siendo ya soltadas, dos notas pendientes del último procesamiento, y dos que acaba de
-  tocar el músico y no han sido procesadas. Similarmente, un sistema que procese los eventos uno a uno tocaría primero
-  las dos pendientes para soltarlas de inmediato.
++ El sistema está liberando voces para tocar notas que tiene en la cola y el músico toca aún más notas; un caso similar
+  al anterior. Con un límite de 2 notas, hay ya dos siendo ya soltadas, dos notas pendientes del último procesamiento, y
+  dos que acaba de tocar el músico y no han sido procesadas. Similarmente, un sistema que procese los eventos uno a uno
+  podría tocar primero las dos pendientes en lugar de pasar directamente a las nuevas.
 
 + Un músico toca y suelta una nota entre dos eventos de procesamiento. Supóngase que hay un límite de una nota, y que
   además de tocar y soltar la nota después toca otra. Una implementación que no tiene esto en cuenta podría, como en el
@@ -72,13 +73,21 @@ Tomando estos casos límite en cuenta, se implementó el siguiente algoritmo, qu
 Un diagrama del algoritmo se puede ver en la @fig_voice_bank. Además, se provee una descripción en detalle en la
 siguiente sección.
 
-El primer problema se puede resolver tomando inspiración en el funcionamiento de un piano. Cuando se usa el pedal para
-que las cuerdas no se amortigüen, volver a pulsar una tecla no silencia la nota antes de que el martillo vuelva a
-tocarla. Para modelar este comportamiento, `Voice` proporciona el método `retrigger`, en el que la voz vuelve al estado
-`Attack` sin modificar su nivel actual `current`. Este comportamiento se ve ilustrado en la @fig_retrigger. Haciendo que
-tocar una nota siempre haga `retrigger` a la voz que la tiene si ya está siendo tocada, se contribuye a resolver también
-el segundo problema, pues se garantiza que sólo una voz reproduce cada nota. Si ocurre el error descrito, volver a tocar
-y soltar la tecla hará que deje de sonar, volviendo al comportamiento esperado.
+El primer problema se puede resolver usando como referencia el funcionamiento de un piano. Cuando se activa el pedal que
+evita que las cuerdas se amortigüen al soltar su tecla, volver a pulsar una tecla le vuelve a dar energía con el
+martillo sin antes silenciarla. Para modelar este comportamiento, `Voice` proporciona el método `retrigger`, en el que
+la voz vuelve al estado `Attack` sin modificar su nivel actual `current`. Este comportamiento se ve ilustrado en la
+@fig_retrigger. Haciendo que tocar una nota siempre haga `retrigger` a la voz que la tiene si ya está siendo tocada, se
+contribuye a resolver también el segundo problema, pues se garantiza que sólo una voz reproduce cada nota. Si ocurre el
+error descrito, volver a tocar y soltar la tecla hará que deje de sonar, volviendo al comportamiento esperado sin
+reiniciar el sintetizador.
+
+Para solucionar los otros tres problemas de forma eficiente, se puede usar una cola intermediaria FIFO de longitud igual
+a la cantidad de voces, $|V|$. Esta cola almacena las |V| notas más recientes que el usuario ha intentado tocar. Los
+eventos MIDI procesados en un lote se procesan en dos pasos: primero son añadidos a la cola, descartando los más
+antiguos, y luego los eventos que permanecen en la cola se ejecutan. De este modo, antes de empezar a asignar voces, se
+filtran las notas en exceso del límite, arreglando el tercer y cuarto problema, y eliminan las notas que se sueltan
+antes de ser asignadas una voz, arreglando el quinto.
 
 #figure(
   grid(
@@ -86,13 +95,13 @@ y soltar la tecla hará que deje de sonar, volviendo al comportamiento esperado.
     gutter: 1em,
     [
       #figure(
-        image("/figures/Banco de voces.drawio.pdf", width: 60%),
+        image("/figures/Banco de voces.drawio.pdf", width: 56%),
         caption: [Representación en diagrama del algoritmo de robo de voces implementado.],
       )<fig_voice_bank>
     ],
     [
       #figure(
-        image("/figures/Retrigger.drawio.pdf", width: 50%),
+        image("/figures/Retrigger.drawio.pdf", width: 48%),
         caption: [Comportamiento de una nota al volver a ser tocada antes de que su amplitud baje a cero.],
       )
       <fig_retrigger>
@@ -102,19 +111,12 @@ y soltar la tecla hará que deje de sonar, volviendo al comportamiento esperado.
   placement: bottom,
 )
 
-Para solucionar los otros tres problemas de forma eficiente, se puede usar una cola intermediaria FIFO de longitud igual
-a la cantidad de voces $|V|$. Esta cola almacena las |V| notas más recientes que el usuario ha intentado tocar. Los
-eventos MIDI procesados en un lote se procesan en dos pasos: primero son añadidos a la cola, y luego los eventos que
-permanecen en la cola se ejecutan. De este modo, antes de empezar a liberar voces, se filtran las notas en exceso del
-límite, arreglando el tercer y cuarto problema, y eliminan las notas que se sueltan antes de ser asignadas una voz,
-arreglando el quinto.
-
 === Detalles del algoritmo
 
 Ya que este algoritmo es una de las aportaciones al estado del arte de este proyecto, cabe entrar en detalle de cómo
-funciona. El código que lo implementa se puede ver en el @cod_voice_steal_algorithm. Cada vez que se genera un bloque de
-audio, lo primero que se hace es que `VoiceBank` procese los eventos MIDI pendientes. En lugar de aplicarlos
-directamente, usa la cola intermediaria descrita anteriormente. Por cada evento, en orden cronológico:
+funciona. Su implementación se puede ver en el @cod_voice_steal_algorithm. Cada vez que se genera un bloque de audio, lo
+primero que se hace es procesar los eventos MIDI pendientes. En lugar de aplicarlos directamente, usa la cola
+intermediaria descrita anteriormente. Por cada evento, en orden cronológico:
 
 + Si es de soltar una nota (`NoteOff`):
   + Se mueven todas las voces asociadas a esa nota al estado `Release`.
@@ -124,11 +126,10 @@ directamente, usa la cola intermediaria descrita anteriormente. Por cada evento,
 
 Posteriormente, intenta tocar todas las notas de esta cola, parando si se ocupan todas las voces antes de acabar. Si
 esto ocurre, se calcula el déficit entre el número de notas pendientes y las voces actualmente en estado `QuickRelease`,
-y se activa el modo `QuickRelease` en tantas voces como sea necesario para compensar el déficit. De esta manera, hay
-tantas voces en estado `QuickRelease` como notas pendientes en la cola. En un evento de procesamiento futuro, estas
-voces habrán pasado al estado `Idle`, por lo que estarán libres. Hasta entonces, la cola mantiene las notas más
-recientes que no han sido soltadas. La heurística usada para elegir cuál voz pasar a estado `QuickRelease` es la
-siguiente:
+y se activa el modo `QuickRelease` en tantas voces como sea necesario para compensar el déficit. Así quedan tantas voces
+en estado `QuickRelease` como notas pendientes en la cola. En un evento de procesamiento futuro, estas voces habrán
+pasado al estado `Idle`, por lo que estarán libres. Hasta entonces, la cola mantiene las notas más recientes que no han
+sido soltadas. La heurística usada para elegir cuál voz pasar a estado `QuickRelease` es la siguiente:
 
 + La voz en estado `Release` con menor amplitud. Esto da prioridad a las notas donde el cambio se notará menos (las que
   tienen volumen bajo y ya estaban siendo soltadas).

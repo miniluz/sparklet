@@ -8,11 +8,11 @@
 == Osciladores
 <sec_osciladores>
 
-Los osciladores son el lugar donde comienza la síntesis. Reciben una frecuencia y generan una señal de audio. Hay
-diversos tipos de osciladores, pero uno de los más usados en entornos empotrados es el de tabla de onda (_wavetable_),
-debido a su eficiencia. Esta es la razón por la que Sparklet lo usa, de acuerdo al @rnf_rendimiento. La onda deseada se
-almacena en una tabla de longitud arbitraria $L$, donde cada valor en la tabla representa la amplitud de la onda en ese
-momento, como se ve en la @fig_wavetable @ref_book_music_tutorial @ref_book_theory_music.
+La síntesis comienza en los osciladores. Reciben una frecuencia y generan una señal de audio. Hay diversos tipos de
+osciladores, pero uno de los más usados en entornos empotrados es el de tabla de onda (_wavetable_), debido a su
+eficiencia. Esta es la razón por la que Sparklet lo usa, de acuerdo al @rnf_rendimiento. La onda deseada se almacena en
+una tabla de longitud arbitraria $L$, donde cada valor en la tabla representa la amplitud de la onda en ese momento,
+como se ve en la @fig_wavetable @ref_book_music_tutorial @ref_book_theory_music.
 
 #figure(
   include "/figures/wavetable.typ",
@@ -29,11 +29,11 @@ momento, como se ve en la @fig_wavetable @ref_book_music_tutorial @ref_book_theo
 )
 
 Dese una tabla de longitud $L = 1000$ y un sistema con frecuencia de muestreo de $f_s = #num(48000) "Hz"$. Si cada
-muestreo $s$ se usa, $mod L$, como índice de la tabla para obtener una muestra, se genera una onda con la forma que
-indica la tabla a $f = f_s div L = 48 "Hz"$. Si en lugar se avanza por dos cada muestra, usando $2 times s mod 1000$
-como índice, se genera una onda con frecuencia $f = f_s div (L div 2) = 96 "Hz"$. En general, la relación entre la
-frecuencia $f$ y el incremento del índice $i$ se da con la @eq_incremento @ref_book_music_tutorial
-@ref_book_theory_music @ref_book_understanding_dsp.
+muestreo $s$ se usa como índice de la tabla para obtener una muestra ($mod L$), se genera una onda con la forma que
+especifica la tabla a una frecuencia $f = f_s div L = 48 "Hz"$. Si en lugar se avanza dos posiciones con cada muestra,
+usando $2 times s mod 1000$ como índice, se genera una onda con frecuencia $f = f_s div (L div 2) = 96 "Hz"$. En
+general, la relación entre la frecuencia $f$ y el incremento del índice $i$ se da con la @eq_incremento
+@ref_book_music_tutorial @ref_book_theory_music @ref_book_understanding_dsp.
 
 $
   i = (L times f) / f_s
@@ -48,8 +48,6 @@ $#num(48000) "Hz" div 2^16 = #num(0.73, digits: 2) "Hz"$. Esta resolución es al
 suficiente para las notas graves. En la @tabla_errores_cents se puede ver el error en _cents_ (una centésima del
 semitono temperado) con varias notas.
 
-#include "../../tables/tabla_errores_cents.typ"
-
 #let eq_error = box(
   baseline: 0.11em,
 )[$f_e = (2^(1/1200))^(e_"cents") times f - f approx #num(0.10) "Hz"$]
@@ -61,14 +59,14 @@ semitono temperado) con varias notas.
 Para que el error $e_"cents"$ sea imperceptible, como pide el @rnf_calidad_de_audio, tiene que ser menor a $6 "cents"$
 @ref_thesis_minimum_cents. Si queremos un error $f_e$ imperceptible para la frecuencia $f$ de la cuerda más grave de un
 bajo de 5 cuerdas, de unos $30 "Hz"$, el error tiene que ser de #eq_error. Dado que $f_s / 2^"bits" = f_e$, hacen falta
-#eq_bits de precisión. Pero ya que la familia ARM Cortext M es de 32 bits, si se usan más de 16 bits, lo mejor es
+#eq_bits de precisión. Pero ya que la familia #box[ARM Cortext M] es de 32 bits, si se usan más de 16 bits, lo mejor es
 usar 32.
 
 Si se usa el formato U8.24, se pueden usar los 8 bits de la parte entera, $i$, directamente como índice de la tabla $T$.
 De los 24 bits de la parte fraccionaria, se toman los primeros 15 y se interpretan como un Q15, $r$. Estos se usan para
 interpolar la muestra $i$ con la siguiente, $(i + 1) mod 256$. Interpolar evita el ruido que genera redondear del índice
 @ref_book_music_tutorial, y es necesario para cumplir con el @rnf_calidad_de_audio. Mientras mayor es $r$, más cerca se
-está de la siguiente muestra. Por esto, $r$ que se usa como el peso de la siguiente muestra, y $1 - r$ como peso de la
+está de la siguiente muestra. Por esto, $r$ se usa como el peso de la siguiente muestra, y $1 - r$ como el peso de la
 actual. Por lo tanto, la salida se calcula con la @eq_salida_interpolada @ref_book_theory_music.
 
 $
@@ -77,11 +75,15 @@ $
 <eq_salida_interpolada>
 
 #let fn = footnote[La idea original era hacerlo con evaluación `const`, que se ejecuta en compile-time
-  @ref_web_const_eval. Sin embargo, no fue posible, ya que la mayoría de operaciones con floats no se pueden realizar en
-  `const` al no dar los mismos resultados en cualquier CPU @ref_web_powf_not_const.]
+  @ref_web_const_eval. Sin embargo, no fue posible, ya que la mayoría de operaciones de coma flotante no se pueden
+  realizar en `const`, ya que no dan los mismos resultados en cualquier CPU @ref_web_powf_not_const.]
 
 Sparklet incluye 4 tablas para los cuatro tipos de ondas que indica el @rf_ondas. Cada una tiene 256 muestras de 16 bits
-cada una (en formato Q15), por lo que ocupan 512 bytes cada una y 2 KiB en total. Estas tablas se generan en la con
-utilidades que se ejecutan en la computadora de desarrollo con la arquitectura `x86_64` antes del desarrollo. Se
-encuentran en la carpeta `sparklet/table-generators/src/bin`.#fn Calculan el valor de cada muestra en la tabla usando
-números de coma flotante, los convierten a Q15 y generan archivos de código Rust que definen las tablas.
+cada una (en formato Q15), por lo que ocupan 512 bytes cada una y 2 KiB en total. Estas tablas se generan con utilidades
+ejecutadas en la computadora de desarrollo (con la arquitectura `x86_64` y números de coma flotante) antes de la
+compilación. Se encuentran en la carpeta `sparklet/table-generators/src/bin`.#fn Calculan el valor de cada muestra en la
+tabla usando números de coma flotante, los convierten a Q15 y generan archivos de código Rust que definen las tablas.
+
+#v(0.5cm)
+
+#include "../../tables/tabla_errores_cents.typ"
