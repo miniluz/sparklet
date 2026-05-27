@@ -1,41 +1,65 @@
 use crate::hardware::usb::USB_MODE;
+use config::ConfigEvent;
 use defmt::trace;
 use embassy_executor::SpawnToken;
 use embassy_stm32::usb;
-use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
+use embassy_sync::{
+    blocking_mutex::raw::{CriticalSectionRawMutex, NoopRawMutex},
+    channel::Sender,
+};
 use embassy_usb::class::midi::MidiClass;
 use embassy_usb::driver::EndpointError;
 use midi::MidiListener;
 use static_cell::StaticCell;
 
-use crate::hardware::midi_usb::MidiUsbHardware;
-use crate::midi_task::{MIDI_CHANNEL_SIZE, MIDI_TASK_CHANNEL};
+use crate::{
+    config::CONFIG_CHANNEL_SIZE,
+    hardware::midi_usb::MidiUsbHardware,
+    midi_task::{MIDI_CHANNEL_SIZE, MIDI_TASK_CHANNEL},
+};
 
+#[cfg(not(feature = "midi-config"))]
 pub struct MidiTaskState<'a> {
     midi_listener: MidiListener<'a, CriticalSectionRawMutex, MIDI_CHANNEL_SIZE>,
     midi_class: MidiClass<'a, usb::Driver<'a, USB_MODE>>,
 }
 
-impl<'a> MidiTaskState<'a> {
-    pub fn new(
-        midi_listener: MidiListener<'a, CriticalSectionRawMutex, MIDI_CHANNEL_SIZE>,
-        midi_class: MidiClass<'a, usb::Driver<'a, USB_MODE>>,
-    ) -> MidiTaskState<'a> {
-        MidiTaskState {
-            midi_listener,
-            midi_class,
-        }
-    }
+#[cfg(feature = "midi-config")]
+pub struct MidiTaskState<'a> {
+    midi_listener: MidiListener<
+        'a,
+        CriticalSectionRawMutex,
+        MIDI_CHANNEL_SIZE,
+        NoopRawMutex,
+        CONFIG_CHANNEL_SIZE,
+    >,
+    midi_class: MidiClass<'a, usb::Driver<'a, USB_MODE>>,
 }
 
 pub static MIDI_TASK_STATE: StaticCell<MidiTaskState> = StaticCell::new();
 
-pub fn create_midi_task(midi_hardware: MidiUsbHardware<'static>) -> SpawnToken<impl Sized> {
+pub fn create_midi_task(
+    midi_hardware: MidiUsbHardware<'static>,
+    #[cfg(feature = "midi-config")] config_sender: Sender<
+        'static,
+        NoopRawMutex,
+        ConfigEvent,
+        CONFIG_CHANNEL_SIZE,
+    >,
+) -> SpawnToken<impl Sized> {
     let midi_class = midi_hardware.midi_class;
     let midi_sender = MIDI_TASK_CHANNEL.sender();
+
+    #[cfg(not(feature = "midi-config"))]
     let midi_listener = MidiListener::new(midi_sender);
 
-    midi_task(MIDI_TASK_STATE.init(MidiTaskState::new(midi_listener, midi_class)))
+    #[cfg(feature = "midi-config")]
+    let midi_listener = MidiListener::new(midi_sender, config_sender);
+
+    midi_task(MIDI_TASK_STATE.init(MidiTaskState {
+        midi_listener,
+        midi_class,
+    }))
 }
 
 struct Disconnected {}

@@ -1,20 +1,20 @@
-use config::{ConfigEvent, ConfigManager};
+use config::ConfigEvent;
 use defmt::info;
+use embassy_sync::{blocking_mutex::raw::NoopRawMutex, channel::Sender};
 use embassy_time::{Duration, Ticker};
 use static_cell::StaticCell;
 
 use crate::{
     build_config::BUILD_CONFIG,
-    config::{CONFIG_ENCODER_COUNT, CONFIG_PAGE_COUNT, ConfigProducer, INITIAL_CONFIG},
+    config::CONFIG_CHANNEL_SIZE,
     hardware::{
         abstractions::{Button, QeiExt},
-        config::ConfigHardware,
+        peripherals::ConfigHardware,
     },
 };
 
 const DEBOUNCE_TICKS: u8 = 5;
-const CONFIG_POLL_MILLIS: u16 = BUILD_CONFIG.parameters.config_poll_millis;
-const CONFIG_UPDATE_RATE: u16 = BUILD_CONFIG.parameters.config_update_millis / CONFIG_POLL_MILLIS;
+const PERIPHERAL_POLL_MILLIS: u16 = BUILD_CONFIG.parameters.peripheral_poll_millis;
 const ENCODER_MULTIPLIER: i8 = BUILD_CONFIG.parameters.encoder_multiplier;
 
 pub struct ButtonState<'a> {
@@ -88,9 +88,6 @@ pub struct InputTaskState<'a> {
     encoder0: EncoderState<'a>,
     encoder1: EncoderState<'a>,
     encoder2: EncoderState<'a>,
-    config_manager: ConfigManager<'a, CONFIG_PAGE_COUNT, CONFIG_ENCODER_COUNT>,
-    need_to_update: bool,
-    counter: u16,
 }
 
 impl<'a> InputTaskState<'a> {
@@ -100,7 +97,6 @@ impl<'a> InputTaskState<'a> {
         encoder0: &'a dyn QeiExt,
         encoder1: &'a dyn QeiExt,
         encoder2: &'a dyn QeiExt,
-        producer: ConfigProducer,
     ) -> Self {
         Self {
             button_next_page: ButtonState::new(button_next_page),
@@ -108,9 +104,6 @@ impl<'a> InputTaskState<'a> {
             encoder0: EncoderState::new(encoder0),
             encoder1: EncoderState::new(encoder1),
             encoder2: EncoderState::new(encoder2),
-            config_manager: ConfigManager::from_config(producer, INITIAL_CONFIG),
-            need_to_update: false,
-            counter: 0,
         }
     }
 }
@@ -119,79 +112,68 @@ static INPUT_STATE: StaticCell<InputTaskState> = StaticCell::new();
 
 pub fn spawn_config_hardware_tasks(
     spawner: &embassy_executor::Spawner,
-    producer: ConfigProducer,
     config_hardware: ConfigHardware,
+    sender: Sender<'static, NoopRawMutex, ConfigEvent, CONFIG_CHANNEL_SIZE>,
 ) {
     spawner
-        .spawn(input_task(INPUT_STATE.init(InputTaskState::new(
-            config_hardware.button_next_page,
-            config_hardware.button_prev_page,
-            config_hardware.encoder0,
-            config_hardware.encoder1,
-            config_hardware.encoder2,
-            producer,
-        ))))
+        .spawn(input_task(
+            INPUT_STATE.init(InputTaskState::new(
+                config_hardware.button_next_page,
+                config_hardware.button_prev_page,
+                config_hardware.encoder0,
+                config_hardware.encoder1,
+                config_hardware.encoder2,
+            )),
+            sender,
+        ))
         .unwrap();
 }
 
-pub fn handle_event<'a>(state: &mut InputTaskState<'a>, event: ConfigEvent) {
-    if state.config_manager.handle_event(event) {
-        state.need_to_update = true;
-    }
-}
-
 #[embassy_executor::task]
-pub async fn input_task(state: &'static mut InputTaskState<'static>) {
+pub async fn input_task(
+    state: &'static mut InputTaskState<'static>,
+    sender: Sender<'static, NoopRawMutex, ConfigEvent, CONFIG_CHANNEL_SIZE>,
+) {
     info!("Input task started");
 
-    let mut ticker = Ticker::every(Duration::from_millis(CONFIG_POLL_MILLIS.into()));
+    let mut ticker = Ticker::every(Duration::from_millis(PERIPHERAL_POLL_MILLIS.into()));
 
     loop {
         ticker.next().await;
 
         if state.button_next_page.process() {
-            handle_event(state, ConfigEvent::PageChange { amount: 1 });
+            sender.try_send(ConfigEvent::PageChange { amount: 1 }).ok();
         }
 
         if state.button_prev_page.process() {
-            handle_event(state, ConfigEvent::PageChange { amount: -1 });
+            sender.try_send(ConfigEvent::PageChange { amount: -1 }).ok();
         }
 
         if let Some(diff) = state.encoder0.process() {
-            handle_event(
-                state,
-                ConfigEvent::EncoderChange {
+            sender
+                .try_send(ConfigEvent::EncoderChange {
                     encoder: 0,
                     amount: diff * ENCODER_MULTIPLIER,
-                },
-            )
+                })
+                .ok();
         }
 
         if let Some(diff) = state.encoder1.process() {
-            handle_event(
-                state,
-                ConfigEvent::EncoderChange {
+            sender
+                .try_send(ConfigEvent::EncoderChange {
                     encoder: 1,
                     amount: diff * ENCODER_MULTIPLIER,
-                },
-            );
+                })
+                .ok();
         }
 
         if let Some(diff) = state.encoder2.process() {
-            handle_event(
-                state,
-                ConfigEvent::EncoderChange {
+            sender
+                .try_send(ConfigEvent::EncoderChange {
                     encoder: 2,
                     amount: diff * ENCODER_MULTIPLIER,
-                },
-            );
+                })
+                .ok();
         }
-
-        if state.counter.is_multiple_of(CONFIG_UPDATE_RATE) && state.need_to_update {
-            state.config_manager.publish_config();
-            state.need_to_update = false;
-        }
-
-        state.counter = (state.counter + 1) % CONFIG_UPDATE_RATE;
     }
 }

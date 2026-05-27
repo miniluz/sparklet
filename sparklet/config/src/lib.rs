@@ -7,6 +7,7 @@ use defmt::Format;
 pub enum ConfigEvent {
     PageChange { amount: i8 },
     EncoderChange { encoder: u8, amount: i8 },
+    SetValue { page: u8, encoder: u8, value: u8 },
 }
 
 #[derive(Format, Debug, Clone, Copy, PartialEq, Eq)]
@@ -131,6 +132,19 @@ impl<'buf, const PAGE_AMOUNT: usize, const ENCODER_AMOUNT: usize>
                 *encoder = (*encoder).saturating_add_signed(amount);
 
                 need_to_publish = true;
+            }
+            ConfigEvent::SetValue {
+                page,
+                encoder,
+                value,
+            } => {
+                if page < PAGE_AMOUNT as u8 && encoder < ENCODER_AMOUNT as u8 {
+                    let encoder = &mut self.config.pages[page as usize].values[encoder as usize];
+                    if *encoder != value {
+                        *encoder = value;
+                        need_to_publish = true;
+                    }
+                }
             }
         }
         defmt::info!("Event triggered: {}", event);

@@ -3,7 +3,7 @@ use crate::wavetable::sine_wavetable::SINE_WAVETABLE;
 use crate::wavetable::square_wavetable::SQUARE_WAVETABLE;
 use cmsis_interface::Q15;
 use embassy_sync::{blocking_mutex::raw::NoopRawMutex, channel::Channel};
-use midi::{MidiEvent, u7};
+use midi::{NoteEvent, u7};
 use pretty_assertions::assert_eq;
 
 const TEST_VOICE_BANK_SIZE: usize = 4;
@@ -14,17 +14,14 @@ macro_rules! setup_voice_bank {
         let channel = Channel::<NoopRawMutex, MidiEvent, TEST_CHANNEL_SIZE>::new();
         let receiver = channel.receiver();
         #[allow(unused_mut)]
-        let mut $vb = VoiceBank::<'_,
-            '_,
-            NoopRawMutex,
-            TEST_VOICE_BANK_SIZE,
-            TEST_CHANNEL_SIZE>::new(
-            &SINE_WAVETABLE,
-            200, // sustain
-            50,  // attack
-            100, // decay_release
-            receiver,
-        );
+        let mut $vb =
+            VoiceBank::<'_, '_, NoopRawMutex, TEST_VOICE_BANK_SIZE, TEST_CHANNEL_SIZE>::new(
+                &SINE_WAVETABLE,
+                200, // sustain
+                50,  // attack
+                100, // decay_release
+                receiver,
+            );
     };
 }
 

@@ -4,7 +4,7 @@ use cmsis_rust::CmsisRustOperations as Ops;
 use config::{Config, ConfigEvent, ConfigManager};
 use embassy_sync::{blocking_mutex::raw::NoopRawMutex, channel::Channel};
 use hound::{WavSpec, WavWriter};
-use midi::MidiEvent;
+use midi::NoteEvent;
 use rand::{RngExt, SeedableRng};
 use std::f64::consts::PI;
 use std::path::PathBuf;
@@ -39,7 +39,7 @@ fn oscillate(time_sec: f64, period_sec: f64, phase_offset: f64) -> u8 {
 }
 
 fn render_audio<const VOICE_COUNT: usize>(duration_sec: u32, seed: u64) -> Vec<i16> {
-    let channel = Channel::<NoopRawMutex, MidiEvent, CHANNEL_SIZE>::new();
+    let channel = Channel::<NoopRawMutex, NoteEvent, CHANNEL_SIZE>::new();
     let sender = channel.sender();
     let receiver = channel.receiver();
 
@@ -141,7 +141,7 @@ fn render_audio<const VOICE_COUNT: usize>(duration_sec: u32, seed: u64) -> Vec<i
         if samples_since_note >= samples_per_note {
             let note = note_pattern[note_index];
             sender
-                .try_send(MidiEvent::NoteOn {
+                .try_send(NoteEvent::NoteOn {
                     key: note,
                     vel: 127,
                 })
@@ -149,7 +149,7 @@ fn render_audio<const VOICE_COUNT: usize>(duration_sec: u32, seed: u64) -> Vec<i
 
             let prev_note = note_pattern[note_index.wrapping_sub(1).rem_euclid(len)];
             sender
-                .try_send(MidiEvent::NoteOff {
+                .try_send(NoteEvent::NoteOff {
                     key: prev_note,
                     vel: 0,
                 })
@@ -174,7 +174,7 @@ fn render_audio<const VOICE_COUNT: usize>(duration_sec: u32, seed: u64) -> Vec<i
 
     for note in note_pattern {
         sender
-            .try_send(MidiEvent::NoteOff { key: note, vel: 0 })
+            .try_send(NoteEvent::NoteOff { key: note, vel: 0 })
             .ok();
     }
 

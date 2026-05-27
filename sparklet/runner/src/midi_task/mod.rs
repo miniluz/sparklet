@@ -1,5 +1,5 @@
 use embassy_sync::{blocking_mutex::raw::CriticalSectionRawMutex, channel::Channel};
-use midi::MidiEvent;
+use midi::NoteEvent;
 
 #[cfg(feature = "midi-din")]
 pub mod midi_din;
@@ -16,5 +16,5 @@ compile_error!("feature \"midi-usb\" and feature \"midi-din\" cannot be enabled 
 
 pub const MIDI_CHANNEL_SIZE: usize = 16;
 
-pub static MIDI_TASK_CHANNEL: Channel<CriticalSectionRawMutex, MidiEvent, MIDI_CHANNEL_SIZE> =
+pub static MIDI_TASK_CHANNEL: Channel<CriticalSectionRawMutex, NoteEvent, MIDI_CHANNEL_SIZE> =
     Channel::new();

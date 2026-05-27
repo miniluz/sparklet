@@ -8,33 +8,40 @@ use static_cell::StaticCell;
 use crate::hardware::midi_din::MidiDinHardware;
 use crate::midi_task::{MIDI_CHANNEL_SIZE, MIDI_TASK_CHANNEL};
 
+#[cfg(not(feature = "midi-config"))]
 pub struct MidiTaskState<'a> {
     midi_listener: MidiListener<'a, CriticalSectionRawMutex, MIDI_CHANNEL_SIZE>,
     midi_uart_buffered: RingBufferedUartRx<'a>,
 }
 
-impl<'a> MidiTaskState<'a> {
-    pub fn new(
-        midi_listener: MidiListener<'a, CriticalSectionRawMutex, MIDI_CHANNEL_SIZE>,
-        midi_uart_buffered: RingBufferedUartRx<'a>,
-    ) -> MidiTaskState<'a> {
-        MidiTaskState {
-            midi_listener,
-            midi_uart_buffered,
-        }
-    }
+#[cfg(feature = "midi-config")]
+pub struct MidiTaskState<'a> {
+    midi_listener: MidiListener<
+        'a,
+        CriticalSectionRawMutex,
+        MIDI_CHANNEL_SIZE,
+        NoopRawMutex,
+        CONFIG_CHANNEL_SIZE,
+    >,
+    midi_uart_buffered: RingBufferedUartRx<'a>,
 }
 
 pub static MIDI_TASK_STATE: StaticCell<MidiTaskState> = StaticCell::new();
 
 pub fn create_midi_task(midi_hardware: MidiDinHardware<'static>) -> SpawnToken<impl Sized> {
     let midi_uart_buffered = midi_hardware.midi_uart_buffered;
-
     let midi_sender = MIDI_TASK_CHANNEL.sender();
 
+    #[cfg(not(feature = "midi-config"))]
     let midi_listener = MidiListener::new(midi_sender);
 
-    midi_task(MIDI_TASK_STATE.init(MidiTaskState::new(midi_listener, midi_uart_buffered)))
+    #[cfg(feature = "midi-config")]
+    let midi_listener = MidiListener::new(midi_sender, CONFIG_CHANNEL_SIZE.sender());
+
+    midi_task(MIDI_TASK_STATE.init(MidiTaskState {
+        midi_listener,
+        midi_uart_buffered,
+    }))
 }
 
 #[embassy_executor::task]

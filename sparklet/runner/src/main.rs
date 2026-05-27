@@ -36,10 +36,19 @@ fn main() -> ! {
         hardware.usb_builder.build()
     };
 
+    info!("Initialising config transport");
+    let (config_producer, config_consumer, config_channel) = config::init_config_transport();
+
+    #[cfg(feature = "config")]
+    let config_task = {
+        info!("Creating Config task");
+        config::config_task::create_task(config_producer, config_channel.receiver())
+    };
+
     #[cfg(any(feature = "midi-din", feature = "midi-usb"))]
     let midi_task = {
         info!("Creating MIDI task");
-        midi_task::create_midi_task(hardware.midi_hardware)
+        midi_task::create_midi_task(hardware.midi_hardware, config_channel.sender())
     };
 
     #[cfg(feature = "audio-usb")]
@@ -47,9 +56,6 @@ fn main() -> ! {
         info!("Creating audio tasks");
         audio_task::create_audio_tasks(hardware.audio_hardware)
     };
-
-    info!("Initialising config transport");
-    let (config_producer, config_consumer) = config::init_config_transport();
 
     info!("Creating synth engine task");
     #[cfg(feature = "audio-usb")]
@@ -66,19 +72,25 @@ fn main() -> ! {
             spawner.spawn(midi_task).unwrap();
         }
 
-        #[cfg(not(feature = "configurable"))]
+        #[cfg(not(feature = "config"))]
         {
             info!("Sending initial config...");
             config::send_initial_config(config_producer);
         }
 
-        #[cfg(feature = "configurable")]
+        #[cfg(feature = "config")]
+        {
+            info!("Spawning config task...");
+            spawner.spawn(config_task).unwrap();
+        }
+
+        #[cfg(feature = "peripheral-config")]
         {
             info!("Spawning input hardware tasks");
-            config::task::spawn_config_hardware_tasks(
+            config::peripheral_task::spawn_config_hardware_tasks(
                 &spawner,
-                config_producer,
                 hardware.config_hardware,
+                config_channel.sender(),
             );
         }
 

@@ -31,7 +31,7 @@ Para gestionar la entrada MIDI, se usa el `struct` `MidiListener`. Expone un mé
 de bytes y lo procesa usando la biblioteca `midly`. `midly` permite identificar mensajes MIDI recibiendo un byte a la
 vez, lo que la hace compatible con leer MIDI usando UART. Cuando `midly` identifica un evento MIDI, `MidiListener` lo
 envía al `VoiceBank` por el canal de eventos, que los procesa como se explica en la @sec_procesado_midi. El canal es un
-`embassy_sync::Channel`, _#box[single-sender] #box[single-consumer]_. Si la cola de 16 eventos está llena, el mensaje se
+`embassy_sync::channel`, _multiple producer multiple consumer_. Si la cola de 16 eventos está llena, el mensaje se
 descarta.
 #footnote[Dado que los mensajes se procesan cada vez que se genera audio, cada milisegundo, Sparklet puede procesar
   hasta $16 times 1000 = 16000$ eventos por segundo. MIDI por UART transmite $31250$ bits por segundo, y ya que los

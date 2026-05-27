@@ -12,14 +12,17 @@ audio = "usb"
 
 [features]
 equalizer = true
-configurable = true
+midi-config = true
+peripheral-config = true
 
 [parameters]
-polyphony = 16
+polyphony = 12
 # Increase it to make the encoders more responsive.
 # Make it negative to invert them.
 encoder_multiplier = 4
 # How often to poll peripherals for changes in milliseconds
+peripheral_poll_millis = 5
+# How often to process config events
 config_poll_millis = 5
 # How often to update the config in milliseconds
 config_update_millis = 100

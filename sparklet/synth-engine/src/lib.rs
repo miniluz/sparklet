@@ -19,7 +19,7 @@ pub const SAMPLE_RATE: u32 = 48000;
 use amity::triple::{TripleBuffer, TripleBufferConsumer};
 use config::Config;
 use embassy_sync::{blocking_mutex::raw::RawMutex, channel::Receiver};
-use midi::MidiEvent;
+use midi::NoteEvent;
 
 pub use cmsis_interface::{CmsisOperations, Q15};
 #[cfg(feature = "equalizer")]
@@ -83,7 +83,7 @@ impl<
     >
 {
     pub fn new(
-        receiver: Receiver<'ch, M, MidiEvent, CHANNEL_SIZE>,
+        receiver: Receiver<'ch, M, NoteEvent, CHANNEL_SIZE>,
         config_consumer: TripleBufferConsumer<
             Config<PAGE_AMOUNT, ENCODER_AMOUNT>,
             &'buf TripleBuffer<Config<PAGE_AMOUNT, ENCODER_AMOUNT>>,

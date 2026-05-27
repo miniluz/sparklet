@@ -74,7 +74,7 @@ fn test_activity_when_playing() {
 
     // Send a NoteOn
     sender
-        .try_send(MidiEvent::NoteOn { key: 60, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 60, vel: 100 })
         .unwrap();
 
     let mut buffer = [Q15::ZERO; WINDOW_SIZE];
@@ -94,13 +94,13 @@ fn test_voice_allocation_correctness() {
 
     // Send 3 NoteOn events (less than max voices)
     sender
-        .try_send(MidiEvent::NoteOn { key: 60, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 60, vel: 100 })
         .unwrap();
     sender
-        .try_send(MidiEvent::NoteOn { key: 62, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 62, vel: 100 })
         .unwrap();
     sender
-        .try_send(MidiEvent::NoteOn { key: 64, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 64, vel: 100 })
         .unwrap();
 
     let mut buffer = [Q15::ZERO; WINDOW_SIZE];
@@ -120,19 +120,19 @@ fn test_voice_stealing_via_queue() {
 
     // Fill all voices (4) and then add one more
     sender
-        .try_send(MidiEvent::NoteOn { key: 60, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 60, vel: 100 })
         .unwrap();
     sender
-        .try_send(MidiEvent::NoteOn { key: 62, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 62, vel: 100 })
         .unwrap();
     sender
-        .try_send(MidiEvent::NoteOn { key: 64, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 64, vel: 100 })
         .unwrap();
     sender
-        .try_send(MidiEvent::NoteOn { key: 65, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 65, vel: 100 })
         .unwrap();
     sender
-        .try_send(MidiEvent::NoteOn { key: 67, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 67, vel: 100 })
         .unwrap(); // 5th note - should queue
 
     let mut buffer = [Q15::ZERO; WINDOW_SIZE];
@@ -160,7 +160,7 @@ fn test_voice_stealing_via_queue() {
 #[test]
 fn test_envelope_lifecycle_to_idle() {
     // Use fast ADSR for this test
-    let channel = Channel::<NoopRawMutex, MidiEvent, TEST_CHANNEL_SIZE>::new();
+    let channel = Channel::<NoopRawMutex, NoteEvent, TEST_CHANNEL_SIZE>::new();
     let sender = channel.sender();
     let receiver = channel.receiver();
     let fast_config = Config {
@@ -184,10 +184,10 @@ fn test_envelope_lifecycle_to_idle() {
 
     // Send NoteOn then immediate NoteOff
     sender
-        .try_send(MidiEvent::NoteOn { key: 60, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 60, vel: 100 })
         .unwrap();
     sender
-        .try_send(MidiEvent::NoteOff { key: 60, vel: 0 })
+        .try_send(NoteEvent::NoteOff { key: 60, vel: 0 })
         .unwrap();
 
     let mut buffer = [Q15::ZERO; WINDOW_SIZE];
@@ -220,10 +220,10 @@ fn test_velocity_scaling() {
 
     // Send same note with different velocities
     sender1
-        .try_send(MidiEvent::NoteOn { key: 69, vel: 127 })
+        .try_send(NoteEvent::NoteOn { key: 69, vel: 127 })
         .unwrap();
     sender2
-        .try_send(MidiEvent::NoteOn { key: 69, vel: 64 })
+        .try_send(NoteEvent::NoteOn { key: 69, vel: 64 })
         .unwrap();
 
     let mut buffer1 = [Q15::ZERO; WINDOW_SIZE];
@@ -263,7 +263,7 @@ fn test_queue_overflow_handling() {
     // Fill all voices first
     for i in 0..TEST_VOICE_BANK_SIZE {
         sender
-            .try_send(MidiEvent::NoteOn {
+            .try_send(NoteEvent::NoteOn {
                 key: 60 + i as u8,
                 vel: 100,
             })
@@ -276,7 +276,7 @@ fn test_queue_overflow_handling() {
     // Now overflow the queue with many more notes
     for i in 0..10 {
         sender
-            .try_send(MidiEvent::NoteOn {
+            .try_send(NoteEvent::NoteOn {
                 key: 70 + i as u8,
                 vel: 100,
             })
@@ -298,7 +298,7 @@ fn test_queue_overflow_handling() {
 #[test]
 fn test_rapid_note_on_off_sequences() {
     // Use fast ADSR for this test
-    let channel = Channel::<NoopRawMutex, MidiEvent, TEST_CHANNEL_SIZE>::new();
+    let channel = Channel::<NoopRawMutex, NoteEvent, TEST_CHANNEL_SIZE>::new();
     let sender = channel.sender();
     let receiver = channel.receiver();
     let fast_config = Config {
@@ -325,10 +325,10 @@ fn test_rapid_note_on_off_sequences() {
     // Rapidly alternate NoteOn/NoteOff
     for _ in 0..20 {
         sender
-            .try_send(MidiEvent::NoteOn { key: 60, vel: 100 })
+            .try_send(NoteEvent::NoteOn { key: 60, vel: 100 })
             .unwrap();
         sender
-            .try_send(MidiEvent::NoteOff { key: 60, vel: 0 })
+            .try_send(NoteEvent::NoteOff { key: 60, vel: 0 })
             .unwrap();
         se.render_samples::<TestOps>(&mut buffer);
     }
@@ -351,10 +351,10 @@ fn test_note_off_releases_correct_voice() {
 
     // Play two notes
     sender
-        .try_send(MidiEvent::NoteOn { key: 60, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 60, vel: 100 })
         .unwrap();
     sender
-        .try_send(MidiEvent::NoteOn { key: 64, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 64, vel: 100 })
         .unwrap();
 
     let mut buffer = [Q15::ZERO; WINDOW_SIZE];
@@ -364,7 +364,7 @@ fn test_note_off_releases_correct_voice() {
 
     // Release first note
     sender
-        .try_send(MidiEvent::NoteOff { key: 60, vel: 0 })
+        .try_send(NoteEvent::NoteOff { key: 60, vel: 0 })
         .unwrap();
     se.render_samples::<TestOps>(&mut buffer);
 
@@ -404,7 +404,7 @@ fn test_voice_stealing_doesnt_release_all_voices() {
     // Fill all 4 voices
     for i in 0..TEST_VOICE_BANK_SIZE {
         sender
-            .try_send(MidiEvent::NoteOn {
+            .try_send(NoteEvent::NoteOn {
                 key: 60 + i as u8,
                 vel: 100,
             })
@@ -422,7 +422,7 @@ fn test_voice_stealing_doesnt_release_all_voices() {
 
     // Play one more note over the limit
     sender
-        .try_send(MidiEvent::NoteOn { key: 70, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 70, vel: 100 })
         .unwrap();
 
     // Render once - this will trigger quick_release on one voice
@@ -458,7 +458,7 @@ fn test_multiple_queued_notes_release_appropriate_voices() {
     // Fill all 4 voices
     for i in 0..TEST_VOICE_BANK_SIZE {
         sender
-            .try_send(MidiEvent::NoteOn {
+            .try_send(NoteEvent::NoteOn {
                 key: 60 + i as u8,
                 vel: 100,
             })
@@ -471,7 +471,7 @@ fn test_multiple_queued_notes_release_appropriate_voices() {
     // Queue 3 more notes over the limit
     for i in 0..3 {
         sender
-            .try_send(MidiEvent::NoteOn {
+            .try_send(NoteEvent::NoteOn {
                 key: 70 + i as u8,
                 vel: 100,
             })
@@ -506,7 +506,7 @@ fn test_quick_release_not_repeated_per_cycle() {
     // Fill all 4 voices with notes that will stay active
     for i in 0..TEST_VOICE_BANK_SIZE {
         sender
-            .try_send(MidiEvent::NoteOn {
+            .try_send(NoteEvent::NoteOn {
                 key: 60 + i as u8,
                 vel: 100,
             })
@@ -522,10 +522,10 @@ fn test_quick_release_not_repeated_per_cycle() {
 
     // Queue multiple notes over the limit
     sender
-        .try_send(MidiEvent::NoteOn { key: 70, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 70, vel: 100 })
         .unwrap();
     sender
-        .try_send(MidiEvent::NoteOn { key: 72, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 72, vel: 100 })
         .unwrap();
 
     // Render once - should trigger quick_release on voices as needed
@@ -571,7 +571,7 @@ fn test_quick_release_not_repeated_per_cycle() {
 
 #[test]
 fn test_config_adsr_update() {
-    let channel = Channel::<NoopRawMutex, MidiEvent, TEST_CHANNEL_SIZE>::new();
+    let channel = Channel::<NoopRawMutex, NoteEvent, TEST_CHANNEL_SIZE>::new();
     let sender = channel.sender();
     let receiver = channel.receiver();
 
@@ -598,7 +598,7 @@ fn test_config_adsr_update() {
 
     // Play a note
     sender
-        .try_send(MidiEvent::NoteOn { key: 60, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 60, vel: 100 })
         .unwrap();
     let mut buffer = [Q15::ZERO; WINDOW_SIZE];
     se.render_samples::<TestOps>(&mut buffer);
@@ -623,7 +623,7 @@ fn test_config_adsr_update() {
 
 #[test]
 fn test_config_wavetable_switch() {
-    let channel = Channel::<NoopRawMutex, MidiEvent, TEST_CHANNEL_SIZE>::new();
+    let channel = Channel::<NoopRawMutex, NoteEvent, TEST_CHANNEL_SIZE>::new();
     let sender = channel.sender();
     let receiver = channel.receiver();
 
@@ -650,7 +650,7 @@ fn test_config_wavetable_switch() {
 
     // Play a note and generate samples
     sender
-        .try_send(MidiEvent::NoteOn { key: 60, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 60, vel: 100 })
         .unwrap();
     let mut buffer_sine = [Q15::ZERO; WINDOW_SIZE];
     se.render_samples::<TestOps>(&mut buffer_sine);
@@ -679,7 +679,7 @@ fn test_config_wavetable_switch() {
 
 #[test]
 fn test_config_update_mid_note() {
-    let channel = Channel::<NoopRawMutex, MidiEvent, TEST_CHANNEL_SIZE>::new();
+    let channel = Channel::<NoopRawMutex, NoteEvent, TEST_CHANNEL_SIZE>::new();
     let sender = channel.sender();
     let receiver = channel.receiver();
 
@@ -705,7 +705,7 @@ fn test_config_update_mid_note() {
 
     // Play a note
     sender
-        .try_send(MidiEvent::NoteOn { key: 60, vel: 100 })
+        .try_send(NoteEvent::NoteOn { key: 60, vel: 100 })
         .unwrap();
     let mut buffer = [Q15::ZERO; WINDOW_SIZE];
     se.render_samples::<TestOps>(&mut buffer);
@@ -739,7 +739,7 @@ fn test_config_update_mid_note() {
 
 #[test]
 fn test_config_oscillator_modulo() {
-    let channel = Channel::<NoopRawMutex, MidiEvent, TEST_CHANNEL_SIZE>::new();
+    let channel = Channel::<NoopRawMutex, NoteEvent, TEST_CHANNEL_SIZE>::new();
     let receiver = channel.receiver();
 
     // Test that oscillator type values >= 4 wrap around via modulo

@@ -4,7 +4,7 @@ use cmsis_rust::CmsisRustOperations as Ops;
 use config::Config;
 use embassy_sync::{blocking_mutex::raw::NoopRawMutex, channel::Channel};
 use hound::{WavSpec, WavWriter};
-use midi::MidiEvent;
+use midi::NoteEvent;
 use midly::{MetaMessage, MidiMessage, Smf, TrackEventKind};
 use std::fs;
 use std::path::PathBuf;
@@ -136,7 +136,7 @@ fn main() {
     println!("Output written to: {}", args.output.display());
 }
 
-fn parse_midi_events(smf: &Smf, ticks_per_beat: u64) -> Vec<(u64, MidiEvent)> {
+fn parse_midi_events(smf: &Smf, ticks_per_beat: u64) -> Vec<(u64, NoteEvent)> {
     let mut events = Vec::new();
     let mut tempo_us_per_qn = 500_000u64;
 
@@ -173,7 +173,7 @@ fn parse_midi_events(smf: &Smf, ticks_per_beat: u64) -> Vec<(u64, MidiEvent)> {
                             if vel.as_int() > 0 {
                                 events.push((
                                     sample_time,
-                                    MidiEvent::NoteOn {
+                                    NoteEvent::NoteOn {
                                         key: key.as_int(),
                                         vel: vel.as_int(),
                                     },
@@ -182,7 +182,7 @@ fn parse_midi_events(smf: &Smf, ticks_per_beat: u64) -> Vec<(u64, MidiEvent)> {
                                 // Note on with velocity 0 is note off
                                 events.push((
                                     sample_time,
-                                    MidiEvent::NoteOff {
+                                    NoteEvent::NoteOff {
                                         key: key.as_int(),
                                         vel: 0,
                                     },
@@ -192,7 +192,7 @@ fn parse_midi_events(smf: &Smf, ticks_per_beat: u64) -> Vec<(u64, MidiEvent)> {
                         MidiMessage::NoteOff { key, vel } => {
                             events.push((
                                 sample_time,
-                                MidiEvent::NoteOff {
+                                NoteEvent::NoteOff {
                                     key: key.as_int(),
                                     vel: vel.as_int(),
                                 },
@@ -210,14 +210,14 @@ fn parse_midi_events(smf: &Smf, ticks_per_beat: u64) -> Vec<(u64, MidiEvent)> {
 }
 
 fn render_audio<const VOICE_COUNT: usize>(
-    events: &[(u64, MidiEvent)],
+    events: &[(u64, NoteEvent)],
     total_samples: u64,
     wavetable: &'static [Q15; 256],
     attack: u8,
     decay_release: u8,
     sustain: u8,
 ) -> Vec<i16> {
-    let channel = Channel::<NoopRawMutex, MidiEvent, CHANNEL_SIZE>::new();
+    let channel = Channel::<NoopRawMutex, NoteEvent, CHANNEL_SIZE>::new();
     let sender = channel.sender();
     let receiver = channel.receiver();
 

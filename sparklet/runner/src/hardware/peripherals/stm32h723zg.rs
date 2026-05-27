@@ -26,7 +26,7 @@ macro_rules! get_config_hardware {
             timer::qei::{Qei, QeiPin},
         };
         use $crate::hardware::abstractions::{ActiveLow, InputWithPolarity};
-        use $crate::hardware::config::{
+        use $crate::hardware::peripherals::{
             BUTTON_NEXT_PAGE, BUTTON_PREV_PAGE, ConfigHardware, ENCODER0_QEI, ENCODER1_QEI,
             ENCODER2_QEI,
         };

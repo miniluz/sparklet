@@ -1,6 +1,6 @@
 use config::Config;
 use embassy_sync::{blocking_mutex::raw::RawMutex, channel::Receiver};
-use midi::MidiEvent;
+use midi::NoteEvent;
 
 pub use crate::voice_bank::{Note, PlayNoteResult, Velocity, VoiceBank, VoiceStage};
 use crate::wavetable::{
@@ -50,7 +50,7 @@ impl<
     }
 
     pub fn new(
-        receiver: Receiver<'ac, M, MidiEvent, CHANNEL_SIZE>,
+        receiver: Receiver<'ac, M, NoteEvent, CHANNEL_SIZE>,
         initial_config: &Config<PAGE_AMOUNT, ENCODER_AMOUNT>,
     ) -> Self {
         let attack = initial_config.pages[0].values[0];
@@ -142,7 +142,9 @@ impl<
 
     #[cfg(test)]
     #[allow(dead_code)]
-    pub(crate) fn get_voice_bank_mut(&mut self) -> &mut VoiceBank<'wt, 'ac, M, VOICE_BANK_SIZE, CHANNEL_SIZE> {
+    pub(crate) fn get_voice_bank_mut(
+        &mut self,
+    ) -> &mut VoiceBank<'wt, 'ac, M, VOICE_BANK_SIZE, CHANNEL_SIZE> {
         &mut self.voice_bank
     }
 }

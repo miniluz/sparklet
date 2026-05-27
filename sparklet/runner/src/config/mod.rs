@@ -1,10 +1,18 @@
 use crate::build_config::BUILD_CONFIG;
 use amity::triple::{TripleBuffer, TripleBufferConsumer, TripleBufferProducer};
-use config::Config;
+use config::{Config, ConfigEvent};
+use embassy_sync::{blocking_mutex::raw::NoopRawMutex, channel::Channel};
 use static_cell::StaticCell;
 
-#[cfg(feature = "configurable")]
-pub mod task;
+#[cfg(feature = "config")]
+pub mod config_task;
+
+#[cfg(feature = "peripheral-config")]
+pub mod peripheral_task;
+
+pub const CONFIG_CHANNEL_SIZE: usize = 80;
+pub static CONFIG_CHANNEL: StaticCell<Channel<NoopRawMutex, ConfigEvent, CONFIG_CHANNEL_SIZE>> =
+    StaticCell::new();
 
 const BASE_PAGE_COUNT: usize = 2;
 
@@ -58,7 +66,11 @@ static CONFIG_TRIPLE_BUFFER: StaticCell<ConfigBuffer> = StaticCell::new();
 
 /// Initialise the config triple buffer and return the producer/consumer halves.
 /// Must be called exactly once before creating the config manager or synth engine tasks.
-pub fn init_config_transport() -> (ConfigProducer, ConfigConsumer) {
+pub fn init_config_transport() -> (
+    ConfigProducer,
+    ConfigConsumer,
+    &'static mut Channel<NoopRawMutex, ConfigEvent, CONFIG_CHANNEL_SIZE>,
+) {
     let initial_config = Config::from_config(INITIAL_CONFIG);
 
     let buf = CONFIG_TRIPLE_BUFFER.init(TripleBuffer::new(
@@ -66,10 +78,14 @@ pub fn init_config_transport() -> (ConfigProducer, ConfigConsumer) {
         initial_config,
         initial_config,
     ));
-    buf.split_mut()
+    let (producer, consumer) = buf.split_mut();
+
+    let config_channel = CONFIG_CHANNEL.init(Channel::new());
+
+    (producer, consumer, config_channel)
 }
 
-#[cfg(not(feature = "configurable"))]
+#[cfg(not(feature = "config"))]
 pub fn send_initial_config(mut producer: ConfigProducer) {
     let config = Config::from_config(INITIAL_CONFIG);
 

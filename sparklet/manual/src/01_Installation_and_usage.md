@@ -188,7 +188,7 @@ should show up as an audio source and MIDI sink. You may route MIDI to it and us
 
 ### Configuring it at runtime
 
-If `features.configurable` is enabled, Sparklet will be configurable at runtime through three rotative encoders
+If `features.peripheral-config` is enabled, Sparklet will be configurable at runtime through three rotative encoders
 (knobs) and two buttons, as has been mentioned. Sparklet follows a pagination format, and should boot on page 0.
 The buttons are used to switch between the pages, wrapping around.
 

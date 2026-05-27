@@ -12,7 +12,8 @@ model=${model#\"}; model=${model%\"}
 midi=$(tomlq '.connections.midi' Config.toml)
 audio=$(tomlq '.connections.audio' Config.toml)
 equalizer=$(tomlq '.features["equalizer"]' Config.toml)
-configurable=$(tomlq '.features["configurable"]' Config.toml)
+midi_config=$(tomlq '.features["midi-config"]' Config.toml)
+peripheral_config=$(tomlq '.features["peripheral-config"]' Config.toml)
 
 
 # Determine cargo config
@@ -44,7 +45,8 @@ features=($model)
 [ "$midi" = '"din"' ] && features+=(midi-din)
 [ "$audio" = '"usb"' ] && features+=(audio-usb)
 [ "$equalizer" = "true" ] && features+=(equalizer)
-[ "$configurable" = "true" ] && features+=(configurable)
+[ "$midi_config" = "true" ] && features+=(midi-config)
+[ "$peripheral_config" = "true" ] && features+=(peripheral-config)
 
 flags+=(--features "${features[*]}")
 

@@ -1,7 +1,7 @@
 use defmt::Format;
 use embassy_sync::{blocking_mutex::raw::RawMutex, channel::Receiver};
 use heapless::Deque;
-use midi::MidiEvent;
+use midi::NoteEvent;
 
 use crate::{SAMPLE_RATE, adsr::ADSR, wavetable::WavetableOscillator};
 
@@ -166,7 +166,7 @@ where
 {
     pub(crate) voices: [Voice<'a>; N],
     pub(crate) timestamp_counter: u32,
-    receiver: Receiver<'ac, M, MidiEvent, CHANNEL_SIZE>,
+    receiver: Receiver<'ac, M, NoteEvent, CHANNEL_SIZE>,
     note_queue: Deque<PendingNote, N>,
 }
 
@@ -201,7 +201,7 @@ where
         sustain_config: u8,
         attack_config: u8,
         decay_release_config: u8,
-        receiver: Receiver<'ac, M, MidiEvent, CHANNEL_SIZE>,
+        receiver: Receiver<'ac, M, NoteEvent, CHANNEL_SIZE>,
     ) -> Self {
         Self {
             voices: [Voice {
@@ -312,12 +312,12 @@ where
     pub fn process_midi_events(&mut self) {
         while let Ok(event) = self.receiver.try_receive() {
             match event {
-                MidiEvent::NoteOff { key, vel: _ } => {
+                NoteEvent::NoteOff { key, vel: _ } => {
                     self.release_note(key.into());
                     self.note_queue
                         .retain(|PendingNote { note, velocity: _ }| note.as_u8() != key);
                 }
-                MidiEvent::NoteOn { key, vel } => {
+                NoteEvent::NoteOn { key, vel } => {
                     let pending = PendingNote {
                         note: key.into(),
                         velocity: vel.into(),

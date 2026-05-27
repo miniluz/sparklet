@@ -4,8 +4,10 @@ version = "0.1.0"
 edition = "2024"
 
 [features]
-default = ["stm32h723zg", "configurable", "midi-usb", "audio-usb", "equalizer"]
-configurable = []
+default = ["stm32h723zg", "midi-config", "peripheral-config", "midi-usb", "audio-usb", "equalizer"]
+config = []
+midi-config = ["config", "midi/midi-config"]
+peripheral-config = ["config"]
 stm32h723zg = ["embassy-stm32/stm32h723zg", "cmsis-native/stm32h723zg"]
 stm32f401rc = ["embassy-stm32/stm32f401rc", "cmsis-native/stm32f401rc"]
 usb = ["dep:embassy-usb"]
@@ -34,7 +36,7 @@ panic-probe = { version = "1.0.0", features = ["print-defmt"] }
 amity = { version = "0.6.3", default-features = false, features = ["triple"] }
 static_cell = "2.1.1"
 bytemuck = "1.20.0"
-midi = { path = "../midi" }
+midi = { path = "../midi", default-features = false }
 synth_engine = { path = "../synth-engine", default-features = false }
 cmsis-native = { path = "../cmsis-native", default-features = false }
 config = { path = "../config" }

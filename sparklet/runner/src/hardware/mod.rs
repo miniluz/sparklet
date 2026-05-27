@@ -1,16 +1,16 @@
 use defmt::info;
 use usb::USB_MODE;
 
-#[cfg(feature = "configurable")]
+#[cfg(feature = "peripheral-config")]
 pub mod abstractions;
 #[cfg(feature = "audio-usb")]
 pub mod audio_usb;
-#[cfg(feature = "configurable")]
-pub mod config;
 #[cfg(feature = "midi-din")]
 pub mod midi_din;
 #[cfg(feature = "midi-usb")]
 pub mod midi_usb;
+#[cfg(feature = "peripheral-config")]
+pub mod peripherals;
 #[cfg(feature = "usb")]
 pub mod usb;
 
@@ -23,8 +23,8 @@ pub struct Hardware {
     pub usb_builder: embassy_usb::Builder<'static, embassy_stm32::usb::Driver<'static, USB_MODE>>,
     #[cfg(feature = "audio-usb")]
     pub audio_hardware: audio_usb::AudioUsbHardware<'static>,
-    #[cfg(feature = "configurable")]
-    pub config_hardware: config::ConfigHardware,
+    #[cfg(feature = "peripheral-config")]
+    pub config_hardware: peripherals::ConfigHardware,
 }
 
 impl Hardware {
@@ -70,7 +70,7 @@ impl Hardware {
         #[cfg(feature = "audio-usb")]
         let audio_hardware = crate::get_audio_usb_hardware!(&mut usb_builder);
 
-        #[cfg(feature = "configurable")]
+        #[cfg(feature = "peripheral-config")]
         let config_hardware = crate::get_config_hardware!(peripherals);
 
         Hardware {
@@ -82,7 +82,7 @@ impl Hardware {
             usb_builder,
             #[cfg(feature = "audio-usb")]
             audio_hardware,
-            #[cfg(feature = "configurable")]
+            #[cfg(feature = "peripheral-config")]
             config_hardware,
         }
     }

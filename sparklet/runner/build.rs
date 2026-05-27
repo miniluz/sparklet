@@ -20,6 +20,11 @@ fn main() {
         .unwrap()
         .as_integer()
         .unwrap() as i8;
+    let peripheral_poll_millis = params
+        .get("peripheral_poll_millis")
+        .unwrap()
+        .as_integer()
+        .unwrap() as u16;
     let config_poll_millis = params
         .get("config_poll_millis")
         .unwrap()
@@ -64,6 +69,7 @@ pub struct InitialConfig {{
 pub struct Parameters {{
     pub polyphony: usize,
     pub encoder_multiplier: i8,
+    pub peripheral_poll_millis: u16,
     pub config_poll_millis: u16,
     pub config_update_millis: u16,
 }}
@@ -89,6 +95,7 @@ pub const BUILD_CONFIG: BuildConfig = BuildConfig {{
     parameters: Parameters {{
         polyphony: {polyphony},
         encoder_multiplier: {encoder_multiplier},
+        peripheral_poll_millis: {peripheral_poll_millis},
         config_poll_millis: {config_poll_millis},
         config_update_millis: {config_update_millis},
     }},
