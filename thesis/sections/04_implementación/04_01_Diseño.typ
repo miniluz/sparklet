@@ -6,7 +6,7 @@
 === Arquitectura
 
 #figure(
-  image("/figures/Diagrama de la arquitectura.drawio.pdf", width: 70%),
+  image("/figures/Diagrama de la arquitectura.drawio.pdf", width: 73%),
   caption: "Diagrama de la arquitectura de Sparklet.",
   placement: bottom,
 )<fig_diagrama_arquitectura>
@@ -32,9 +32,11 @@ Idealmente se procesarían los eventos MIDI para saber qué notas se están toca
 lugar de en la de generación de audio. Sin embargo, el algoritmo que determina qué nota soltar cuando tocar una nueva
 nota supera el límite de polifonía requiere de información privada al motor de síntesis.
 
-La configuración, sin embargo, no depende de información privada, por lo que se extrae a una tarea separada. Se lee el
-hardware usando polling, por defecto cada $5 "ms"$, y procesa con el gestor de configuración los datos. Cada cierto
-tiempo, por defecto cada $100 "ms"$, se envía la nueva configuración al motor de síntesis con un triple buffer.
+La configuración, sin embargo, no depende de información privada, por lo que se extrae a una tarea separada. Sparklet
+puede ser configurada por periféricos y por MIDI, de acuerdo al @rf_configuración_periféricos y @rf_configuración_midi.
+Ambas entradas se comunican con el gestor de configuración usando una cola con descarte. La configuración se comunica al
+motor de síntesis por un triple buffer, que nunca bloquea la lectura ni la escritura, para evitar retrasos en la
+generación de audio.
 
 === Soporte de múltiples dispositivos
 <sec_múltiples_dispositivos>

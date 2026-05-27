@@ -145,8 +145,8 @@
     [Configurabilidad en ejecución de Sparklet.],
     [
       - Implementación del gestor de configuración y conexión con el resto de componentes.
-      - Investigación del funcionamiento de los encoders rotativos.
-      - Inicio del código para leer los encoders y botones, no funcional.
+      - Investigación del funcionamiento de los codificadores rotatorios.
+      - Inicio del código para leer los codificadores rotatorios y botones, no funcional.
     ],
   ),
   sprint(
@@ -221,8 +221,8 @@
     [
       - Redacción de la sección de implementación.
       - Mejoras a la legibilidad.
-      - Paso de la lectura del hardware de configuración a un modelo de polling.
-      - Uso de QEI (_timers_ hardware) para la lectura de encoders rotativos.
+      - Paso de la lectura del hardware de configuración a un modelo de muestreo.
+      - Uso de QEI (_timers_ hardware) para la lectura de codificadores rotatorios.
       - Eliminación del canal entre el hardware de configuración y el gestor de configuración.
       - Hacer opcional la configurabilidad en ejecución.
       - Añadir herramientas de código abierto para la prueba del sintetizador.

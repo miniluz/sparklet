@@ -92,8 +92,9 @@ que otras tareas lo interrumpan y alarguen artificialmente su duración. Sabiend
 opera a $550 "MHz"$, se puede estimar que calcular 48 muestras con el ecualizador toma
 $42 "µs" times 550 "MHz" = 23100 "ciclos"$, o $481 "ciclos"$ por muestra.
 
+#v(1cm)
+
 #figure(
   image("/figures/con_vs_sin_eq.png", width: 90%),
   caption: "Duración del cálculo de un bloque de audio con y sin el ecualizador, con 12 y 8 voces.",
-  placement: bottom,
 )<fig_con_sin_eq>

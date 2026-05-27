@@ -21,33 +21,42 @@
 == Ejecutor
 <sec_ejecutor>
 
-El ejecutor (`runner`) es responsable de inicializar el hardware, definir los canales que usan los otros módulos para
-comunicarse, y crear las tareas que llaman el resto de componentes. Es el primer módulo mencionado hasta el momento que
-sólo se puede ejecutar en el sistema empotrado. En concreto, hace lo siguiente:
+El ejecutor (`runner`) es responsable de inicializar el microcontrolador y sus periféricos, definir los canales que usan
+los otros módulos para comunicarse, y crear las tareas que ejecutan el resto de componentes. En concreto, hace lo
+siguiente:
 
-+ Inicialización del hardware (véase @sec_configuración_otros_dispositivos).
++ Inicializa el microcontrolador y sus periféricos.
 
-+ Inicialización del ejecutor de tareas de Embassy.
++ Inicializa el ejecutor de tareas de Embassy.
 
-+ Inicialización del USB, si está activado.
++ Configura la salida USB, si es necesaria.
 
-+ Creación, sin inicializar, de la tarea MIDI, ya sea usando un conector DIN o USB.
++ Ejecuta el gestor de configuración, si está activada la configuración en ejecución, sea por los periféricos o por
+  MIDI.
 
-+ Creación de la tarea de salida audio por USB.
++ Ejecuta la tarea de lectura de MIDI si está activada, sea por DIN o USB.
 
-+ Creación de la tarea de la gestión de la configuración.
++ Ejecuta la tarea de salida de audio por USB, si está activada.
 
-+ Creación de la tarea del motor de síntesis.
++ Ejecuta el motor de síntesis.
 
-+ Inicialización de la tarea MIDI, de configuración, de los botones y encoders rotativos, del motor de sínstesis, y de
-  la salida de audio.
++ Envía la configuración por defecto, si no está activada la configuración en ejecución.
 
-Una vez acaba, las tareas toman control del chip. La configuración se ejecuta cada cierto tiempo, y la generación de
-audio se ejecuta únicamente cuando se pide una salida de audio.
++ Ejecuta la tarea de lectura de periféricos, si está activada.
+
+Una vez acaba este proceso, el ejecutor de Embassy toma control de la ejecución, y se encarga de coordinar las tareas
+ejecutadas.
+
+=== Pruebas
+
+El ejecutor y CMSIS Native son los únicos módulos que sólo pueden ejecutarse en el sistema empotrado (y no en el
+ordenador usado para el desarrollo), por lo que son los únicos que no tienen pruebas automáticas. El ejecutor es probado
+manualmente con regularidad durante el transcurso de cada sprint, y se ejecuta una prueba final de toda la funcionalidad
+del sistema antes de cerrarlo, como se mencionó en la @sec_estrategia_de_pruebas.
 
 === Rendimiento
 <sec_ejecutor_rendimiento>
 
 El sintetizador es capaz de calcular cada muestra de audio en $857 "µs"$ bajo las condiciones que indica el
-@rnf_rendimiento. Esto resulta en un margen del $#num(digits: 1, 14.3)%$, superando el 10% que pide dicho requisito y
-así cumpliéndolo.
+@rnf_rendimiento. Esto resulta en un margen del $#num(digits: 1, 14.3)%$ del tiempo disponible, superando el 10% que
+pide este requisito y, por lo tanto, cumpliéndolo.

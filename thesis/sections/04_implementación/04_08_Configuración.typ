@@ -37,7 +37,8 @@ el @cod_ejemplo_feature_flags. Usando feature flags, las siguientes característ
 - El chip a usar: qué hardware abstraction layer y qué pines usar.
 - La entrada de MIDI: por un pin usando el formato DIN, por USB, o desactivada.
 - La inclusión del ecualizador.
-- La capacidad de configurar el sintetizador en ejecución (el ataque, la onda, etc.).
+- La capacidad de configurar el sintetizador en ejecución con periféricos.
+- La capacidad de configurar el sintetizador en ejecución con mensajes MIDI.
 
 #figure(
   ```rust
@@ -115,25 +116,38 @@ si se usa un dispositivo con un M4 o M7 para CMSIS-DSP, y el comando que se usa 
 
 
 === Durante la ejecución
+<sec_configuración_ejecución>
 
-Sparklet se puede configurar en la ejecución con dos botones y tres codificadores rotatorios, como indica el
-@rf_configuración_ejecución. Para permitir modificar más de tres parámetros con los tres codificadores, se pagina la
-configuración. Los botones permiten cambiar de página, y los codificadores modifican los valores de la página actual. El
-módulo responsable de esta gestión es `ConfigManager`, que mantiene el estado de las páginas, los parámetros y la página
-seleccionada, y procesa los eventos de configuración.
-
-La tarea de configuración es independiente a la de generación de audio. Lee los componentes asociados por muestreo, por
-defecto cada $5 "ms"$. Para los botones, mantiene una máquina de estado para aplicar _debouncing_. Para los
-codificadores rotativos, usa `Qei` de Embassy, que configura los timers del hardware para acumular la diferencia de fase
-a un contador automáticamente, sin ocupar tiempo de procesamiento del CPU. Cada muestreo, la tarea de configuración mide
-la diferencia del valor actual contador con el anterior, y lo envía a `ConfigManager`.
+El módulo encargado de realizar la gestión de la configuración durante la ejecución es `ConfigManager`. Cada cierto
+tiempo (por defecto, cada $5 "ms"$) procesa los eventos de configuración que van acumulando en su cola los periféricos y
+la entrada MIDI, modificando el estado actual de la configuración.
 
 Para propagar la configuración de forma eficiente, facilitando cumplir el @rnf_rendimiento, los cambios a la
-configuración se transmiten al resto de módulos con menos frecuencia a la que se leen los periféricos (por defecto, cada
-$100 "ms"$). Se conecta al resto de módulos usando un `TripleBuffer`, permitiendo que `ConfigManager` nunca se bloquee
-al escribir y que el motor de síntesis nunca se bloquee al leer.
+configuración se transmiten al resto de módulos con una frecuencia menor a la que se usa para procesar los eventos, por
+defecto cada $100 "ms"$. Se conecta al resto de módulos usando un `TripleBuffer`, permitiendo que `ConfigManager` nunca
+se bloquee al escribir la nueva configuración y que el motor de síntesis nunca se bloquee al leerla.
 
 La taza de muestreo y de actualización de la configuración son parte de los parámetros configurados con el archivo
 `build.rs`, como se explica en la @sec_configuración_compilación.
 
-/* Añadir ejemplo de cómo se propaga la configuración */
+==== Periféricos
+
+Sparklet se puede configurar en la ejecución con dos botones y tres codificadores rotatorios, como indica el
+@rf_configuración_periféricos. Para permitir modificar más de tres parámetros con los tres codificadores, se pagina la
+configuración. Los botones permiten cambiar de página, y los codificadores modifican los valores de la página actual.
+
+La tarea de lectura de periféricos es independiente del gestor de configuración. Lee los periféricos por muestreo, por
+defecto cada $5 "ms"$ (otro parámetro configurable). Para los botones, mantiene una máquina de estado para aplicar
+_debouncing_. Para los codificadores rotatorios, usa el driver `Qei` de Embassy. `Qei` configura un _timer_ del
+microconrolador en modo de conteo de cuadratura, permitiendo que el hardware incremente o decremente un contador
+automáticamente según la dirección de giro, sin intervención del CPU. Cuando detecta que se ha presionado un botón o que
+ha habido un cambio a un codificador, envía el evento por una cola a `ConfigManager`.
+
+==== MIDI
+
+Sparklet también puede ser configurado en la ejecución con MIDI, como indica el @rf_configuración_midi. La lectura de
+MIDI también se ejecuta en su propia tarea, como se explicará en detalle en la @sec_midi. Para esta sección es
+suficiente saber que se encontrará con mensajes de _control change_ (CC), que permiten transmitir entre dispositivos 128
+parámetros de control, con valores entre 0 y 127. Estos mensajes se usan directamente para controlar la configuración de
+Sparklet, con el parámetro de control 102 correspondiendo al primer parámetro de la primera página, el 103 al segundo, y
+así sucesivamente.

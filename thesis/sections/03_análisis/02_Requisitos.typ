@@ -31,8 +31,10 @@ Para crear un sintetizador útil que aporte al estado del arte, se proponen los 
   Ha de poder ser instalado en al menos dos dispositivos empotrados distintos.]
 #req("rf_añadir_dispositivos", "F")[Añadir dispositivos][
   Debe estar documentado cómo configurar el sintetizador para un nuevo dispositivo empotrado.]
-#req("rf_configuración_ejecución", "F")[Configuración en ejecución][
-  Ha de ser configurable en ejecución con elementos físicos conectados a la placa.]
+#req("rf_configuración_periféricos", "F")[Configuración por periféricos][
+  Ha de ser configurable en ejecución por periféricos electrónicos conectados a la placa.]
+#req("rf_configuración_midi", "F")[Configuración por MIDI][
+  Ha de ser configurable en ejecución por MIDI.]
 
 #v(-0.4cm)
 

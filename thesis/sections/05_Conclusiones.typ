@@ -87,9 +87,9 @@ estuviera acompañado de figuras que aporten a la explicación. En el siguiente 
 toma hacer documentación legible, y en general los aspectos del desarrollo que no son escribir código.
 
 Otro problema ha sido el retrabajo. Se realizaron implementaciones erróneas o incompatibles con la literatura, que
-tuvieron que ser reemplazadas. Un ejemplo fue usar interrupciones para leer los botones y encoders rotativos en lugar de
-muestreo. Resultó en que cuando se generaban demasiados eventos se retrasaba la generación del bloque de audio lo
-suficiente para generar artefactos. Del mismo modo, aunque las pruebas automáticas se desarrollaron a la par que los
+tuvieron que ser reemplazadas. Un ejemplo fue usar interrupciones para leer los botones y codificadores rotatorios en
+lugar de muestreo. Resultó en que cuando se generaban demasiados eventos se retrasaba la generación del bloque de audio
+lo suficiente para generar artefactos. Del mismo modo, aunque las pruebas automáticas se desarrollaron a la par que los
 componentes, las pruebas de rendimiento se realizaron en sprints posteriores, en ocasiones llevando a tener que volver a
 visitar código y optimizarlo a posteriori, una vez se había perdido el contexto. Hasta cierto punto, esto es inevitable,
 pero podría haber sido reducido si se hubiese investigado un poco más antes de realizar las implementaciones.
