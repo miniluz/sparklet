@@ -11,11 +11,41 @@
   director: [Alberto Jesús Molina Cantero],
   departamento: "Tecnología Electrónica",
   convocatoria: "Convocatoria de junio, curso 2025/26",
-  dedicatoria: "Aquí la dedicatoria del trabajo",
+  dedicatoria: "A quienes son mi familia por sangre y a quienes lo son por elección.",
   agradecimientos: [
-    Quiero agradecer a Z por...
+    Quiero agradecer a mi familia por su apoyo infinito y por haberme dado la libertad de convertirme en quien soy.
+    Valoro todo el esfuerzo que habéis hecho por mi, en sus mil formas. Me hace gracia que no se me haya ocurrido que
+    quisierais venir a ver mi graduación. Que estáis tan orgulloso de mi como yo de vosotros. Estoy deseando veros
+    cuando vuelva a casa. Tengo mucha suerte de teneros.
 
-    También quiero agradecer a Y por...
+    Agradezco a Emil, mi otra mitad, que me ha escuchado cada noche, siempre con una sonrisa y un apoyo incondicional.
+    Amo tenerte en mis brazos mientras hablas de tus plantas y de tus sueños, sin querer tejiendo en el aire hilos de
+    luz que revelan la belleza de tu ser. Espero hacerte sentir tan amado como tú me haces sentir a mí, aun creyéndolo
+    imposible.
+
+    Quiero agradecer, también, a todos los que me acompañaron estos cuatro años. Al haber superado juntos esta odisea,
+    al haber pasado años manteniéndonos cuerdos los unos a los otros, vuestras almas han dejado una marca indeleble en
+    la mía: de cada uno de vosotros me llevo un fragmento en mí.
+
+    De vosotros resalto a tres. Pepe, me doy cuenta ahora, tarde, que quizá nunca te dije lo mucho que te admiro, y lo
+    siento por ello. Eres un referente para mí en mil aspectos. Juan, valoro cada momento que he pasado contigo, y
+    lamento no haberte visto este año tanto como me habría gustado. Fuiste el primero en hacerme sentir verdaderamente
+    bienvenido en Sevilla. Emilio, te tengo tanto afecto que no sé qué hacer con él. Quizá nunca hayas hecho una gracia
+    que no me haya hecho reír. Gracias por mantenerme cuerdo este año. Sabéis que os quiero, pero os lo vuelvo a decir.
+    Escribiendo esto, pensando en que se acaba esta etapa de nuestra vida, no puedo evitar llorar. De verdad os merecéis
+    lo mejor del mundo.
+
+    Finalmente, agradezco a los que me han acompañado por más tiempo. A Rafa y a Gianca, con quienes he pasado mil
+    tardes y superado mil pesares, y a quienes veo mucho menos de lo que me gustaría. A Nico, a quien he llegado a
+    querer un poco más que a mí. Nunca podré pagarte todo la ayuda que me has prestado. Vosotros tres os merecéis mucho,
+    mucho más de lo que el mundo ha querido daros. Espero veros pronto. A Sofía, quien considero mi hermana puesto que
+    la conozco desde que tengo memoria. Estoy deseando verte actuar en Broadway.
+
+    Por último, agradezco a aquellos con quien me descubrí. A Alba, un torbellino de talento. A Corral, el _genius loci_
+    de Premià. A Cristian, sin quien no habría sobrevivido al bachillerato. Y a Ena, mi confidente. Me enorgullezco de
+    haber crecido con vosotros, y de las personas en las que os habéis convertido.
+
+    Espero que la vida os sonría.
   ],
   resumen: [
     Aunque el avance de la tecnología ha llevado a la democratización del acceso a la música, determinados ámbitos

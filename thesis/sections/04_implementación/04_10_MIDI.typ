@@ -60,7 +60,3 @@ directamente a datos externos. La implementación ha de considerar que se puede 
 con ruido, o incluso mensajes maliciosos, y los ha de gestionar correctamente para cumplir el @rnf_fiabilidad. Por lo
 tanto, este fue uno de los módulos más probados. Su resistencia a errores y mensajes largos fue validada: es capaz de
 procesar mensajes tras haber recibido mil bytes de datos aleatorios.
-
-=== Configuración
-
-#todo[Falta explicar cómo se usa el MIDI para configurar el chip en ejecución.]
