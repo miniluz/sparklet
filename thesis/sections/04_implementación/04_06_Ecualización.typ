@@ -49,7 +49,7 @@ paso banda y el último de paso alto, para repartir entre ellos todo el rango de
 almacenando los coeficientes en formato Q15.
 
 #figure(
-  image("/figures/octave_filter_response_q15.png", width: 100%),
+  image("/figures/equalizer_response_q15.png", width: 100%),
   caption: [Respuesta espectral del banco de filtros, calculada usando un barrido sinusoidal en formato Q15. Se muestra
     la respuesta espectral de cada banda y de la suma de todas las bandas.],
   placement: bottom,

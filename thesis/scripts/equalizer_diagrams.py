@@ -26,17 +26,17 @@ def parse_rs_filter_file(path: str) -> tuple[int, list[dict]]:
         text = f.read()
 
     ps_match = re.search(
-        r"pub const OCTAVE_FILTER_POST_SHIFT\s*:\s*i8\s*=\s*(-?\d+)\s*;", text
+        r"pub const EQUALIZER_POST_SHIFT\s*:\s*i8\s*=\s*(-?\d+)\s*;", text
     )
     if not ps_match:
-        raise ValueError("OCTAVE_FILTER_POST_SHIFT not found in file.")
+        raise ValueError("EQUALIZER_POST_SHIFT not found in file.")
     post_shift = int(ps_match.group(1))
 
     coeffs_match = re.search(
-        r"pub static OCTAVE_FILTER_COEFFS[^=]+=\s*\[(.*?)\]\s*;", text, re.DOTALL
+        r"pub static EQUALIZER_COEFFS[^=]+=\s*\[(.*?)\]\s*;", text, re.DOTALL
     )
     if not coeffs_match:
-        raise ValueError("OCTAVE_FILTER_COEFFS not found in file.")
+        raise ValueError("EQUALIZER_COEFFS not found in file.")
     body = coeffs_match.group(1)
 
     # Split into individual band blocks: each starts with an optional comment
@@ -70,7 +70,7 @@ def parse_rs_filter_file(path: str) -> tuple[int, list[dict]]:
         bands.append({"label": label, "coeffs": coeffs})
 
     if not bands:
-        raise ValueError("No band arrays found in OCTAVE_FILTER_COEFFS.")
+        raise ValueError("No band arrays found in EQUALIZER_COEFFS.")
 
     return post_shift, bands
 
@@ -146,7 +146,7 @@ def compute_combined_response(freqs: np.ndarray, all_magnitudes: list) -> np.nda
 
 def main():
     post_shift, bands = parse_rs_filter_file(
-        "../sparklet/synth-engine/src/octave_filter/filter_coefficients.rs"
+        "../sparklet/synth-engine/src/equalizer/filter_coefficients.rs"
     )
     print(f"  post_shift = {post_shift}, bands = {len(bands)}")
 
@@ -205,7 +205,7 @@ def main():
     plt.tight_layout(pad=1.5)
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    out_path = os.path.join(OUTPUT_DIR, "octave_filter_response_q15.png")
+    out_path = os.path.join(OUTPUT_DIR, "equalizer_response_q15.png")
     fig.savefig(
         out_path, dpi=DPI, bbox_inches="tight", facecolor="white", edgecolor="none"
     )

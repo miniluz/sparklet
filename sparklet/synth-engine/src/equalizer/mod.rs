@@ -3,14 +3,14 @@ pub mod filter_coefficients;
 use crate::db_linear_amplitude_table::DB_LINEAR_AMPLITUDE_TABLE;
 use cmsis_interface::{BiquadCascadeDf1StateQ15, CmsisOperations, Q15};
 use config::Config;
-use filter_coefficients::{OCTAVE_FILTER_COEFFS, OCTAVE_FILTER_POST_SHIFT};
+use filter_coefficients::{EQUALIZER_COEFFS, EQUALIZER_POST_SHIFT};
 
-pub struct OctaveFilterBank {
+pub struct Equalizer {
     states: [BiquadCascadeDf1StateQ15<1, 4>; 6],
     band_gains: [Q15; 6],
 }
 
-impl OctaveFilterBank {
+impl Equalizer {
     pub fn new() -> Self {
         let default_gain = Q15::from_bits((DB_LINEAR_AMPLITUDE_TABLE[200].to_bits() >> 16) as i16);
         Self {
@@ -22,13 +22,13 @@ impl OctaveFilterBank {
     pub fn set_band_gains_from_config<
         const PAGE_AMOUNT: usize,
         const ENCODER_AMOUNT: usize,
-        const OCTAVE_FILTER_FIRST_PAGE: usize,
+        const EQUALIZER_FIRST_PAGE: usize,
     >(
         &mut self,
         config: &Config<PAGE_AMOUNT, ENCODER_AMOUNT>,
     ) {
         for band in 0..6 {
-            let page_idx = OCTAVE_FILTER_FIRST_PAGE + (band / 3);
+            let page_idx = EQUALIZER_FIRST_PAGE + (band / 3);
             let encoder_idx = band % 3;
             if page_idx < PAGE_AMOUNT && encoder_idx < ENCODER_AMOUNT {
                 let gain_value = config.pages[page_idx].values[encoder_idx];
@@ -51,8 +51,8 @@ impl OctaveFilterBank {
     ) {
         T::biquad_cascade_df1_q15(
             &mut self.states[band_index],
-            &[OCTAVE_FILTER_COEFFS[band_index]],
-            OCTAVE_FILTER_POST_SHIFT,
+            &[EQUALIZER_COEFFS[band_index]],
+            EQUALIZER_POST_SHIFT,
             input,
             output,
         );
@@ -87,7 +87,7 @@ impl OctaveFilterBank {
     }
 }
 
-impl Default for OctaveFilterBank {
+impl Default for Equalizer {
     fn default() -> Self {
         Self::new()
     }

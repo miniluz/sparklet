@@ -33,8 +33,8 @@ name = "generate_db_linear_amplitude_table"
 path = "src/bin/generate_db_linear_amplitude_table.rs"
 
 [[bin]]
-name = "generate_octave_filter_coefficients"
-path = "src/bin/generate_octave_filter_coefficients.rs"
+name = "generate_equalizer_coefficients"
+path = "src/bin/generate_equalizer_coefficients.rs"
 
 [dependencies]
 cmsis-interface = { path = "../cmsis-interface" }

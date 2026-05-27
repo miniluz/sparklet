@@ -1,6 +1,6 @@
 use cmsis_rust::CmsisRustOperations as Ops;
 use std::f64::consts::PI;
-use synth_engine::{OctaveFilterBank, Q15, SAMPLE_RATE};
+use synth_engine::{Equalizer, Q15, SAMPLE_RATE};
 
 const WINDOW_SIZE: usize = 256;
 
@@ -26,11 +26,7 @@ fn calculate_rms(samples: &[Q15]) -> f64 {
     (sum_squares / samples.len() as f64).sqrt()
 }
 
-fn process_signal_for_band(
-    filter: &mut OctaveFilterBank,
-    input: &[Q15],
-    band_index: usize,
-) -> Vec<Q15> {
+fn process_signal_for_band(filter: &mut Equalizer, input: &[Q15], band_index: usize) -> Vec<Q15> {
     let mut output = Vec::with_capacity(input.len());
 
     for chunk in input.chunks(WINDOW_SIZE) {
@@ -49,7 +45,7 @@ fn process_signal_for_band(
     output
 }
 
-fn process_signal(filter: &mut OctaveFilterBank, input: &[Q15]) -> Vec<Q15> {
+fn process_signal(filter: &mut Equalizer, input: &[Q15]) -> Vec<Q15> {
     let mut output = Vec::with_capacity(input.len());
 
     for chunk in input.chunks(WINDOW_SIZE) {
@@ -88,7 +84,7 @@ fn main() {
     for &freq in &test_freqs {
         print!("{:9.1} |", freq);
 
-        let mut filter = OctaveFilterBank::new();
+        let mut filter = Equalizer::new();
 
         for band_index in 0..6 {
             let input = generate_sine_wave(freq, WINDOW_SIZE);
@@ -113,7 +109,7 @@ fn main() {
         let input = generate_sine_wave(freq, test_duration);
         let input_rms = calculate_rms(&input);
 
-        let mut filter = OctaveFilterBank::new();
+        let mut filter = Equalizer::new();
 
         let output = process_signal(&mut filter, &input);
         let output_rms = calculate_rms(&output);
@@ -133,7 +129,7 @@ fn main() {
         let input = generate_sine_wave(freq, test_duration);
         let input_rms = calculate_rms(&input);
 
-        let mut filter = OctaveFilterBank::new();
+        let mut filter = Equalizer::new();
 
         for band in 0..6_usize {
             if band.is_multiple_of(2) {
@@ -161,7 +157,7 @@ fn main() {
         let input = generate_sine_wave(freq, test_duration);
         let input_rms = calculate_rms(&input);
 
-        let mut filter = OctaveFilterBank::new();
+        let mut filter = Equalizer::new();
 
         for band in 0..6_usize {
             if !band.is_multiple_of(2) {

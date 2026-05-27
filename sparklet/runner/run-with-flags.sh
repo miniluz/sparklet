@@ -39,13 +39,14 @@ esac
 
 flags=(--no-default-features)
 
-flags+=(--features $model)
-[ "$midi" = '"usb"' ] && flags+=(--features midi-usb)
-[ "$midi" = '"din"' ] && flags+=(--features midi-din)
-[ "$audio" = '"usb"' ] && flags+=(--features audio-usb)
-[ "$equalizer" = "true" ] && flags+=(--features octave-filter)
-[ "$configurable" = "true" ] && flags+=(--features configurable)
+features=($model)
+[ "$midi" = '"usb"' ] && features+=(midi-usb)
+[ "$midi" = '"din"' ] && features+=(midi-din)
+[ "$audio" = '"usb"' ] && features+=(audio-usb)
+[ "$equalizer" = "true" ] && features+=(equalizer)
+[ "$configurable" = "true" ] && features+=(configurable)
 
+flags+=(--features "${features[*]}")
 
 # Add config flags
 

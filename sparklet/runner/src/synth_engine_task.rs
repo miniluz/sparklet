@@ -30,20 +30,20 @@ const WINDOW_SIZE: usize = 48;
 // Config dimensions using additive pattern
 const BASE_PAGE_COUNT: usize = 2; // Pages 0-1: ADSR and Oscillator
 
-#[cfg(feature = "octave-filter")]
-const OCTAVE_FILTER_PAGE_COUNT: usize = 2; // Pages 2-3: Octave filter (6 bands)
-#[cfg(not(feature = "octave-filter"))]
-const OCTAVE_FILTER_PAGE_COUNT: usize = 0;
+#[cfg(feature = "equalizer")]
+const EQUALIZER_PAGE_COUNT: usize = 2; // Pages 2-3: Octave filter (6 bands)
+#[cfg(not(feature = "equalizer"))]
+const EQUALIZER_PAGE_COUNT: usize = 0;
 
-const CONFIG_PAGE_COUNT: usize = BASE_PAGE_COUNT + OCTAVE_FILTER_PAGE_COUNT;
+const CONFIG_PAGE_COUNT: usize = BASE_PAGE_COUNT + EQUALIZER_PAGE_COUNT;
 const CONFIG_ENCODER_COUNT: usize = 3;
 
 // Octave filter configuration
-#[cfg(feature = "octave-filter")]
-const OCTAVE_FILTER_FIRST_PAGE: usize = BASE_PAGE_COUNT; // Starts after base pages
+#[cfg(feature = "equalizer")]
+const EQUALIZER_FIRST_PAGE: usize = BASE_PAGE_COUNT; // Starts after base pages
 
-#[cfg(not(feature = "octave-filter"))]
-const OCTAVE_FILTER_FIRST_PAGE: usize = 0; // Unused but needed for type signature
+#[cfg(not(feature = "equalizer"))]
+const EQUALIZER_FIRST_PAGE: usize = 0; // Unused but needed for type signature
 
 pub struct SynthEngineTaskState<'ch, 'wt, 'buf> {
     synth_engine: SynthEngine<
@@ -56,7 +56,7 @@ pub struct SynthEngineTaskState<'ch, 'wt, 'buf> {
         WINDOW_SIZE,
         CONFIG_PAGE_COUNT,
         CONFIG_ENCODER_COUNT,
-        OCTAVE_FILTER_FIRST_PAGE,
+        EQUALIZER_FIRST_PAGE,
     >,
 }
 
@@ -72,7 +72,7 @@ impl<'ch, 'wt, 'buf> SynthEngineTaskState<'ch, 'wt, 'buf> {
             WINDOW_SIZE,
             CONFIG_PAGE_COUNT,
             CONFIG_ENCODER_COUNT,
-            OCTAVE_FILTER_FIRST_PAGE,
+            EQUALIZER_FIRST_PAGE,
         >,
     ) -> SynthEngineTaskState<'ch, 'wt, 'buf> {
         SynthEngineTaskState { synth_engine }

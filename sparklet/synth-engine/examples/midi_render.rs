@@ -18,7 +18,7 @@ use synth_engine::{Q15, SAMPLE_RATE, SynthEngine, WINDOW_SIZE};
 const CHANNEL_SIZE: usize = 256;
 const PAGE_AMOUNT: usize = 4;
 const ENCODER_AMOUNT: usize = 3;
-const OCTAVE_FILTER_FIRST_PAGE: usize = 2;
+const EQUALIZER_FIRST_PAGE: usize = 2;
 
 #[derive(Parser, Debug)]
 #[command(name = "MIDI Renderer")]
@@ -260,7 +260,7 @@ fn render_audio<const VOICE_COUNT: usize>(
         WINDOW_SIZE,
         PAGE_AMOUNT,
         ENCODER_AMOUNT,
-        OCTAVE_FILTER_FIRST_PAGE,
+        EQUALIZER_FIRST_PAGE,
     >::new(receiver, consumer);
 
     let mut output = Vec::with_capacity(total_samples as usize);

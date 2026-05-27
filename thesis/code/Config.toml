@@ -5,7 +5,7 @@ model = "stm32h723zg"
 midi = "usb"
 
 [features]
-octave_filter = true
+equalizer = true
 
 [parameters]
 polyphony = 16

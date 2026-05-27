@@ -1,7 +1,7 @@
-#![cfg(feature = "octave-filter")]
+#![cfg(feature = "equalizer")]
 
 use cmsis_rust::CmsisRustOperations as Ops;
-use synth_engine::{OctaveFilterBank, Q15, SAMPLE_RATE};
+use synth_engine::{Equalizer, Q15, SAMPLE_RATE};
 
 const WINDOW_SIZE: usize = 128;
 const TEST_DURATION_SAMPLES: usize = SAMPLE_RATE as usize; // 1 second
@@ -51,7 +51,7 @@ fn calculate_rms(samples: &[Q15]) -> f64 {
 }
 
 /// Process signal through octave filter in chunks
-fn process_signal(filter: &mut OctaveFilterBank, input: &[Q15]) -> Vec<Q15> {
+fn process_signal(filter: &mut Equalizer, input: &[Q15]) -> Vec<Q15> {
     let mut output = Vec::with_capacity(input.len());
 
     for chunk in input.chunks(WINDOW_SIZE) {
@@ -80,7 +80,7 @@ fn test_single_band_frequency_selectivity_band_0() {
     let input = generate_sine_wave(center_freq, TEST_DURATION_SAMPLES);
     let input_rms = calculate_rms(&input);
 
-    let mut filter = OctaveFilterBank::new();
+    let mut filter = Equalizer::new();
 
     // Configure: Band 0 at unity gain (255), all others at minimum (0)
     filter.set_band_gain(0, 255);
@@ -107,7 +107,7 @@ fn test_single_band_frequency_selectivity_band_2() {
     let input = generate_sine_wave(center_freq, TEST_DURATION_SAMPLES);
     let input_rms = calculate_rms(&input);
 
-    let mut filter = OctaveFilterBank::new();
+    let mut filter = Equalizer::new();
 
     // Configure: Band 2 at unity gain (255), all others at minimum (0)
     filter.set_band_gain(2, 255);
@@ -134,7 +134,7 @@ fn test_single_band_frequency_selectivity_band_4() {
     let input = generate_sine_wave(center_freq, TEST_DURATION_SAMPLES);
     let input_rms = calculate_rms(&input);
 
-    let mut filter = OctaveFilterBank::new();
+    let mut filter = Equalizer::new();
 
     // Configure: Band 4 at unity gain (255), all others at minimum (0)
     filter.set_band_gain(4, 255);
@@ -162,7 +162,7 @@ fn test_adjacent_band_rejection() {
     let input = generate_sine_wave(test_freq, TEST_DURATION_SAMPLES);
     let input_rms = calculate_rms(&input);
 
-    let mut filter = OctaveFilterBank::new();
+    let mut filter = Equalizer::new();
 
     // Configure: Only band 4 enabled, all others disabled
     filter.set_band_gain(4, 255);
@@ -201,7 +201,7 @@ fn test_multi_band_frequency_rejection_config_x() {
 
     let input_rms = calculate_rms(&input);
 
-    let mut filter = OctaveFilterBank::new();
+    let mut filter = Equalizer::new();
 
     // Configuration X: Band 1 (125Hz) = 0, Band 4 (1kHz) = 0, all others = 255
     for band in 0..6 {
@@ -240,7 +240,7 @@ fn test_multi_band_frequency_rejection_config_y() {
     let tone2_input_rms = calculate_rms(&tone2_input);
 
     // Test tone 1 (125Hz) with reduced gain
-    let mut filter1 = OctaveFilterBank::new();
+    let mut filter1 = Equalizer::new();
     filter1.set_band_gain(1, 127); // ~half gain
     for band in [0, 2, 3, 4, 5] {
         filter1.set_band_gain(band, 0);
@@ -258,7 +258,7 @@ fn test_multi_band_frequency_rejection_config_y() {
     );
 
     // Test tone 2 (1kHz) with higher gain
-    let mut filter2 = OctaveFilterBank::new();
+    let mut filter2 = Equalizer::new();
     filter2.set_band_gain(4, 191); // ~3/4 gain
     for band in [0, 1, 2, 3, 5] {
         filter2.set_band_gain(band, 0);
@@ -283,7 +283,7 @@ fn test_white_noise_band_energy_distribution() {
     let input = generate_white_noise(TEST_DURATION_SAMPLES, 12345);
     let input_rms = calculate_rms(&input);
 
-    let mut filter = OctaveFilterBank::new();
+    let mut filter = Equalizer::new();
 
     // Configure all bands to unity gain (255)
     for band in 0..6 {
@@ -306,7 +306,7 @@ fn test_white_noise_band_energy_distribution() {
     let mut band_energies = Vec::new();
 
     for test_band in 0..6 {
-        let mut band_filter = OctaveFilterBank::new();
+        let mut band_filter = Equalizer::new();
 
         // Enable only this band
         band_filter.set_band_gain(test_band, 255);
@@ -347,7 +347,7 @@ fn test_config_integration() {
     let input = generate_sine_wave(test_freq, TEST_DURATION_SAMPLES);
     let input_rms = calculate_rms(&input);
 
-    let mut filter = OctaveFilterBank::new();
+    let mut filter = Equalizer::new();
 
     // Initial config: Band 3 disabled
     filter.set_band_gain(3, 0);
@@ -403,7 +403,7 @@ fn test_all_bands_disabled_produces_silence() {
     let input = generate_sine_wave(500.0, TEST_DURATION_SAMPLES);
     let input_rms = calculate_rms(&input);
 
-    let mut filter = OctaveFilterBank::new();
+    let mut filter = Equalizer::new();
 
     // Disable all bands
     for band in 0..6 {
@@ -429,7 +429,7 @@ fn test_passthrough_with_all_bands_enabled() {
     let input = generate_sine_wave(500.0, TEST_DURATION_SAMPLES);
     let input_rms = calculate_rms(&input);
 
-    let mut filter = OctaveFilterBank::new();
+    let mut filter = Equalizer::new();
 
     // Enable all bands at unity gain
     for band in 0..6 {

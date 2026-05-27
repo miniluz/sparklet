@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [features]
-default = ["stm32f401rc", "configurable", "midi-usb", "audio-usb", "octave-filter"]
+default = ["stm32h723zg", "configurable", "midi-usb", "audio-usb", "equalizer"]
 configurable = []
 stm32h723zg = ["embassy-stm32/stm32h723zg", "cmsis-native/stm32h723zg"]
 stm32f401rc = ["embassy-stm32/stm32f401rc", "cmsis-native/stm32f401rc"]
@@ -12,7 +12,7 @@ usb = ["dep:embassy-usb"]
 midi-din = []
 midi-usb = ["usb"]
 audio-usb = ["usb"]
-octave-filter = ["synth_engine/octave-filter"]
+equalizer = ["synth_engine/equalizer"]
 
 [profile.release]
 debug = 2

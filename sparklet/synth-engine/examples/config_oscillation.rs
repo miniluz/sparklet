@@ -13,7 +13,7 @@ use synth_engine::{Q15, SAMPLE_RATE, SynthEngine, WINDOW_SIZE};
 const CHANNEL_SIZE: usize = 256;
 const PAGE_AMOUNT: usize = 4; // Pages 0-1: ADSR/oscillator, Pages 2-3: Octave filter
 const ENCODER_AMOUNT: usize = 3;
-const OCTAVE_FILTER_FIRST_PAGE: usize = 2;
+const EQUALIZER_FIRST_PAGE: usize = 2;
 
 #[derive(Parser, Debug)]
 #[command(name = "Config Oscillation Demo")]
@@ -71,7 +71,7 @@ fn render_audio<const VOICE_COUNT: usize>(duration_sec: u32, seed: u64) -> Vec<i
         WINDOW_SIZE,
         PAGE_AMOUNT,
         ENCODER_AMOUNT,
-        OCTAVE_FILTER_FIRST_PAGE,
+        EQUALIZER_FIRST_PAGE,
     >::new(receiver, consumer);
 
     let total_samples = duration_sec as usize * SAMPLE_RATE as usize;

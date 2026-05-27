@@ -11,7 +11,7 @@ audio = "usb"
 # audio = "none"
 
 [features]
-octave_filter = true
+equalizer = true
 configurable = true
 
 [parameters]

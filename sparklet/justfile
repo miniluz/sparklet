@@ -8,7 +8,7 @@ format:
     @cargo fmt --all
 
 # Generate all tables
-gen-all: gen-wavetables gen-phase-increment gen-adsr gen-sustain gen-octave-filter
+gen-all: gen-wavetables gen-phase-increment gen-adsr gen-sustain gen-equalizer
     @echo "All tables generated successfully!"
 
 # Generate all wavetables
@@ -50,9 +50,9 @@ gen-sustain:
     @cargo run --manifest-path table-generators/Cargo.toml --bin generate_db_linear_amplitude_table > synth-engine/src/adsr/db_linear_amplitude_table.rs
 
 # Generate octave filter coefficients
-gen-octave-filter:
-    @echo "Generating octave filter coefficients..."
-    @cargo run --manifest-path table-generators/Cargo.toml --bin generate_octave_filter_coefficients > synth-engine/src/octave_filter/filter_coefficients.rs
+gen-equalizer:
+    @echo "Generating equalizer coefficients..."
+    @cargo run --manifest-path table-generators/Cargo.toml --bin generate_equalizer_coefficients > synth-engine/src/equalizer/filter_coefficients.rs
 
 # Build the table generators without running them
 build-generators:

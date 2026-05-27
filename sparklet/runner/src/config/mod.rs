@@ -8,12 +8,12 @@ pub mod task;
 
 const BASE_PAGE_COUNT: usize = 2;
 
-#[cfg(feature = "octave-filter")]
-const OCTAVE_FILTER_PAGE_COUNT: usize = 2;
-#[cfg(not(feature = "octave-filter"))]
-const OCTAVE_FILTER_PAGE_COUNT: usize = 0;
+#[cfg(feature = "equalizer")]
+const EQUALIZER_PAGE_COUNT: usize = 2;
+#[cfg(not(feature = "equalizer"))]
+const EQUALIZER_PAGE_COUNT: usize = 0;
 
-#[cfg(not(feature = "octave-filter"))]
+#[cfg(not(feature = "equalizer"))]
 pub const INITIAL_CONFIG: [[u8; CONFIG_ENCODER_COUNT]; CONFIG_PAGE_COUNT] = [
     [
         BUILD_CONFIG.initial_config.attack,
@@ -23,7 +23,7 @@ pub const INITIAL_CONFIG: [[u8; CONFIG_ENCODER_COUNT]; CONFIG_PAGE_COUNT] = [
     [BUILD_CONFIG.initial_config.oscillator_type, 127, 127],
 ];
 
-#[cfg(feature = "octave-filter")]
+#[cfg(feature = "equalizer")]
 pub const INITIAL_CONFIG: [[u8; CONFIG_ENCODER_COUNT]; CONFIG_PAGE_COUNT] = [
     [
         BUILD_CONFIG.initial_config.attack,
@@ -43,7 +43,7 @@ pub const INITIAL_CONFIG: [[u8; CONFIG_ENCODER_COUNT]; CONFIG_PAGE_COUNT] = [
     ],
 ];
 
-pub const CONFIG_PAGE_COUNT: usize = BASE_PAGE_COUNT + OCTAVE_FILTER_PAGE_COUNT;
+pub const CONFIG_PAGE_COUNT: usize = BASE_PAGE_COUNT + EQUALIZER_PAGE_COUNT;
 pub const CONFIG_ENCODER_COUNT: usize = 3;
 
 // Type aliases for the triple buffer halves

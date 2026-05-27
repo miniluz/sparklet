@@ -4,11 +4,11 @@ version = "0.1.0"
 edition = "2024"
 
 [features]
-octave-filter = []
+equalizer = []
 
 [[example]]
-name = "octave_filter_frequency_response"
-required-features = ["octave-filter"]
+name = "equalizer_frequency_response"
+required-features = ["equalizer"]
 
 [dependencies]
 amity = { version = "0.6.3", default-features = false, features = ["triple"] }
