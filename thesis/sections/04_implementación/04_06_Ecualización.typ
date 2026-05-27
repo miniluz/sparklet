@@ -50,16 +50,16 @@ almacenando los coeficientes en formato Q15.
 
 #figure(
   image("/figures/equalizer_response_q15.png", width: 100%),
-  caption: [Respuesta espectral del banco de filtros, calculada usando un barrido sinusoidal en formato Q15. Se muestra
-    la respuesta espectral de cada banda y de la suma de todas las bandas.],
+  caption: [Respuesta espectral del ecualizador, calculada usando un barrido sinusoidal en formato Q15. Se muestra la
+    respuesta espectral de cada banda y de la suma de todas las bandas.],
   placement: bottom,
 )<fig_eq_response>
 
-El objetivo del banco es permitir controlar el tono del sonido en términos generales, permitiendo al músico controlar
-los componentes graves, medios y altos del sonido. Al usar filtros de Butterworth de primer orden, cada filtro tiene una
-pendiente de $-6 "dB"$, lo que resulta en que disminuir la ganancia de una banda no resulte brusco. Cada banda se
-organiza aproximadamente en una escala de octavas, con solapamiento entre filtros para suavizar la transición entre
-bandas.
+Como se mencionó, el propósito de un ecualizador es controlar el tono del sonido en términos generales, permitiendo al
+músico alterar la ganancia de los componentes graves, medios y altos del sonido. Al usar filtros de Butterworth de
+primer orden, cada filtro tiene una pendiente de $-6 "dB"$, lo que resulta en que disminuir la ganancia de una banda no
+resulte brusco. Cada banda se organiza aproximadamente en una escala de octavas, con solapamiento entre filtros para
+suavizar la transición entre bandas.
 
 - $250 "Hz"$ (paso bajo),
 - entre $500 div sqrt(2) "Hz"$ y $500 times sqrt(2) "Hz"$ (paso banda),
