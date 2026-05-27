@@ -44,7 +44,7 @@ macro_rules! get_config_hardware {
                 $peripherals.TIM2,
                 // D20, right, left, fifth from top
                 QeiPin::new($peripherals.PA15),
-                // D23, right, left, eight from top
+                // D23, right, left, eighth from top
                 QeiPin::new($peripherals.PB3),
             )),
             encoder1: ENCODER1_QEI.init(Qei::new(
@@ -58,7 +58,7 @@ macro_rules! get_config_hardware {
                 $peripherals.TIM4,
                 // D1 right, right, seventh from top of split
                 QeiPin::new($peripherals.PB6),
-                // D0 right, right, eigth from top of split
+                // D0 right, right, eighth from top of split
                 QeiPin::new($peripherals.PB7),
             )),
         }

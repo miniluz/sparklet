@@ -16,11 +16,10 @@ You will need to:
 - If in Linux, add `probe-rs`'s [udev rules](https://probe.rs/docs/getting-started/probe-setup/#linux-udev-rules).
 - Have an STM32 board. To see the boards Sparklet currently supports, check the `[features]` section of
   [`sparklet/runner/Cargo.toml`](https://github.com/miniluz/sparklet/blob/main/sparklet/runner/Cargo.toml).
-- If you want to be able to change the configuration of Sparklet at runtime, say with knobs and buttons, you will need
-  to buy three rotative encoders and two buttons. Any should do. You will also need at least 8 resistances of 5K to 50K
-  ohms, and wires to connect it all together (for this, I would recommend a breadboard and jumper wires).
-
-<!-- TODO Change this when MIDI is available -->
+- If you want to be able to change the configuration of Sparklet at runtime with peripherals, (knobs and buttons), you
+  will need to buy three rotative encoders and two buttons. Any should do. You will also need at least 8 resistances of
+  5K to 50K ohms, and wires to connect it all together (for this, I would recommend a breadboard and jumper wires).
+  **This is not needed**, you can always configure it through MIDI. But it's cool.
 
 ### Other boards
 
@@ -52,8 +51,8 @@ nano Config.toml
 The configuration file will allow you to specify the chip model and to enable and disable various features of Sparklet,
 like whether to use MIDI through USB or DIN, whether or not to include the equalizer, the polyphony limit, the initial
 configuration that the oscillator, ADSR and equalizer will have, and whether or not you will be able to change it when
-it's running.  The simplest way to use Sparklet is by using USB for audio and MIDI, in which case you may just plug it
-into your computer and play.
+it's running through MIDI or peripherals. The simplest way to use Sparklet is by using USB for audio and MIDI, in which
+case you may just plug it into your computer and play.
 
 This file is read *at compile time*, so if you change it, *you will need to recompile Sparklet and
 install it on your microcontroller again*.
@@ -115,10 +114,9 @@ dfu-util -a 0 -s 0x08000000:leave -D ../target/thumbv7em-none-eabihf/release/run
 
 ### Wiring
 
-<!-- TODO Change this when MIDI is available -->
-
-If you chose to make Sparklet configurable, you will need to connect it to two buttons and three rotative encoders, as
-specified. Open `sparklet/runner/src/hardware/config/<your_board>.rs` and you will see which pins are needed for what.
+If you chose to make Sparklet configurable through peripherals, you will need to connect it to two buttons and three
+rotative encoders, as follows. Open `sparklet/runner/src/hardware/config/<your_board>.rs` and you will see which
+pins are needed for what.
 
 Let's take as an example the STM32H723ZG. Open `sparklet/runner/src/hardware/config/stm32f723zg.rs`, and you will see
 the following:
@@ -137,7 +135,7 @@ ConfigHardware {
         $peripherals.TIM2,
         // D20, right, left, fifth from top
         QeiPin::new($peripherals.PA15),
-        // D23, right, left, eight from top
+        // D23, right, left, eighth from top
         QeiPin::new($peripherals.PB3),
     )),
     encoder1: ENCODER1_QEI.init(Qei::new(
@@ -151,7 +149,7 @@ ConfigHardware {
         $peripherals.TIM4,
         // D1 right, right, seventh from top of split
         QeiPin::new($peripherals.PB6),
-        // D0 right, right, eigth from top of split
+        // D0 right, right, eighth from top of split
         QeiPin::new($peripherals.PB7),
     )),
 }
@@ -188,20 +186,23 @@ should show up as an audio source and MIDI sink. You may route MIDI to it and us
 
 ### Configuring it at runtime
 
-If `features.peripheral-config` is enabled, Sparklet will be configurable at runtime through three rotative encoders
-(knobs) and two buttons, as has been mentioned. Sparklet follows a pagination format, and should boot on page 0.
-The buttons are used to switch between the pages, wrapping around.
+If `features.midi-config` is enabled, Sparklet will be configurable at runtime through MIDI control change (CC) signals.
+Controls work as follows. If `features.peripheral-config` is enabled, you will also be able to configure it using three
+rotative encoders (knobs) and two buttons, as has been mentioned. Sparklet follows a pagination format, and should boot
+on page 1. The buttons are used to switch between the pages, wrapping around. The following is configurable:
 
-Page 0 controls the ADSR, with the first encoder controlling the attack, the second the sustain level and the third
-the decay and release. Decay and release are controlled together since Sparklet emulates how capacitors were used to
-shape the amplitude on old synths.
 
-Page 1 will control the oscillator, which for now only entails controlling the wave type on the first encoder.
-
-Page 2 and 3 will control the multiband equalizer, if it's enabled. If not, they will not exist, and the buttons will
-wrap back to page 0 when advancing from page 1. The first page controls the three lowest bands of the equalizer, with
-the first encoder controlling the lowest band, the second encoder the second lowest of the three, etc. The second page
-controls the three highest bands in a similar manner. The bands correspond to 250 Hz and lower, 500 Hz, 1000 Hz,
-2000 Hz, 4000 Hz and 8000 Hz and higher.
-
-<!-- TODO -->
+| Control number | Page | Encoder | Parameter |
+| -------------- | ---- | ------- | --------- |
+| 102 | 1 | 1 | Attack |
+| 103 | 1 | 2 | Sustain |
+| 104 | 1 | 3 | Decay / Release |
+| 105 | 2 | 1 | Wave |
+| 106 | 2 | 2 | -- |
+| 107 | 2 | 3 | -- |
+| 108 | 3 | 1 | Equalizer lows (< 250 Hz) |
+| 109 | 3 | 2 | Mid-lows (~500 Hz) |
+| 110 | 3 | 3 | Mids (~1000 Hz) |
+| 111 | 4 | 1 | Mid-highs (~2000 Hz) |
+| 112 | 4 | 2 | Highs (~4000 Hz) |
+| 113 | 4 | 3 | Very highs (~8000 Hz) |

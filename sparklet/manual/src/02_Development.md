@@ -59,7 +59,7 @@ You will to specify the new hardware layout in `sparklet/runner/src/hardware`:
   * `runner/`: Logic used to actually run the chip.
     * `hardware/`: Hardware-specific logic, mostly pins and hardware configuration.
 
-## Tools included in the developmente environment
+## Tools included in the development environment
 
 * The Rust toolchain is used for development
   * `bacon` will run the linter constantly on reload.

@@ -12,6 +12,7 @@ run in most ARM Cortex M4 or M7 chips. It features:
 - A dynamically configurable **multi-band equalizer** that's not-quite flat!
 - **MIDI** through USB or a DIN port.
 - **USB audio output** (ideally, analogue would come sometime soon).
+- **Configurable at runtime through MIDI or peripherals** (two buttons and three knobs!)
 - **Configurable from a file** to enable and disable features to fit your needs and your chip's power:
   - Select which chip to run it on.
   - Select if you want to use MIDI through DIN or USB.
